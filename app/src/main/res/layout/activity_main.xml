@@ -15,6 +15,11 @@
         android:layout_marginTop="40dp"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="@string/main_welcome"  />
+        android:text="@string/main_welcome"
+        android:textSize="18sp"
+        android:textFontWeight="700"
+        android:textColor="?attr/colorPrimary"
+        android:fontFamily="@font/app_font"
+        tools:ignore="UnusedAttribute" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
