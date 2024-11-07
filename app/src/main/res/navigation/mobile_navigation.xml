@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_home" >
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.carissac.learninp3k.view.HomeFragment"
+        android:label="@string/bottom_bar_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_news"
+        android:name="com.carissac.learninp3k.view.NewsFragment"
+        android:label="@string/bottom_bar_news"
+        tools:layout="@layout/fragment_news" />
+
+    <fragment
+        android:id="@+id/navigation_class"
+        android:name="com.carissac.learninp3k.view.ClassFragment"
+        android:label="@string/bottom_bar_class"
+        tools:layout="@layout/fragment_class" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.carissac.learninp3k.view.ProfileFragment"
+        android:label="@string/bottom_bar_profile"
+        tools:layout="@layout/fragment_profile" />
+
+</navigation>

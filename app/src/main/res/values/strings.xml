@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Learnin P3K</string>
-    <string name="main_welcome">Welcome to Learnin P3K</string>
+
+    <!--Bottom Bar Name-->
+    <string name="bottom_bar_home">Beranda</string>
+    <string name="bottom_bar_news">Berita</string>
+    <string name="bottom_bar_class">Kelas</string>
+    <string name="bottom_bar_profile">Profil</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
