@@ -7,5 +7,23 @@
     <string name="bottom_bar_class">Kelas</string>
     <string name="bottom_bar_profile">Profil</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--Home Fragment-->
+    <string name="home_greeting">Halo,</string>
+    <string name="home_username">Username</string>
+    <string name="home_continue_course">Mari lanjutkan Pembelajaran Anda!</string>
+    <string name="home_imgdesc_continue_course">Foto Kelas yang Sedang Dipelajari</string>
+    <string name="home_continue_course_title">Judul Kelas</string>
+    <string name="home_course_rec">Rekomendasi Kelas</string>
+    <string name="home_news_rec">Berita Terbaru</string>
+
+    <!--Item Home Course-->
+    <string name="item_home_course_title">Judul Kelas</string>
+    <string name="item_home_course_desc">Deskripsi Kelas</string>
+    <string name="item_course_contentdesc">Foto Kelas</string>
+
+    <!--Item Home News-->
+    <string name="item_home_news_title">Judul Berita</string>
+    <string name="item_home_news_desc">Deskripsi Berita</string>
+    <string name="item_home_news_date">Jumat, 10.00 AM</string>
+    <string name="item_news_contentdesc">Foto Berita</string>
 </resources>

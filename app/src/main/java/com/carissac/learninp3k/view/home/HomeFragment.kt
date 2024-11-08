@@ -1,11 +1,10 @@
-package com.carissac.learninp3k.view
+package com.carissac.learninp3k.view.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.carissac.learninp3k.R
 import com.carissac.learninp3k.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {

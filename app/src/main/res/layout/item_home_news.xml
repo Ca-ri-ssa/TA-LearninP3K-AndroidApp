@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cd_home_news"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="8dp"
+    android:layout_marginHorizontal="24dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_home_news"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:contentDescription="@string/item_news_contentdesc"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_placeholder"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_home_news_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:fontFamily="@font/app_font"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            card_view:layout_constraintTop_toBottomOf="@id/iv_home_news"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/item_home_news_title"/>
+
+        <TextView
+            android:id="@+id/tv_home_news_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/app_font"
+            android:textStyle="normal"
+            android:textSize="14sp"
+            android:layout_marginVertical="8dp"
+            android:maxLines="2"
+            android:text="@string/item_home_news_desc"
+            card_view:layout_constraintTop_toBottomOf="@id/tv_home_news_title"
+            card_view:layout_constraintStart_toStartOf="@id/tv_home_news_title"
+            card_view:layout_constraintEnd_toEndOf="@id/tv_home_news_title"/>
+
+        <TextView
+            android:id="@+id/tv_home_news_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/app_font"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:textColor="?attr/colorPrimary"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:maxLines="2"
+            android:text="@string/item_home_news_date"
+            android:textAlignment="textEnd"
+            card_view:layout_constraintTop_toBottomOf="@id/tv_home_news_desc"
+            card_view:layout_constraintEnd_toEndOf="@id/tv_home_news_desc"
+            card_view:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

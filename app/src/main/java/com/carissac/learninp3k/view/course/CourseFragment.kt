@@ -1,20 +1,20 @@
-package com.carissac.learninp3k.view
+package com.carissac.learninp3k.view.course
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.carissac.learninp3k.databinding.FragmentNewsBinding
+import com.carissac.learninp3k.databinding.FragmentCourseBinding
 
-class NewsFragment : Fragment() {
-    private lateinit var binding : FragmentNewsBinding
+class CourseFragment : Fragment() {
+    private lateinit var binding : FragmentCourseBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentNewsBinding.inflate(inflater, container, false)
+        binding = FragmentCourseBinding.inflate(inflater, container, false)
         return binding.root
     }
 }

@@ -9,5 +9,6 @@
         <item name="colorError">@color/salmon</item>
         <item name="colorOnError">@color/darkRed</item>
         <item name="colorOnBackground">@color/white</item>
+        <item name="colorSecondaryContainer">@color/blue</item>
     </style>
 </resources>
