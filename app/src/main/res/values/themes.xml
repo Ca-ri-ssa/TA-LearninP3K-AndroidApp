@@ -12,5 +12,15 @@
         <item name="colorSecondaryContainer">@color/lightBlue</item>
     </style>
 
+    <style name="BottomNavText" parent="TextAppearance.AppCompat.Caption">
+        <item name="fontFamily">@font/app_font</item>
+    </style>
+
+    <style name="SearchBarCustom" parent="Widget.Material3.SearchBar.Outlined">
+        <item name="strokeColor">?attr/colorPrimary</item>
+        <item name="backgroundColor">?attr/colorSurfaceVariant</item>
+        <item name="strokeWidth">2dp</item>
+    </style>
+
     <style name="Theme.LearninP3K" parent="Base.Theme.LearninP3K" />
 </resources>

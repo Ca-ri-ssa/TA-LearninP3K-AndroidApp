@@ -11,4 +11,8 @@
         <item name="colorOnBackground">@color/white</item>
         <item name="colorSecondaryContainer">@color/blue</item>
     </style>
+
+    <style name="BottomNavText" parent="TextAppearance.AppCompat.Caption">
+        <item name="fontFamily">@font/app_font</item>
+    </style>
 </resources>

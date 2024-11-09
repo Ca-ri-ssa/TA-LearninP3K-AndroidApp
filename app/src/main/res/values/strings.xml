@@ -26,4 +26,7 @@
     <string name="item_home_news_desc">Deskripsi Berita</string>
     <string name="item_home_news_date">Jumat, 10.00 AM</string>
     <string name="item_news_contentdesc">Foto Berita</string>
+
+    <!--News Fragment-->
+    <string name="searchbar_hint">Coba Cari Berita</string>
 </resources>
