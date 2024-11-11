@@ -16,6 +16,11 @@ class NewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
             searchViewNews.setupWithSearchBar(searchBarNews)
@@ -28,7 +33,5 @@ class NewsFragment : Fragment() {
                     false
                 }
         }
-
-        return binding.root
     }
 }

@@ -15,4 +15,26 @@
     <style name="BottomNavText" parent="TextAppearance.AppCompat.Caption">
         <item name="fontFamily">@font/app_font</item>
     </style>
+
+    <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/TabTextAppearance</item>
+        <item name="tabIndicatorColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:fontFamily">@font/app_font</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SearchViewFont">
+        <item name="android:fontFamily">@font/app_font</item>
+    </style>
+
+    <style name="SearchBarCustom" parent="Widget.Material3.SearchBar.Outlined">
+        <item name="strokeColor">?attr/colorPrimary</item>
+        <item name="backgroundColor">?attr/colorSurfaceVariant</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="fontFamily">@font/app_font</item>
+    </style>
 </resources>

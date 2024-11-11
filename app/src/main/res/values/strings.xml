@@ -29,4 +29,10 @@
 
     <!--News Fragment-->
     <string name="searchbar_hint">Coba Cari Berita</string>
+
+    <!--Course Fragment-->
+    <string name="title_tab_1">Semua</string>
+    <string name="title_tab_2">Sedang</string>
+    <string name="title_tab_3">Selesai</string>
+    <string name="content_desc_tab">Tab Layout</string>
 </resources>
