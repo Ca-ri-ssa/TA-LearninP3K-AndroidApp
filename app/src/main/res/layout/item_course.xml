@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cd_item_course"
+    app:cardCornerRadius="8dp"
+    android:layout_marginHorizontal="24dp"
+    android:layout_marginBottom="16dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <ImageView
+            android:id="@+id/iv_item_course"
+            android:layout_width="108dp"
+            android:layout_height="0dp"
+            android:src="@drawable/img_placeholder"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/item_course_contentdesc"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_item_course_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/app_font"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:text="@string/item_home_course_title"
+            app:layout_constraintBottom_toTopOf="@id/tv_item_course_desc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_item_course"
+            app:layout_constraintTop_toTopOf="@id/iv_item_course"/>
+
+        <TextView
+            android:id="@+id/tv_item_course_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/item_home_course_desc"
+            android:fontFamily="@font/app_font"
+            android:textSize="14sp"
+            android:maxLines="3"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_item_course_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_course_title"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

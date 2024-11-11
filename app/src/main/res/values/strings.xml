@@ -35,4 +35,16 @@
     <string name="title_tab_2">Sedang</string>
     <string name="title_tab_3">Selesai</string>
     <string name="content_desc_tab">Tab Layout</string>
+
+    <!--All Course Fragment-->
+    <string name="course_availability">kelas tersedia</string>
+    <string name="total_course_availability">30</string>
+
+    <!--Continue Course Fragment-->
+    <string name="course_continue">kelas sedang dipelajari</string>
+    <string name="total_course_continue">10</string>
+
+    <!--Continue Course Fragment-->
+    <string name="course_finished">kelas selesai dipelajari</string>
+    <string name="total_course_finished">0</string>
 </resources>
