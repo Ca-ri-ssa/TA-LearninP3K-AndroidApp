@@ -43,8 +43,12 @@
     <!--Continue Course Fragment-->
     <string name="course_continue">kelas sedang dipelajari</string>
     <string name="total_course_continue">10</string>
+    <string name="no_continue_course">Ayo mulai pembelajaran belajar\ndengan kelas pilihan Anda</string>
+    <string name="content_desc_continue_course">Karakter Medica sedang memegang buku</string>
 
-    <!--Continue Course Fragment-->
+    <!--Finished Course Fragment-->
     <string name="course_finished">kelas selesai dipelajari</string>
     <string name="total_course_finished">0</string>
+    <string name="no_finished_course">Mari selesaikan kelas Anda\ndan terus eksplorasi kelas baru</string>
+    <string name="content_desc_finished_course">Karakter Nouri memberikan dua buku</string>
 </resources>
