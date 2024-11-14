@@ -12,11 +12,6 @@
         <item name="colorSecondaryContainer">@color/lightBlue</item>
     </style>
 
-    <style name="ButtonCorner">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerRadius">8dp</item>
-    </style>
-
     <style name="BottomNavText" parent="TextAppearance.AppCompat.Caption">
         <item name="fontFamily">@font/app_font</item>
     </style>

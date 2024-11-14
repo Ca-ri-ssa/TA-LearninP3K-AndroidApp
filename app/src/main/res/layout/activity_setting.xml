@@ -24,10 +24,140 @@
             android:layout_gravity="center"
             android:textColor="?attr/colorPrimary"
             android:fontFamily="@font/app_font"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             android:textAlignment="center"
             android:text="@string/title_toolbar_setting" />
     </androidx.appcompat.widget.Toolbar>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_setting_user"
+        android:layout_width="156dp"
+        android:layout_height="156dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/placeholder_user"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_setting_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/app_font"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimary"
+        android:text="@string/home_username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_setting_user" />
+
+    <TextView
+        android:id="@+id/tv_setting_user_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/app_font"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        android:textColor="?attr/colorPrimary"
+        android:text="@string/user_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_setting_username" />
+
+    <TextView
+        android:id="@+id/tv_setting_user_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/app_font"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        android:text="@string/user_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_setting_user_email" />
+
+    <Button
+        android:id="@+id/btn_emergency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/emergency_service"
+        android:textColor="?attr/colorError"
+        app:strokeColor="?attr/colorError"
+        app:strokeWidth="2dp"
+        app:cornerRadius="8dp"
+        android:fontFamily="@font/app_font"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="24dp"
+        android:backgroundTint="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@id/tv_setting_user_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_dark_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="@string/dark_theme"
+        android:fontFamily="@font/app_font"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/toggle_dark_mode"
+        app:layout_constraintTop_toTopOf="@id/toggle_dark_mode"/>
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/toggle_dark_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="16dp"
+        android:checked="false"
+        app:thumbIconTint="?attr/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/btn_emergency"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_edit_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/edit_profile"
+        app:cornerRadius="8dp"
+        android:textColor="?attr/colorOnPrimary"
+        android:fontFamily="@font/app_font"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="24dp"
+        android:backgroundTint="?attr/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@id/btn_logout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="16dp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/log_out"
+        app:cornerRadius="8dp"
+        android:fontFamily="@font/app_font"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="24dp"
+        android:backgroundTint="?attr/colorError"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

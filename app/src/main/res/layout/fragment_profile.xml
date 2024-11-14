@@ -107,7 +107,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:shapeAppearanceOverlay="@style/ButtonCorner"
         android:layout_marginHorizontal="24dp"
         android:paddingVertical="16dp"
         android:fontFamily="@font/app_font"

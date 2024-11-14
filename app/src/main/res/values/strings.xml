@@ -67,4 +67,10 @@
 
     <!--Setting Activity-->
     <string name="title_toolbar_setting">Pengaturan</string>
+    <string name="user_email">rissa.cure@gmail.com</string>
+    <string name="user_date">31 Juli 2024</string>
+    <string name="edit_profile">Sunting Profil</string>
+    <string name="log_out">Keluar</string>
+    <string name="dark_theme">Tema Gelap</string>
+    <string name="emergency_service">Layanan Darurat</string>
 </resources>
