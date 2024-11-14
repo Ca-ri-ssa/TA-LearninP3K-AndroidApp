@@ -149,6 +149,19 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_challenge"
+        android:backgroundTint="?attr/colorSecondary"
+        android:contentDescription="@string/fab_challenge_btn"
+        android:src="@drawable/puzzle_icon_24dp"
+        app:tint="?attr/colorOnSecondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"

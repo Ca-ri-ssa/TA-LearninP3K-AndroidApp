@@ -15,6 +15,7 @@
     <string name="home_continue_course_title">Judul Kelas</string>
     <string name="home_course_rec">Rekomendasi Kelas</string>
     <string name="home_news_rec">Berita Terbaru</string>
+    <string name="fab_challenge_btn">Floating Action Button untuk Weekly Challenge</string>
 
     <!--Item Home Course-->
     <string name="item_home_course_title">Judul Kelas</string>
@@ -43,7 +44,7 @@
     <!--Continue Course Fragment-->
     <string name="course_continue">kelas sedang dipelajari</string>
     <string name="total_course_continue">10</string>
-    <string name="no_continue_course">Ayo mulai pembelajaran belajar\ndengan kelas pilihan Anda</string>
+    <string name="no_continue_course">Ayo mulai belajar dengan\nkelas pilihan Anda</string>
     <string name="content_desc_continue_course">Karakter Medica sedang memegang buku</string>
 
     <!--Finished Course Fragment-->
@@ -51,4 +52,16 @@
     <string name="total_course_finished">0</string>
     <string name="no_finished_course">Mari selesaikan kelas Anda\ndan terus eksplorasi kelas baru</string>
     <string name="content_desc_finished_course">Karakter Nouri memberikan dua buku</string>
+
+    <!--Profile Fragment-->
+    <string name="content_desc_ic_point">Icon Poin</string>
+    <string name="total_point">100</string>
+    <string name="content_desc_ic_badge">Icon Badge</string>
+    <string name="total_badge">25</string>
+    <string name="text_btn_leaderboard">Lihat Leaderboard</string>
+    <string name="content_desc_ic_setting">Icon Setting</string>
+
+    <!--item profile badge-->
+    <string name="title_badge">First 100 Point</string>
+    <string name="date_badge">10 Nov 2024</string>
 </resources>
