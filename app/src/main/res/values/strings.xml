@@ -64,4 +64,7 @@
     <!--item profile badge-->
     <string name="title_badge">First 100 Point</string>
     <string name="date_badge">10 Nov 2024</string>
+
+    <!--Setting Activity-->
+    <string name="title_toolbar_setting">Pengaturan</string>
 </resources>
