@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cd_item_course"
+    android:id="@+id/item_course"
     app:cardCornerRadius="8dp"
     android:layout_marginHorizontal="24dp"
     android:layout_marginBottom="16dp">
@@ -13,7 +13,7 @@
         <ImageView
             android:id="@+id/iv_item_course"
             android:layout_width="108dp"
-            android:layout_height="0dp"
+            android:layout_height="108dp"
             android:src="@drawable/img_placeholder"
             android:scaleType="centerCrop"
             android:contentDescription="@string/item_course_contentdesc"
