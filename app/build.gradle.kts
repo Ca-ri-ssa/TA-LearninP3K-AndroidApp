@@ -55,4 +55,9 @@ dependencies {
     implementation(libs.androidx.viewpager2)
     implementation(libs.glide)
     implementation(libs.circleimageview)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.jetbrains.kotlinx.coroutines.android)
 }

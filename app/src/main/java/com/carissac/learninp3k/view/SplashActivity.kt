@@ -1,8 +1,12 @@
-package com.carissac.learninp3k.view.setting
+package com.carissac.learninp3k.view
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -10,25 +14,25 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.ViewModelProvider
-import com.carissac.learninp3k.databinding.ActivitySettingBinding
+import com.carissac.learninp3k.MainActivity
+import com.carissac.learninp3k.databinding.ActivitySplashBinding
+import com.carissac.learninp3k.view.setting.SettingViewModel
+import com.carissac.learninp3k.view.setting.SettingViewModelFactory
+import com.carissac.learninp3k.view.setting.ThemePreference
+import com.carissac.learninp3k.view.setting.dataStore
 
-class SettingActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySettingBinding
+@SuppressLint("CustomSplashScreen")
+class SplashActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        binding = ActivitySettingBinding.inflate(layoutInflater)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.apply{
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowTitleEnabled(false)
-        }
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.setting) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.splash) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
@@ -41,34 +45,25 @@ class SettingActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
 
-        theme()
+        checkTheme()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }, 2000)
     }
 
-    private fun theme() {
-        val switchTheme = binding.toggleDarkMode
-
+    private fun checkTheme() {
         val pref = ThemePreference.getInstance(application.dataStore)
         val settingViewModel = ViewModelProvider(this, SettingViewModelFactory(pref)).get(
             SettingViewModel::class.java
         )
-
         settingViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
             if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                switchTheme.isChecked = true
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                switchTheme.isChecked = false
             }
         }
-
-        switchTheme.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            settingViewModel.saveThemeSetting(isChecked)
-        }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressedDispatcher.onBackPressed()
-        return true
     }
 }

@@ -10,6 +10,8 @@
         <item name="colorOnError">@color/darkRed</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorSecondaryContainer">@color/blue</item>
+
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="BottomNavText" parent="TextAppearance.AppCompat.Caption">
