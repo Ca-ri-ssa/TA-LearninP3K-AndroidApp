@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.carissac.learninp3k.databinding.FragmentProfileBinding
+import com.carissac.learninp3k.view.leaderboard.LeaderboardActivity
 import com.carissac.learninp3k.view.setting.SettingActivity
 
 class ProfileFragment : Fragment() {
@@ -25,6 +26,11 @@ class ProfileFragment : Fragment() {
 
         binding.ivIcSetting.setOnClickListener {
             val intent = Intent(requireContext(), SettingActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnLeaderboard.setOnClickListener {
+            val intent = Intent(requireContext(), LeaderboardActivity::class.java)
             startActivity(intent)
         }
     }
