@@ -76,4 +76,10 @@
 
     <!--Leaderboard Activity-->
     <string name="title_toolbar_leaderboard">Leaderboard</string>
+
+    <!--Welcome Activity-->
+    <string name="welcome_msg">Siap untuk mengeskplorasi dan\nbelajar di dunia P3K?</string>
+    <string name="welcome_greeting">Selamat Datang di\nLEARNIN P3K</string>
+    <string name="btn_login">Masuk</string>
+    <string name="btn_signup">Registrasi</string>
 </resources>

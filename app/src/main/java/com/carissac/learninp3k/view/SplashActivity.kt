@@ -2,7 +2,6 @@ package com.carissac.learninp3k.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -45,11 +44,11 @@ class SplashActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
 
-        checkTheme()
-
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, MainActivity::class.java))
             finish()
+
+            checkTheme()
         }, 2000)
     }
 
