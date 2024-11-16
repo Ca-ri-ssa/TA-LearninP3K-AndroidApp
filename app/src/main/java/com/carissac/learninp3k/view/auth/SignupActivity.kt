@@ -1,4 +1,4 @@
-package com.carissac.learninp3k.view.welcome
+package com.carissac.learninp3k.view.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,22 +8,27 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import com.carissac.learninp3k.MainActivity
 import com.carissac.learninp3k.R
-import com.carissac.learninp3k.databinding.ActivityWelcomeBinding
-import com.carissac.learninp3k.view.auth.LoginActivity
-import com.carissac.learninp3k.view.auth.SignupActivity
+import com.carissac.learninp3k.databinding.ActivitySignupBinding
 
-class WelcomeActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityWelcomeBinding
+class SignupActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        binding = ActivityWelcomeBinding.inflate(layoutInflater)
+        binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.welcome) { v, insets ->
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.apply{
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowTitleEnabled(false)
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.signup) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
@@ -36,13 +41,13 @@ class WelcomeActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
 
-        binding.btnLogin.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
+        binding.btnSignup.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
-        binding.btnSignup.setOnClickListener {
-            val intent = Intent(this, SignupActivity::class.java)
+        binding.tvHaveAccountLink.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }

@@ -13,12 +13,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.ViewModelProvider
-import com.carissac.learninp3k.MainActivity
 import com.carissac.learninp3k.databinding.ActivitySplashBinding
 import com.carissac.learninp3k.view.setting.SettingViewModel
 import com.carissac.learninp3k.view.setting.SettingViewModelFactory
 import com.carissac.learninp3k.view.setting.ThemePreference
 import com.carissac.learninp3k.view.setting.dataStore
+import com.carissac.learninp3k.view.welcome.WelcomeActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -45,7 +45,7 @@ class SplashActivity : AppCompatActivity() {
         }
 
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, WelcomeActivity::class.java))
             finish()
 
             checkTheme()

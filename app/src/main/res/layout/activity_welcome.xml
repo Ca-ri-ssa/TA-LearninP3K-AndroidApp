@@ -48,14 +48,11 @@
 
     <Button
         android:id="@+id/btn_login"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="16dp"
         android:layout_marginBottom="8dp"
         android:layout_marginHorizontal="24dp"
-        android:fontFamily="@font/app_font"
-        android:textStyle="bold"
-        android:textSize="14sp"
         android:text="@string/btn_login"
         app:cornerRadius="8dp"
         app:layout_constraintBottom_toTopOf="@id/btn_signup"
@@ -64,20 +61,14 @@
 
     <Button
         android:id="@+id/btn_signup"
+        style="@style/ButtonStyleOutline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="16dp"
         android:layout_marginBottom="40dp"
         android:layout_marginHorizontal="24dp"
-        android:fontFamily="@font/app_font"
         android:textColor="?attr/colorPrimary"
-        android:textStyle="bold"
-        android:textSize="14sp"
         android:text="@string/btn_signup"
-        app:strokeWidth="2dp"
         app:strokeColor="?attr/colorPrimary"
-        android:backgroundTint="@android:color/transparent"
-        app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
