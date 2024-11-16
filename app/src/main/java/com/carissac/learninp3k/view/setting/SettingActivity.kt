@@ -1,5 +1,6 @@
 package com.carissac.learninp3k.view.setting
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.CompoundButton
@@ -11,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.ViewModelProvider
 import com.carissac.learninp3k.databinding.ActivitySettingBinding
+import com.carissac.learninp3k.view.profile.EditProfileActivity
 
 class SettingActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingBinding
@@ -42,6 +44,11 @@ class SettingActivity : AppCompatActivity() {
         }
 
         theme()
+
+        binding.btnEditProfile.setOnClickListener {
+            val intent = Intent(this, EditProfileActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun theme() {

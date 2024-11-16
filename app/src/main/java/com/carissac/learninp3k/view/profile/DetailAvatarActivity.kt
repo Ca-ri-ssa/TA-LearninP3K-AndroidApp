@@ -1,6 +1,5 @@
-package com.carissac.learninp3k.view.auth
+package com.carissac.learninp3k.view.profile
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
@@ -8,17 +7,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import com.carissac.learninp3k.MainActivity
-import com.carissac.learninp3k.R
-import com.carissac.learninp3k.databinding.ActivityLoginBinding
+import com.carissac.learninp3k.databinding.ActivityDetailAvatarBinding
 
-class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
+class DetailAvatarActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityDetailAvatarBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityDetailAvatarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
@@ -27,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
             setDisplayShowTitleEnabled(false)
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.login) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.detailAvatar) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
@@ -38,16 +36,6 @@ class LoginActivity : AppCompatActivity() {
             }
 
             WindowInsetsCompat.CONSUMED
-        }
-
-        binding.tvNoAccountLink.setOnClickListener {
-            val intent = Intent(this, SignupActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnLogin.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
         }
     }
 

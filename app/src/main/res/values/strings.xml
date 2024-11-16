@@ -97,4 +97,31 @@
     <string name="hint_username">Masukkan Nama Anda</string>
     <string name="title_confirm_password">Konfirmasi Password</string>
     <string name="have_account">Sudah punya akun?</string>
+
+    <!--Edit Profile Activity-->
+    <string name="title_toolbar_edit_profile">Sunting Profil</string>
+    <string name="btn_choose_avatar">Pilih Avatar</string>
+    <string name="btn_update_profile">Perbarui Profil</string>
+
+    <!--item avatar-->
+    <string name="avatar_name">Medica</string>
+    <string name="btn_choose_avatar_item">Pilih</string>
+    <string name="btn_detail_avatar">Detail</string>
+    
+    <!--Choose Avatar Activity-->
+    <string name="title_toolbar_choose_avatar">Pilih Avatar</string>
+    <string name="choose_avatar_info">Pilih salah satu karakter pilihan Anda!</string>
+
+    <!--Detail Avatar Activity-->
+    <string name="title_toolbar_detail_avatar">Detail Avatar</string>
+    <string name="char_personality">Ceria, Berani, Dapat Diandalkan</string>
+    <string name="title_desc">Deskripsi</string>
+    <string name="lorem_ipsum">
+        Contrary to popular belief, Lorem Ipsum is not simply random text.
+        It has roots in a piece of classical Latin literature from 45 BC,
+        making it over 2000 years old. Richard McClintock, a Latin professor at
+        Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,
+        consectetur, from a Lorem Ipsum passage, and going through the cites of the word in
+        classical literature, discovered the undoubtable source.
+    </string>
 </resources>

@@ -15,6 +15,15 @@
         android:theme="@style/Theme.LearninP3K"
         tools:targetApi="31">
         <activity
+            android:name=".view.profile.DetailAvatarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.profile.ChooseAvatarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.profile.EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.auth.SignupActivity"
             android:exported="false" />
         <activity
