@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_quiz_question"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:layout_marginHorizontal="24dp">
+
+    <TextView
+        android:id="@+id/tv_num_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/app_font"
+        android:textSize="14sp"
+        android:text="@string/question_num"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_question"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/app_font"
+        android:textSize="14sp"
+        android:text="@string/lorem_ipsum"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_num_question"
+        app:layout_constraintStart_toEndOf="@id/tv_num_question"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintStart_toStartOf="@id/tv_question"
+        app:layout_constraintTop_toBottomOf="@id/tv_question">
+        <RadioButton
+            android:id="@+id/rb_option1"
+            style="@style/CustomRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/app_font"
+            android:textSize="14sp"
+            android:text="@string/radio_btn_text"/>
+
+        <RadioButton
+            android:id="@+id/rb_option2"
+            style="@style/CustomRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/app_font"
+            android:textSize="14sp"
+            android:text="@string/radio_btn_text"/>
+
+        <RadioButton
+            android:id="@+id/rb_option3"
+            style="@style/CustomRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/app_font"
+            android:textSize="14sp"
+            android:text="@string/radio_btn_text"/>
+
+        <RadioButton
+            android:id="@+id/rb_option4"
+            style="@style/CustomRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/app_font"
+            android:textSize="14sp"
+            android:text="@string/radio_btn_text"/>
+    </RadioGroup>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,12 +30,19 @@
 
     <!--News Fragment-->
     <string name="searchbar_hint">Coba Cari Berita</string>
+    <string name="title_toolbar_detail_news">Berita</string>
 
     <!--Course Fragment-->
     <string name="title_tab_1">Semua</string>
     <string name="title_tab_2">Sedang</string>
     <string name="title_tab_3">Selesai</string>
     <string name="content_desc_tab">Tab Layout</string>
+    <string name="title_toolbar_course">Kelas</string>
+    <string name="course_score">Nilai:</string>
+    <string name="course_score_result">100</string>
+    <string name="course_goal">Tujuan Pembelajaran</string>
+    <string name="btn_course">Belajar</string>
+    <string name="btn_quiz">Ambil Kuis</string>
 
     <!--All Course Fragment-->
     <string name="course_availability">kelas tersedia</string>
@@ -107,7 +114,7 @@
     <string name="avatar_name">Medica</string>
     <string name="btn_choose_avatar_item">Pilih</string>
     <string name="btn_detail_avatar">Detail</string>
-    
+
     <!--Choose Avatar Activity-->
     <string name="title_toolbar_choose_avatar">Pilih Avatar</string>
     <string name="choose_avatar_info">Pilih salah satu karakter pilihan Anda!</string>
@@ -124,4 +131,12 @@
         consectetur, from a Lorem Ipsum passage, and going through the cites of the word in
         classical literature, discovered the undoubtable source.
     </string>
+
+    <!--Quiz Activity-->
+    <string name="title_toolbar_quiz">Kuis</string>
+    <string name="question_num">1.</string>
+    <string name="radio_btn_text">Radio Button Text</string>
+    <string name="quiz_timer">Timer:</string>
+    <string name="quiz_timer_num">05:00</string>
+    <string name="btn_quiz_finish">Akhiri Kuis</string>
 </resources>

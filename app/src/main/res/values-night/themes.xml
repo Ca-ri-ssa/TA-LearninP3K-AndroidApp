@@ -12,6 +12,11 @@
         <item name="colorSecondaryContainer">@color/blue</item>
     </style>
 
+    <style name="ColorSuccessStyle">
+        <item name="android:backgroundTint">@color/lime</item>
+        <item name="android:textColor">@color/darkGreen</item>
+    </style>
+
     <style name="ButtonStyle">
         <item name="android:fontFamily">@font/app_font</item>
         <item name="android:textSize">18sp</item>

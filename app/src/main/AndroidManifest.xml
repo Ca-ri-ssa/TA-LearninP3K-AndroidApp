@@ -15,6 +15,21 @@
         android:theme="@style/Theme.LearninP3K"
         tools:targetApi="31">
         <activity
+            android:name=".view.quiz.QuizResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.quiz.QuizActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.course.DetailCourseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.course.CourseIntroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.news.DetailNewsActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.profile.DetailAvatarActivity"
             android:exported="false" />
         <activity
