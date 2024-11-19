@@ -31,6 +31,7 @@
     <!--News Fragment-->
     <string name="searchbar_hint">Coba Cari Berita</string>
     <string name="title_toolbar_detail_news">Berita</string>
+    <string name="search_motivation">Coba cari berita yang Anda inginkan!</string>
 
     <!--Course Fragment-->
     <string name="title_tab_1">Semua</string>
@@ -139,4 +140,24 @@
     <string name="quiz_timer">Timer:</string>
     <string name="quiz_timer_num">05:00</string>
     <string name="btn_quiz_finish">Akhiri Kuis</string>
+    <string name="title_quiz">Nilai Kuis</string>
+    <string name="quiz_score">100</string>
+    <string name="result_msg">Selamat!</string>
+    <string name="result_point">+100pts</string>
+    <string name="got_badge">Anda Mendapatkan badge</string>
+    <string name="btn_finish">Selesai</string>
+
+    <!--Weekly Challenge-->
+    <string name="title_toolbar_weekly_challenge">Challenge</string>
+    <string name="title_weekly_challenge">Weekly Challenge #1</string>
+    <string name="title_scenario">Skenario</string>
+    <string name="scenario_desc">
+        Anda sedang mengendarai sepeda motor dan tiba-tiba melihat seorang pengendara sepeda jatuh dan tidak sadarkan diri
+        di tengah jalan. Terdapat luka terbuka di bagian kepala dan pendarahan yang cukup deras.
+    </string>
+    <string name="title_challenge">Tantangan</string>
+    <string name="challenge_desc">
+        Apa tindakan pertama yang harus Anda lakukan?
+    </string>
+    <string name="title_quiz_weekly_challenge">Nilai Weekly Challenge</string>
 </resources>

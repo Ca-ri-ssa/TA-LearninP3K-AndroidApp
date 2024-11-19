@@ -1,6 +1,7 @@
 package com.carissac.learninp3k.view.news
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,24 @@ class NewsFragment : Fragment() {
 
         with(binding) {
             searchViewNews.setupWithSearchBar(searchBarNews)
+
+//            searchViewNews.post {
+//                searchMotivation.visibility = View.VISIBLE
+//                Log.d("NewsFragment", "Forced visibility change in post block")
+//            }
+//
+//            searchViewNews.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+//                override fun onViewAttachedToWindow(view: View) {
+//                    searchMotivation.visibility = View.VISIBLE
+//                    Log.d("NewsFragment", "SearchMotivation set to VISIBLE")
+//                }
+//
+//                override fun onViewDetachedFromWindow(view: View) {
+//                    searchMotivation.visibility = View.GONE
+//                    Log.d("NewsFragment", "SearchMotivation set to GONE")
+//                }
+//            })
+
             searchViewNews
                 .editText
                 .setOnEditorActionListener { textView, actionId, event ->

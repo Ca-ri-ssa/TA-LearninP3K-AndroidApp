@@ -2,18 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/quiz_result"
+    android:id="@+id/weekly_challenge_result"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.quiz.QuizResultActivity">
+    tools:context=".view.challenge.WeeklyChallengeResultActivity">
 
     <TextView
-        android:id="@+id/tv_title_quiz"
+        android:id="@+id/tv_title_quiz_weekly_challenge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:fontFamily="@font/app_font"
-        android:text="@string/title_quiz"
+        android:text="@string/title_quiz_weekly_challenge"
         android:textColor="?attr/colorPrimary"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -34,7 +34,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_quiz" />
+        app:layout_constraintTop_toBottomOf="@id/tv_title_quiz_weekly_challenge" />
 
     <TextView
         android:id="@+id/tv_result_msg"

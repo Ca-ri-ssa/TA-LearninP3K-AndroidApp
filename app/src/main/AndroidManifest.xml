@@ -15,6 +15,12 @@
         android:theme="@style/Theme.LearninP3K"
         tools:targetApi="31">
         <activity
+            android:name=".view.challenge.WeeklyChallengeResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.challenge.WeeklyChallengeActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.quiz.QuizResultActivity"
             android:exported="false" />
         <activity
