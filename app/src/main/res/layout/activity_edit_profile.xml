@@ -39,6 +39,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginStart="24dp"
         android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
@@ -47,12 +48,12 @@
         style="@style/ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
         android:paddingHorizontal="40dp"
         android:text="@string/btn_choose_avatar"
-        app:layout_constraintTop_toTopOf="@id/iv_profile_user"
-        app:layout_constraintBottom_toBottomOf="@id/iv_profile_user"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_profile_user"
+        app:layout_constraintStart_toStartOf="@id/iv_profile_user"
+        app:layout_constraintEnd_toEndOf="@id/iv_profile_user"/>
 
     <TextView
         android:id="@+id/tv_title_username"
@@ -64,7 +65,7 @@
         android:textStyle="bold"
         android:textSize="18sp"
         android:text="@string/title_username"
-        app:layout_constraintTop_toBottomOf="@id/iv_profile_user"
+        app:layout_constraintTop_toBottomOf="@id/btn_choose_avatar"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <com.google.android.material.textfield.TextInputLayout

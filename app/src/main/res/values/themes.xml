@@ -39,7 +39,7 @@
         <item name="android:textStyle">bold</item>
         <item name="cornerRadius">8dp</item>
         <item name="strokeWidth">2dp</item>
-        <item name="backgroundTint">?attr/colorBackgroundFloating</item>
+        <item name="backgroundTint">@android:color/transparent</item>
         <item name="android:paddingVertical" tools:ignore="NewApi">16dp</item>
     </style>
 

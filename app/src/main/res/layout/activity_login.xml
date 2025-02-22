@@ -44,7 +44,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/til_email"
         app:errorEnabled="true"
         android:layout_marginTop="8dp"
@@ -130,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/app_font"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:text="@string/no_account"/>
 
         <TextView
@@ -141,7 +141,7 @@
             android:textColor="?attr/colorPrimary"
             android:fontFamily="@font/app_font"
             android:textStyle="bold"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:text="@string/title_toolbar_signup"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

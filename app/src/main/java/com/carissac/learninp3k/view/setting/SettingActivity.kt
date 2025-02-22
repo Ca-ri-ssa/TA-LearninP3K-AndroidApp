@@ -1,6 +1,9 @@
 package com.carissac.learninp3k.view.setting
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.CompoundButton
@@ -11,8 +14,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.carissac.learninp3k.databinding.ActivitySettingBinding
 import com.carissac.learninp3k.view.profile.EditProfileActivity
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SettingActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingBinding
@@ -44,10 +50,35 @@ class SettingActivity : AppCompatActivity() {
         }
 
         theme()
+        setContent()
 
         binding.btnEditProfile.setOnClickListener {
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.btnEmergency.setOnClickListener {
+            val phoneNum = "119"
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Panggilan Darurat")
+                .setMessage("Apakah Anda ingin melakukan panggilan darurat ($phoneNum)?")
+                .setPositiveButton("Iya") { _, _ ->
+                    val dialIntent = Intent(Intent.ACTION_DIAL).apply {
+                        data = Uri.parse("tel:$phoneNum")
+                    }
+                    startActivity(dialIntent)
+                }
+                .setNegativeButton("Tidak", null)
+                .show()
+        }
+    }
+
+    private fun setContent() {
+        binding.apply {
+            Glide.with(this@SettingActivity)
+                .load("https://lh3.googleusercontent.com/d/1HQ0A-bBV9WuHMiprKpHCGR1_W0Os6Gk2=s1000?authuser=0")
+                .centerCrop()
+                .into(ivSettingUser)
         }
     }
 

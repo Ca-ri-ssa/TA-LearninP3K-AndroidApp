@@ -89,10 +89,10 @@
     <string name="welcome_msg">Siap untuk mengeskplorasi dan\nbelajar di dunia P3K?</string>
     <string name="welcome_greeting">Selamat Datang di\nLEARNIN P3K</string>
     <string name="btn_login">Masuk</string>
-    <string name="btn_signup">Registrasi</string>
+    <string name="btn_signup">Daftar</string>
 
     <!--Login Activity-->
-    <string name="title_toolbar_login">Login</string>
+    <string name="title_toolbar_login">Masuk</string>
     <string name="title_email">Email</string>
     <string name="hint_email">Masukkan Email Anda</string>
     <string name="title_password">Password</string>
@@ -100,7 +100,7 @@
     <string name="no_account">Belum punya akun?</string>
 
     <!--Sign Up Activity-->
-    <string name="title_toolbar_signup">Sign Up</string>
+    <string name="title_toolbar_signup">Daftar</string>
     <string name="title_username">Nama</string>
     <string name="hint_username">Masukkan Nama Anda</string>
     <string name="title_confirm_password">Konfirmasi Password</string>
