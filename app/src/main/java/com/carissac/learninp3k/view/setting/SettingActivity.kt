@@ -1,8 +1,6 @@
 package com.carissac.learninp3k.view.setting
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.ViewGroup
@@ -17,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.carissac.learninp3k.databinding.ActivitySettingBinding
 import com.carissac.learninp3k.view.profile.EditProfileActivity
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SettingActivity : AppCompatActivity() {
