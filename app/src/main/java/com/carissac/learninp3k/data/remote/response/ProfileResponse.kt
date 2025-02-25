@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ProfileResponse(
 	@field:SerializedName("avatar_img")
-	val avatar: String? = null,
+	val avatarImg: String? = null,
 
 	@field:SerializedName("user_email")
 	val email: String? = null,

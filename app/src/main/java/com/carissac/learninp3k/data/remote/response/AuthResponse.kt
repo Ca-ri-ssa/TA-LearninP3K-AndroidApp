@@ -13,7 +13,7 @@ data class LoginResponse (
     @field:SerializedName("token")
     val token: String? = null,
     @field:SerializedName("login_result")
-    val loginResult: LoginResult
+    val loginResult: LoginResult? = null
 )
 
 data class LoginResult(
