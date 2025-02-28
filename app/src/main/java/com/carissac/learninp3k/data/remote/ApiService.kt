@@ -1,15 +1,32 @@
 package com.carissac.learninp3k.data.remote
 
+import com.carissac.learninp3k.data.remote.response.AllAttemptResponse
+import com.carissac.learninp3k.data.remote.response.AttemptResponse
 import com.carissac.learninp3k.data.remote.response.AvatarDetailResponse
 import com.carissac.learninp3k.data.remote.response.AvatarResponseItem
+import com.carissac.learninp3k.data.remote.response.CourseDetailResponse
 import com.carissac.learninp3k.data.remote.response.CourseEnrollmentResponse
+import com.carissac.learninp3k.data.remote.response.CourseIntroResponse
+import com.carissac.learninp3k.data.remote.response.CourseNearestResponse
 import com.carissac.learninp3k.data.remote.response.CourseResponse
+import com.carissac.learninp3k.data.remote.response.CourseStatusResponse
+import com.carissac.learninp3k.data.remote.response.LeaderboardResponse
 import com.carissac.learninp3k.data.remote.response.LoginResponse
 import com.carissac.learninp3k.data.remote.response.NewsResponseItem
 import com.carissac.learninp3k.data.remote.response.ProfileResponse
 import com.carissac.learninp3k.data.remote.response.ProfileResultResponse
+import com.carissac.learninp3k.data.remote.response.QuizResponse
 import com.carissac.learninp3k.data.remote.response.RegisterResponse
 import com.carissac.learninp3k.data.remote.response.SearchNewsResponse
+import com.carissac.learninp3k.data.remote.response.SubmitAttemptRequest
+import com.carissac.learninp3k.data.remote.response.TakeAttemptResponse
+import com.carissac.learninp3k.data.remote.response.TakeWeeklyChallengeResponse
+import com.carissac.learninp3k.data.remote.response.UserBadgeItemResponse
+import com.carissac.learninp3k.data.remote.response.UserBadgeResponse
+import com.carissac.learninp3k.data.remote.response.UserLeaderboardResponse
+import com.carissac.learninp3k.data.remote.response.WeeklyChallengeResponse
+import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -29,7 +46,7 @@ interface ApiService {
         email: String,
         @Field("user_password")
         password: String
-    ): RegisterResponse
+    ): Response<RegisterResponse>
 
     @FormUrlEncoded
     @POST("login")
@@ -38,12 +55,12 @@ interface ApiService {
         email: String,
         @Field("user_password")
         password: String
-    ): LoginResponse
+    ): Response<LoginResponse>
 
     @GET("profile")
     suspend fun getProfile(
         @Header("Authorization") token: String
-    ): ProfileResponse
+    ): Response<ProfileResponse>
 
     @FormUrlEncoded
     @PUT("profile")
@@ -55,40 +72,40 @@ interface ApiService {
         email: String,
         @Field("avatar_id")
         avatarId: Int
-    ): ProfileResultResponse
+    ): Response<ProfileResultResponse>
 
     @GET("avatars")
     suspend fun getAllAvatar(
         @Header("Authorization") token: String
-    ): List<AvatarResponseItem>
+    ): Response<List<AvatarResponseItem>>
 
     @GET("avatars/{id}")
     suspend fun getAvatarDetail(
         @Header("Authorization") token: String,
         @Path("id")
         id: Int
-    ): AvatarDetailResponse
+    ): Response<AvatarDetailResponse>
 
     @GET("news/date")
     suspend fun getAllNews(
         @Header("Authorization") token: String,
         @Query("sort")
         sort: String = "desc"
-    ): List<NewsResponseItem>
+    ): Response<List<NewsResponseItem>>
 
     @GET("news/{id}")
     suspend fun getNewsDetail(
         @Header("Authorization") token: String,
         @Path("id")
         id: Int
-    ): NewsResponseItem
+    ): Response<NewsResponseItem>
 
     @GET("news/date")
     suspend fun searchNews(
         @Header("Authorization") token: String,
         @Query("news_title")
         newsTitle: String
-    ): SearchNewsResponse
+    ): Response<SearchNewsResponse>
 
     @FormUrlEncoded
     @POST("courses/enroll")
@@ -96,12 +113,107 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Field("course_id")
         courseId: Int
-    ): CourseEnrollmentResponse
+    ): Response<CourseEnrollmentResponse>
 
     @GET("courses")
     suspend fun getAllCourse(
         @Header("Authorization") token: String,
-    ): CourseResponse
+    ): Response<CourseResponse>
 
-    // TODO: https://github.com/Ca-ri-ssa/TA-LearninP3K-BackEnd/blob/main/api-docs.md#get-all-course-get
+    @GET("courses/{id}/intro")
+    suspend fun getIntroCourse(
+        @Header("Authorization") token: String,
+        @Path("id")
+        id: Int
+    ): Response<CourseIntroResponse>
+
+    @GET("courses/{id}/detail")
+    suspend fun getCourseDetail(
+        @Header("Authorization") token: String,
+        @Path("id")
+        id: Int
+    ): Response<CourseDetailResponse>
+
+    @GET("courses/status")
+    suspend fun getCourseByStatus(
+        @Header("Authorization") token: String,
+        @Query("status")
+        status: String
+    ): Response<CourseStatusResponse>
+
+    @GET("courses/{id}/quiz")
+    suspend fun getCourseQuiz(
+        @Header("Authorization") token: String,
+        @Path("id")
+        id: Int
+    ): Response<List<QuizResponse>>
+
+    @GET("courses/nearest")
+    suspend fun getNearestCourse(
+        @Header("Authorization") token: String
+    ): Response<CourseNearestResponse>
+
+
+    @POST("courses/{id}/quiz/submit")
+    suspend fun takeAttempt(
+        @Header("Authorization") token: String,
+        @Path("id")
+        id: Int,
+        @Body request: SubmitAttemptRequest
+    ): Response<TakeAttemptResponse>
+
+    @GET("courses/{id}/quiz/attempts")
+    suspend fun getAllAttemptSession(
+        @Header("Authorization") token: String,
+        @Path("id")
+        id: Int
+    ): Response<AllAttemptResponse>
+
+    @GET("courses/{id}/quiz/attempts/{sessionId}")
+    suspend fun getDetailAttempt(
+        @Header("Authorization") token: String,
+        @Path("id")
+        id: Int,
+        @Path("sessionId")
+        sessionId: Int
+    ): Response<AttemptResponse>
+
+    @GET("challenges")
+    suspend fun getWeeklyChallenge(
+        @Header("Authorization") token: String
+    ): Response<WeeklyChallengeResponse>
+
+    @FormUrlEncoded
+    @POST("challenges/submit")
+    suspend fun takeWeeklyChallenge(
+        @Header("Authorization") token: String,
+        @Field("challenge_id")
+        challengeId: Int,
+        @Field("user_answer")
+        userAnswer: String
+    ): Response<TakeWeeklyChallengeResponse>
+
+    @GET("leaderboards")
+    suspend fun getLeaderboard(
+        @Header("Authorization") token: String
+    ): Response<List<LeaderboardResponse>>
+
+    @GET("leaderboards/users")
+    suspend fun getUserLeaderboard(
+        @Header("Authorization") token: String
+    ): Response<UserLeaderboardResponse>
+
+    @GET("leaderboards/users/badges")
+    suspend fun getAllUserBadge(
+        @Header("Authorization") token: String,
+        @Query("category")
+        category: String = "all"
+    ): Response<List<UserBadgeItemResponse>>
+
+    @GET("leaderboards/users/badges/{id}")
+    suspend fun getUserBadgeById(
+        @Header("Authorization") token: String,
+        @Path("id")
+        id: Int
+    ): Response<UserBadgeResponse>
 }
