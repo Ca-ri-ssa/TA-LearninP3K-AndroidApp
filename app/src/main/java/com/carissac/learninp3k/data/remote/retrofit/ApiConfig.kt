@@ -1,4 +1,4 @@
-package com.carissac.learninp3k.data.remote
+package com.carissac.learninp3k.data.remote.retrofit
 
 import com.carissac.learninp3k.BuildConfig
 import okhttp3.OkHttpClient

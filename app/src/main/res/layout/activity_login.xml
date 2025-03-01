@@ -101,10 +101,12 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title_password"
         app:helperTextTextAppearance="@style/HelperTextStyle">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.carissac.learninp3k.view.customview.EditTextPasswordLogin
             android:id="@+id/edt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textSize="16sp"
             android:inputType="textPassword"
             android:fontFamily="@font/app_font"
             android:hint="@string/hint_password" />
@@ -149,4 +151,13 @@
             android:textSize="14sp"
             android:text="@string/title_toolbar_signup"/>
     </LinearLayout>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

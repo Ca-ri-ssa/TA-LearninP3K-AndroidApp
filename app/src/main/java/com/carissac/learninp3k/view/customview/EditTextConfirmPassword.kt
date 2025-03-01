@@ -29,7 +29,9 @@ class EditTextConfirmPassword @JvmOverloads constructor(
         hint = context.getString(R.string.hint_password)
 
         addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(a: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                validateConfirmPassword(s.toString().trim())
+            }
 
             override fun onTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 validateConfirmPassword(s.toString().trim())
@@ -41,6 +43,16 @@ class EditTextConfirmPassword @JvmOverloads constructor(
 
     fun setOriginalPasswordField(passwordField: EditTextPassword) {
         this.originalPasswordField = passwordField
+
+        originalPasswordField?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                validateConfirmPassword(text.toString().trim())
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
 
     private fun validateConfirmPassword(confirmPassword: String) {
