@@ -57,10 +57,13 @@
         app:boxCornerRadiusBottomEnd="8dp"
         app:boxStrokeColor="@color/input_text_field_color"
         app:layout_constraintTop_toBottomOf="@id/tv_title_email"
-        app:layout_constraintStart_toStartOf="parent" >
+        app:layout_constraintStart_toStartOf="parent"
+        app:helperTextTextAppearance="@style/HelperTextStyle">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.carissac.learninp3k.view.customview.EditTextEmail
             android:id="@+id/edt_email"
+            android:padding="16dp"
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/app_font"
@@ -95,7 +98,9 @@
         app:boxCornerRadiusBottomEnd="8dp"
         app:endIconTint="?attr/colorPrimary"
         android:layout_marginHorizontal="24dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_password">
+        app:layout_constraintTop_toBottomOf="@id/tv_title_password"
+        app:helperTextTextAppearance="@style/HelperTextStyle">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_password"
             android:layout_width="match_parent"
@@ -111,7 +116,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_login"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="24dp"
         android:layout_marginHorizontal="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

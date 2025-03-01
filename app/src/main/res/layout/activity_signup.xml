@@ -12,94 +12,100 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/transparent"
-        app:titleMargins="0dp"
-        app:navigationIcon="@drawable/arrow_back_icon_24dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/arrow_back_icon_24dp"
+        app:titleMargins="0dp">
+
         <TextView
             android:id="@+id/toolbarTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="?attr/colorPrimary"
             android:fontFamily="@font/app_font"
-            android:textSize="22sp"
-            android:textStyle="bold"
+            android:text="@string/title_toolbar_signup"
             android:textAlignment="center"
-            android:text="@string/title_toolbar_signup" />
+            android:textColor="?attr/colorPrimary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:id="@+id/tv_title_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/app_font"
-        android:textStyle="bold"
-        android:textSize="18sp"
         android:text="@string/title_username"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_username"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:boxStrokeColor="@color/input_text_field_color"
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="24dp"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusBottomEnd="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_username" >
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxStrokeColor="@color/input_text_field_color"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_username"
+        app:helperTextTextAppearance="@style/HelperTextStyle">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_username"
-            android:fontFamily="@font/app_font"
-            android:hint="@string/hint_username"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/app_font"
+            android:hint="@string/hint_username" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tv_title_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/app_font"
         android:text="@string/title_email"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/til_username"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_username" />
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/til_email"
-        app:errorEnabled="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="24dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
         app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
         app:boxStrokeColor="@color/input_text_field_color"
+        app:errorEnabled="true"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title_email"
-        app:layout_constraintStart_toStartOf="parent" >
+        app:helperTextTextAppearance="@style/HelperTextStyle">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.carissac.learninp3k.view.customview.EditTextEmail
             android:id="@+id/edt_email"
+            android:padding="16dp"
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/app_font"
-            android:inputType="textEmailAddress"
-            android:hint="@string/hint_email" />
+            android:hint="@string/hint_email"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -108,35 +114,39 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/app_font"
+        android:text="@string/title_password"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:text="@string/title_password"
-        app:layout_constraintTop_toBottomOf="@id/til_email"
-        app:layout_constraintStart_toStartOf="@id/tv_title_email"/>
+        app:layout_constraintStart_toStartOf="@id/tv_title_email"
+        app:layout_constraintTop_toBottomOf="@id/til_email" />
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/til_password"
-        app:errorEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="8dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
         app:boxStrokeColor="@color/input_text_field_color"
         app:endIconMode="password_toggle"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusBottomEnd="8dp"
         app:endIconTint="?attr/colorPrimary"
-        android:layout_marginHorizontal="24dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_password">
-        <com.google.android.material.textfield.TextInputEditText
+        app:errorEnabled="true"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_password"
+        app:helperTextTextAppearance="@style/HelperTextStyle">
+
+        <com.carissac.learninp3k.view.customview.EditTextPassword
             android:id="@+id/edt_password"
+            android:padding="16dp"
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:fontFamily="@font/app_font"
-            android:hint="@string/hint_password" />
+            android:hint="@string/hint_password"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -145,35 +155,39 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/app_font"
+        android:text="@string/title_confirm_password"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:text="@string/title_confirm_password"
-        app:layout_constraintTop_toBottomOf="@id/til_password"
-        app:layout_constraintStart_toStartOf="@id/tv_title_email"/>
+        app:layout_constraintStart_toStartOf="@id/tv_title_email"
+        app:layout_constraintTop_toBottomOf="@id/til_password" />
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/til_confirm_password"
-        app:errorEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="8dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
         app:boxStrokeColor="@color/input_text_field_color"
         app:endIconMode="password_toggle"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusBottomEnd="8dp"
         app:endIconTint="?attr/colorPrimary"
-        android:layout_marginHorizontal="24dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_confirm_password">
-        <com.google.android.material.textfield.TextInputEditText
+        app:errorEnabled="true"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_confirm_password"
+        app:helperTextTextAppearance="@style/HelperTextStyle">
+
+        <com.carissac.learninp3k.view.customview.EditTextConfirmPassword
             android:id="@+id/edt_confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
+            android:padding="16dp"
+            android:textSize="16sp"
             android:fontFamily="@font/app_font"
-            android:hint="@string/hint_password" />
+            android:hint="@string/hint_password"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -181,38 +195,40 @@
         style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_signup"
-        android:layout_marginTop="24dp"
         android:layout_marginHorizontal="24dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"
+        android:text="@string/btn_signup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_confirm_password"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_confirm_password" />
 
     <LinearLayout
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_signup"
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_signup">
+
         <TextView
             android:id="@+id/tv_have_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/app_font"
-            android:textSize="14sp"
-            android:text="@string/have_account"/>
+            android:text="@string/have_account"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_have_account_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:textColor="?attr/colorPrimary"
             android:fontFamily="@font/app_font"
-            android:textStyle="bold"
+            android:text="@string/title_toolbar_login"
+            android:textColor="?attr/colorPrimary"
             android:textSize="14sp"
-            android:text="@string/title_toolbar_login"/>
+            android:textStyle="bold" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

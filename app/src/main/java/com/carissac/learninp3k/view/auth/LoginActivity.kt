@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -46,8 +47,31 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            val email = binding.edtEmail.text.toString()
+            val password = binding.edtPassword.text.toString()
+
+            val errorColor = ContextCompat.getColorStateList(this, R.color.red)
+
+            if (email.isEmpty()) {
+                binding.tilEmail.helperText = "Email tidak boleh kosong"
+                binding.tilEmail.setHelperTextColor(errorColor)
+            } else {
+                binding.tilEmail.helperText = null
+            }
+
+            if (password.isEmpty()) {
+                binding.tilPassword.helperText = "Password tidak boleh kosong"
+                binding.tilPassword.setHelperTextColor(errorColor)
+
+            } else {
+                binding.tilPassword.helperText = null
+            }
+
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                // TODO: Buat Backend Logic
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 

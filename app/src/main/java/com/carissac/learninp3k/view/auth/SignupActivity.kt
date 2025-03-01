@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -41,9 +42,54 @@ class SignupActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
 
+        val passwordField = binding.edtPassword
+        val confirmPasswordField = binding.edtConfirmPassword
+
+        confirmPasswordField.setOriginalPasswordField(passwordField)
+
         binding.btnSignup.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            val username = binding.edtUsername.text.toString()
+            val email = binding.edtEmail.text.toString()
+            val password = binding.edtPassword.text.toString()
+            val confirmPassword = binding.edtConfirmPassword.text.toString()
+
+            val errorColor = ContextCompat.getColorStateList(this, R.color.red)
+
+            if(username.isEmpty()) {
+                binding.tilUsername.helperText = "Nama tidak boleh kosong"
+                binding.tilUsername.setHelperTextColor(errorColor)
+            } else {
+                binding.tilUsername.helperText = null
+            }
+
+            if(email.isEmpty()) {
+                binding.tilEmail.helperText = "Email tidak boleh kosong"
+                binding.tilEmail.setHelperTextColor(errorColor)
+            } else {
+                binding.tilEmail.helperText = null
+            }
+
+            if(password.isEmpty()) {
+                binding.tilPassword.helperText = "Password tidak boleh kosong"
+                binding.tilPassword.setHelperTextColor(errorColor)
+
+            } else {
+                binding.tilPassword.helperText = null
+            }
+
+            if(confirmPassword.isEmpty()) {
+                binding.tilConfirmPassword.helperText = "Konfirmasi password tidak boleh kosong"
+                binding.tilConfirmPassword.setHelperTextColor(errorColor)
+
+            } else {
+                binding.tilPassword.helperText = null
+            }
+
+            if(username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
+                // TODO: Buat Backend Logic
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         binding.tvHaveAccountLink.setOnClickListener {
