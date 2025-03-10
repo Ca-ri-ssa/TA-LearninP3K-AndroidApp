@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
@@ -23,6 +24,10 @@ import com.carissac.learninp3k.view.welcome.WelcomeActivity
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
+
+    private val settingViewModel: SettingViewModel by viewModels {
+        SettingViewModelFactory(ThemePreference.getInstance(application.dataStore))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,19 +49,15 @@ class SplashActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
 
+        checkTheme()
+
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, WelcomeActivity::class.java))
             finish()
-
-            checkTheme()
         }, 2000)
     }
 
     private fun checkTheme() {
-        val pref = ThemePreference.getInstance(application.dataStore)
-        val settingViewModel = ViewModelProvider(this, SettingViewModelFactory(pref)).get(
-            SettingViewModel::class.java
-        )
         settingViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
             if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

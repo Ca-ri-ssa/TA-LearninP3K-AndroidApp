@@ -48,21 +48,10 @@
                 android:layout_marginHorizontal="24dp"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/iv_vid_thumbnail"
+                <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                    android:id="@+id/vid_detail_course"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/img_placeholder"
-                    android:scaleType="centerCrop"/>
-
-                <ImageView
-                    android:id="@+id/btn_vid"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center"
-                    android:scaleType="centerCrop"
-                    android:alpha="0.8"
-                    android:src="@drawable/play_icon_48dp" />
+                    android:layout_height="match_parent" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -94,7 +83,7 @@
                 style="@style/ButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="64dp"
                 android:text="@string/btn_quiz"
                 android:layout_marginHorizontal="24dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_course_content"/>

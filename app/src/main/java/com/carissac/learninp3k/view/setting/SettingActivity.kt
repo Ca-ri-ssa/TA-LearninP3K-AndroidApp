@@ -6,19 +6,31 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.carissac.learninp3k.data.di.Injection
 import com.carissac.learninp3k.databinding.ActivitySettingBinding
+import com.carissac.learninp3k.view.auth.AuthViewModel
+import com.carissac.learninp3k.view.auth.AuthViewModelFactory
 import com.carissac.learninp3k.view.profile.EditProfileActivity
+import com.carissac.learninp3k.view.welcome.WelcomeActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SettingActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingBinding
+
+    private val authViewModel: AuthViewModel by viewModels {
+        AuthViewModelFactory(Injection.provideUserRepository(this))
+    }
+
+    private val settingViewModel: SettingViewModel by viewModels {
+        SettingViewModelFactory(ThemePreference.getInstance(application.dataStore))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +80,10 @@ class SettingActivity : AppCompatActivity() {
                 .setNegativeButton("Tidak", null)
                 .show()
         }
+
+        binding.btnLogout.setOnClickListener {
+            logout()
+        }
     }
 
     private fun setContent() {
@@ -82,11 +98,6 @@ class SettingActivity : AppCompatActivity() {
     private fun theme() {
         val switchTheme = binding.toggleDarkMode
 
-        val pref = ThemePreference.getInstance(application.dataStore)
-        val settingViewModel = ViewModelProvider(this, SettingViewModelFactory(pref)).get(
-            SettingViewModel::class.java
-        )
-
         settingViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
             if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -100,6 +111,24 @@ class SettingActivity : AppCompatActivity() {
         switchTheme.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             settingViewModel.saveThemeSetting(isChecked)
         }
+    }
+
+    private fun logout() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Keluar")
+            .setMessage("Apakah Anda ingin keluar?")
+            .setPositiveButton("Iya") { _, _ ->
+                authViewModel.logout()
+
+                val intent = Intent(this@SettingActivity, WelcomeActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+                finish()
+            }
+            .setNegativeButton("Tidak") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     override fun onSupportNavigateUp(): Boolean {

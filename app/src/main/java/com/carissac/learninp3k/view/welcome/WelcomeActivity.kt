@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import com.carissac.learninp3k.R
 import com.carissac.learninp3k.databinding.ActivityWelcomeBinding
 import com.carissac.learninp3k.view.auth.LoginActivity
 import com.carissac.learninp3k.view.auth.SignupActivity

@@ -25,4 +25,10 @@ class AuthViewModel(private val repository: UserRepository): ViewModel() {
             repository.login(email, password)
         }
     }
+
+    fun logout() {
+        viewModelScope.launch {
+            repository.logout()
+        }
+    }
 }

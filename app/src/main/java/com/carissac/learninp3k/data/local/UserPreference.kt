@@ -21,6 +21,13 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
+    suspend fun updateUserProfile(name: String, email: String) {
+        dataStore.edit { pref ->
+            pref[USER_NAME] = name
+            pref[USER_EMAIL] = email
+        }
+    }
+
     fun getUserId(): Flow<Int> {
         return dataStore.data.map { pref ->
             pref[USER_ID] ?: -1
