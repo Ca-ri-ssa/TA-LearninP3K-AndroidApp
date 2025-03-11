@@ -4,9 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.carissac.learninp3k.data.local.UserModel
 import com.carissac.learninp3k.data.local.UserPreference
+import com.carissac.learninp3k.data.remote.response.AvatarDetailResponse
+import com.carissac.learninp3k.data.remote.response.AvatarResponseItem
 import com.carissac.learninp3k.data.remote.response.LoginResponse
 import com.carissac.learninp3k.data.remote.response.LoginResult
+import com.carissac.learninp3k.data.remote.response.ProfileResponse
+import com.carissac.learninp3k.data.remote.response.ProfileResultResponse
 import com.carissac.learninp3k.data.remote.response.RegisterResponse
+import com.carissac.learninp3k.data.remote.response.UserLeaderboardResponse
 import com.carissac.learninp3k.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
@@ -25,6 +30,29 @@ class UserRepository private constructor(
 
     private val _loginResult = MutableLiveData<Result<LoginResponse>>()
     val loginResult:LiveData<Result<LoginResponse>> = _loginResult
+
+    private val _userLeaderboardResult = MutableLiveData<Result<UserLeaderboardResponse>>()
+    val userLeaderboardResult: LiveData<Result<UserLeaderboardResponse>> = _userLeaderboardResult
+
+    private val _profileResult = MutableLiveData<Result<ProfileResponse>>()
+    val profileResult: LiveData<Result<ProfileResponse>> = _profileResult
+
+    private val _listAvatarResult = MutableLiveData<Result<List<AvatarResponseItem>>>()
+    val listAvatarResult: LiveData<Result<List<AvatarResponseItem>>> = _listAvatarResult
+
+    private val _avatarResult = MutableLiveData<Result<AvatarDetailResponse>>()
+    val avatarResult: LiveData<Result<AvatarDetailResponse>> = _avatarResult
+
+    private val _updateProfileResult = MutableLiveData<Result<ProfileResultResponse>>()
+    val updateProfileResult: LiveData<Result<ProfileResultResponse>> = _updateProfileResult
+
+    suspend fun logout() {
+        userPreference.clearSession()
+    }
+
+    fun getUserSession(): Flow<String?> {
+        return userPreference.getUserToken()
+    }
 
     suspend fun register(name: String, email: String, password: String) {
         _isLoading.postValue(true)
@@ -87,12 +115,124 @@ class UserRepository private constructor(
         }
     }
 
-    suspend fun logout() {
-        userPreference.clearSession()
+    suspend fun getUserLeaderboard(token: String) {
+        _isLoading.postValue(true)
+        try {
+            val response: Response<UserLeaderboardResponse> = apiService.getUserLeaderboard("Bearer $token")
+            if(response.isSuccessful) {
+                val userLeaderboardResponse = response.body()
+                if(userLeaderboardResponse != null) {
+                    _userLeaderboardResult.postValue(Result.success(userLeaderboardResponse))
+                } else {
+                    _userLeaderboardResult.postValue(Result.failure(Exception("Response kosong dari server")))
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil profil"
+                _userLeaderboardResult.postValue(Result.failure(Exception(errorMessage)))
+            }
+        } catch (e: IOException) {
+            _userLeaderboardResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+        } catch (e: HttpException) {
+            _userLeaderboardResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+        } finally {
+            _isLoading.postValue(false)
+        }
     }
 
-    fun getUserSession(): Flow<String?> {
-        return userPreference.getUserToken()
+    suspend fun getProfile(token: String) {
+        _isLoading.postValue(true)
+        try {
+            val response: Response<ProfileResponse> = apiService.getProfile("Bearer $token")
+            if(response.isSuccessful) {
+                val profileResponse = response.body()
+                if(profileResponse != null) {
+                    _profileResult.postValue(Result.success(profileResponse))
+                } else {
+                    _profileResult.postValue(Result.failure(Exception("Response kosong dari server")))
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil profil"
+                _profileResult.postValue(Result.failure(Exception(errorMessage)))
+            }
+        } catch (e: IOException) {
+            _profileResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+        } catch (e: HttpException) {
+            _profileResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+        } finally {
+            _isLoading.postValue(false)
+        }
+    }
+
+    suspend fun getAllAvatar(token: String) {
+        _isLoading.postValue(true)
+        try {
+            val response = apiService.getAllAvatar("Bearer $token")
+            if(response.isSuccessful) {
+                val avatarList = response.body()
+                if(avatarList != null) {
+                    _listAvatarResult.postValue(Result.success(avatarList))
+                } else {
+                    _listAvatarResult.postValue(Result.failure(Exception("Response kosong dari server")))
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil avatar"
+                _listAvatarResult.postValue(Result.failure(Exception(errorMessage)))
+            }
+        } catch (e: IOException) {
+            _listAvatarResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+        } catch (e: HttpException) {
+            _listAvatarResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+        } finally {
+            _isLoading.postValue(false)
+        }
+    }
+
+    suspend fun getDetailAvatar(token: String, id: Int) {
+        _isLoading.postValue(true)
+        try {
+            val response = apiService.getAvatarDetail("Bearer $token", id)
+            if(response.isSuccessful) {
+                val avatarDetail = response.body()
+                if(avatarDetail != null) {
+                    _avatarResult.postValue(Result.success(avatarDetail))
+                } else {
+                    _avatarResult.postValue(Result.failure(Exception("Response kosong dari server")))
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil detail avatar"
+                _avatarResult.postValue(Result.failure(Exception(errorMessage)))
+            }
+        } catch (e: IOException) {
+            _avatarResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+        } catch (e: HttpException) {
+            _avatarResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+        } finally {
+            _isLoading.postValue(false)
+        }
+    }
+
+    suspend fun updateProfile(token: String, name: String, email: String, avatarId: Int) {
+        _isLoading.postValue(true)
+        try {
+            val response: Response<ProfileResultResponse> = apiService.updateProfile("Bearer $token", name, email, avatarId)
+            if(response.isSuccessful) {
+                val updateResponse = response.body()
+                if(updateResponse != null) {
+                    _updateProfileResult.postValue(Result.success(updateResponse))
+                } else {
+                    _updateProfileResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal memperbarui profil"
+                _updateProfileResult.postValue(Result.failure(Exception(errorMessage)))
+            }
+        } catch (e: IOException) {
+            _avatarResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+        } catch (e: HttpException) {
+            _avatarResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+        } finally {
+            _isLoading.postValue(false)
+        }
     }
 
     companion object {

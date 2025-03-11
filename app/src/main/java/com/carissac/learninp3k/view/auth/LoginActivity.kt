@@ -114,9 +114,8 @@ class LoginActivity : AppCompatActivity() {
         binding.btnLogin.isEnabled = email.isNotEmpty() && password.isNotEmpty()
     }
 
-    @Suppress("SameParameterValue")
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    private fun showToast(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onSupportNavigateUp(): Boolean {

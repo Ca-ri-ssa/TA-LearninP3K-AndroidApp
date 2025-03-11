@@ -1,14 +1,18 @@
 package com.carissac.learninp3k.view.setting
 
 import android.content.Intent
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -18,6 +22,9 @@ import com.carissac.learninp3k.databinding.ActivitySettingBinding
 import com.carissac.learninp3k.view.auth.AuthViewModel
 import com.carissac.learninp3k.view.auth.AuthViewModelFactory
 import com.carissac.learninp3k.view.profile.EditProfileActivity
+import com.carissac.learninp3k.view.profile.ProfileViewModel
+import com.carissac.learninp3k.view.profile.ProfileViewModelFactory
+import com.carissac.learninp3k.view.utils.formatDate
 import com.carissac.learninp3k.view.welcome.WelcomeActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -32,6 +39,11 @@ class SettingActivity : AppCompatActivity() {
         SettingViewModelFactory(ThemePreference.getInstance(application.dataStore))
     }
 
+    private val profileViewModel: ProfileViewModel by viewModels {
+        ProfileViewModelFactory(Injection.provideUserRepository(this))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -73,7 +85,7 @@ class SettingActivity : AppCompatActivity() {
                 .setMessage("Apakah Anda ingin melakukan panggilan darurat ($phoneNum)?")
                 .setPositiveButton("Iya") { _, _ ->
                     val dialIntent = Intent(Intent.ACTION_DIAL).apply {
-                        data = Uri.parse("tel:$phoneNum")
+                        data = "tel:$phoneNum".toUri()
                     }
                     startActivity(dialIntent)
                 }
@@ -86,12 +98,28 @@ class SettingActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setContent() {
-        binding.apply {
-            Glide.with(this@SettingActivity)
-                .load("https://lh3.googleusercontent.com/d/1HQ0A-bBV9WuHMiprKpHCGR1_W0Os6Gk2=s1000?authuser=0")
-                .centerCrop()
-                .into(ivSettingUser)
+        profileViewModel.profileResult.observe(this) { result ->
+            result.onSuccess { profile ->
+                binding.tvSettingUsername.text = profile.name
+                binding.tvSettingUserEmail.text = profile.email
+                binding.tvSettingUserDate.text = formatDate(profile.createdAt ?: "")
+
+                Glide.with(this@SettingActivity)
+                    .load(profile.avatarImg)
+                    .centerCrop()
+                    .into(binding.ivSettingUser)
+            }.onFailure {
+                val msg = "Gagal mengambil profil, silahkan mencoba kembali"
+                showToast(msg)
+            }
+        }
+
+        profileViewModel.getProfile()
+
+        profileViewModel.isLoading.observe(this) { isLoading ->
+            showLoading(isLoading)
         }
     }
 
@@ -134,5 +162,14 @@ class SettingActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
         return true
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    @Suppress("SameParameterValue")
+    private fun showToast(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 }
