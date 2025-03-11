@@ -8,6 +8,7 @@ import com.carissac.learninp3k.data.remote.response.LoginResponse
 import com.carissac.learninp3k.data.remote.response.LoginResult
 import com.carissac.learninp3k.data.remote.response.RegisterResponse
 import com.carissac.learninp3k.data.remote.retrofit.ApiService
+import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -88,6 +89,10 @@ class UserRepository private constructor(
 
     suspend fun logout() {
         userPreference.clearSession()
+    }
+
+    fun getUserSession(): Flow<String?> {
+        return userPreference.getUserToken()
     }
 
     companion object {

@@ -9,24 +9,21 @@ import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import androidx.lifecycle.ViewModelProvider
+import com.carissac.learninp3k.data.di.Injection
 import com.carissac.learninp3k.databinding.ActivitySplashBinding
-import com.carissac.learninp3k.view.setting.SettingViewModel
-import com.carissac.learninp3k.view.setting.SettingViewModelFactory
-import com.carissac.learninp3k.view.setting.ThemePreference
-import com.carissac.learninp3k.view.setting.dataStore
+import com.carissac.learninp3k.view.auth.AuthViewModel
+import com.carissac.learninp3k.view.auth.AuthViewModelFactory
 import com.carissac.learninp3k.view.welcome.WelcomeActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
 
-    private val settingViewModel: SettingViewModel by viewModels {
-        SettingViewModelFactory(ThemePreference.getInstance(application.dataStore))
+    private val authViewModel: AuthViewModel by viewModels {
+        AuthViewModelFactory(Injection.provideUserRepository(this))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,21 +46,22 @@ class SplashActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
 
-        checkTheme()
-
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, WelcomeActivity::class.java))
+            startActivity(Intent(this@SplashActivity, WelcomeActivity::class.java))
             finish()
         }, 2000)
-    }
 
-    private fun checkTheme() {
-        settingViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
-            if (isDarkModeActive) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            lifecycleScope.launch {
+//                authViewModel.sessionToken.observe(this@SplashActivity) { token ->
+//                    if(!token.isNullOrEmpty()) {
+//                        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+//                    } else {
+//                        startActivity(Intent(this@SplashActivity, WelcomeActivity::class.java))
+//                    }
+//                    finish()
+//                }
+//            }
+//        }, 2000)
     }
 }
