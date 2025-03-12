@@ -13,7 +13,9 @@ import com.carissac.learninp3k.data.remote.response.ProfileResultResponse
 import com.carissac.learninp3k.data.remote.response.RegisterResponse
 import com.carissac.learninp3k.data.remote.response.UserLeaderboardResponse
 import com.carissac.learninp3k.data.remote.retrofit.ApiService
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -94,7 +96,8 @@ class UserRepository private constructor(
                         user.userEmail ?: "Unknown",
                         loginResponse.token
                     )
-                    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+
+                    withContext(Dispatchers.IO) {
                         userPreference.saveUserSession(userSession)
                     }
 
@@ -218,6 +221,9 @@ class UserRepository private constructor(
             if(response.isSuccessful) {
                 val updateResponse = response.body()
                 if(updateResponse != null) {
+                    withContext(Dispatchers.IO) {
+                        userPreference.updateUserProfile(name, email)
+                    }
                     _updateProfileResult.postValue(Result.success(updateResponse))
                 } else {
                     _updateProfileResult.postValue(Result.failure(Exception("Respon kosong dari server")))
@@ -227,9 +233,9 @@ class UserRepository private constructor(
                 _updateProfileResult.postValue(Result.failure(Exception(errorMessage)))
             }
         } catch (e: IOException) {
-            _avatarResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+            _updateProfileResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
         } catch (e: HttpException) {
-            _avatarResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+            _updateProfileResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
         } finally {
             _isLoading.postValue(false)
         }

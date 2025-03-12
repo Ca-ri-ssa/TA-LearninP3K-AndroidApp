@@ -68,16 +68,14 @@ class EditProfileActivity : AppCompatActivity() {
         selectedAvatarId = intent.getIntExtra(AVATAR_ID, -1)
         val selectedAvatarImg = intent.getStringExtra(AVATAR_IMG) ?: ""
 
-        if (selectedAvatarId == -1) {
-            profileViewModel.getProfile()
-        }
+        profileViewModel.getProfile()
 
         profileViewModel.profileResult.observe(this) { result ->
             result.onSuccess { profile ->
                 binding.edtUsername.setText(profile.name)
                 binding.edtEmail.setText(profile.email)
 
-                if(selectedAvatarId == -1) {
+                if(selectedAvatarId ==  null || selectedAvatarId == -1) {
                     selectedAvatarId = profile.id
                     Glide.with(this)
                         .load(profile.avatarImg)
