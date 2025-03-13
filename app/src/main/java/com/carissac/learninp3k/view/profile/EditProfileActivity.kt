@@ -19,6 +19,7 @@ import com.carissac.learninp3k.databinding.ActivityEditProfileBinding
 class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileBinding
     private var selectedAvatarId: Int? = null
+    private var selectedAvatarImg: String? = null
 
     private val profileViewModel: ProfileViewModel by viewModels {
         ProfileViewModelFactory(Injection.provideUserRepository(this))
@@ -30,7 +31,7 @@ class EditProfileActivity : AppCompatActivity() {
                 selectedAvatarId = result.data?.getIntExtra(AVATAR_ID, -1) ?: -1
                 val selectedAvatarImg = result.data?.getStringExtra(AVATAR_IMG)
 
-                if (selectedAvatarId != -1 && selectedAvatarImg != null) {
+                if (selectedAvatarId != -1 && !selectedAvatarImg.isNullOrEmpty()) {
                     Glide.with(this)
                         .load(selectedAvatarImg)
                         .centerCrop()
@@ -66,7 +67,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         selectedAvatarId = intent.getIntExtra(AVATAR_ID, -1)
-        val selectedAvatarImg = intent.getStringExtra(AVATAR_IMG) ?: ""
+        selectedAvatarImg = intent.getStringExtra(AVATAR_IMG) ?: ""
 
         profileViewModel.getProfile()
 
@@ -75,18 +76,15 @@ class EditProfileActivity : AppCompatActivity() {
                 binding.edtUsername.setText(profile.name)
                 binding.edtEmail.setText(profile.email)
 
-                if(selectedAvatarId ==  null || selectedAvatarId == -1) {
+                if (selectedAvatarId == null || selectedAvatarId == -1 || selectedAvatarImg.isNullOrEmpty()) {
                     selectedAvatarId = profile.id
-                    Glide.with(this)
-                        .load(profile.avatarImg)
-                        .centerCrop()
-                        .into(binding.ivProfileUser)
-                } else {
-                    Glide.with(this)
-                        .load(selectedAvatarImg)
-                        .centerCrop()
-                        .into(binding.ivProfileUser)
+                    selectedAvatarImg = profile.avatarImg
                 }
+
+                Glide.with(this)
+                    .load(selectedAvatarImg)
+                    .centerCrop()
+                    .into(binding.ivProfileUser)
             }.onFailure { error ->
                 showToast("Gagal mengambil data profil")
             }

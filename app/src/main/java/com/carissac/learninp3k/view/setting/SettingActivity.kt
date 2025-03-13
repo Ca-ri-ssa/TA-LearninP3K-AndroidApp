@@ -172,4 +172,9 @@ class SettingActivity : AppCompatActivity() {
     private fun showToast(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
+
+    override fun onResume() {
+        super.onResume()
+        profileViewModel.getProfile()
+    }
 }

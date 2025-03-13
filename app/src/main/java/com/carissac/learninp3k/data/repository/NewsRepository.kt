@@ -1,5 +1,6 @@
 package com.carissac.learninp3k.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.carissac.learninp3k.data.local.UserPreference
@@ -85,6 +86,7 @@ class NewsRepository private constructor(
             val response = apiService.searchNews("Bearer $token", newsTitle)
             if(response.isSuccessful) {
                 val searchNewsResponse = response.body()
+                Log.d("API_RESPONSE", response.body().toString())
                 if(searchNewsResponse != null) {
                     _searchNewsResult.postValue(Result.success(searchNewsResponse))
                 } else {

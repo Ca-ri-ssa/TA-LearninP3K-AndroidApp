@@ -64,10 +64,9 @@ class SignupActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
 
-            //TODO wait for backend url
-//            if (username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
-//                authViewModel.userRegister(username, email, password)
-//            }
+            if (username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
+                authViewModel.userRegister(username, email, password)
+            }
         }
 
         authViewModel.registerResult.observe(this) { result ->

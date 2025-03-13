@@ -65,10 +65,9 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
 
-            // TODO wait for backend url
-//            if (email.isNotEmpty() && password.isNotEmpty()) {
-//                authViewModel.userLogin(email, password)
-//            }
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                authViewModel.userLogin(email, password)
+            }
         }
 
         authViewModel.loginResult.observe(this) { result ->

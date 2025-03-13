@@ -90,7 +90,7 @@ class NewsFragment : Fragment() {
         newsViewModel.searchNewsResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 if(!response.news.isNullOrEmpty()) {
-                    binding.tvTotalSearch.text = "Total pencarian: ${response.totalResult}"
+                    binding.tvTotalSearch.text = "Total: ${response.totalResult ?: 0}"
                     binding.tvTotalSearch.visibility = View.VISIBLE
 
                     binding.rvNewsSearch.visibility = View.VISIBLE

@@ -64,15 +64,16 @@
 
             <TextView
             android:id="@+id/tv_title_news"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="24dp"
             android:textSize="18sp"
             android:textStyle="bold"
             android:fontFamily="@font/app_font"
             android:text="@string/item_home_news_title"
             app:layout_constraintTop_toBottomOf="@id/cd_iv_detail_news"
+                app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
@@ -97,8 +98,7 @@
                 android:fontFamily="@font/app_font"
                 android:text="@string/item_home_news_date"
                 android:textAlignment="textEnd"
-                app:layout_constraintTop_toTopOf="@id/tv_title_news"
-                app:layout_constraintBottom_toBottomOf="@id/tv_title_news"
+                app:layout_constraintTop_toBottomOf="@id/tv_writer_news"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
@@ -110,16 +110,17 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginHorizontal="24dp"
                 android:text="@string/lorem_ipsum"
-                app:layout_constraintTop_toBottomOf="@id/tv_writer_news"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_news_date"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
+    <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:indeterminate="true"
         app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

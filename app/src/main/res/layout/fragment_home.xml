@@ -57,14 +57,50 @@
                 app:layout_constraintStart_toStartOf="@id/tv_home_greeting"
                 app:layout_constraintTop_toBottomOf="@id/tv_home_greeting" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_continue_course"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_no_course_inprogress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="2dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_continue_course_home">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                    <TextView
+                        android:id="@+id/tv_no_course_inprogress_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="16dp"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/app_font"
+                        android:textAlignment="center"
+                        android:textColor="?attr/colorPrimary"
+                        android:text="@string/no_course_inprogress_title"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_continue_course"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_continue_course_home"
+                android:visibility="invisible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
@@ -73,7 +109,7 @@
                     <ImageView
                         android:id="@+id/iv_continue_course"
                         android:layout_width="match_parent"
-                        android:layout_height="128dp"
+                        android:layout_height="match_parent"
                         android:contentDescription="@string/home_imgdesc_continue_course"
                         android:scaleType="centerCrop"
                         android:src="@drawable/img_placeholder"
@@ -85,15 +121,19 @@
                         android:id="@+id/tv_continue_course_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="16dp"
+                        android:layout_marginBottom="16dp"
                         android:layout_marginStart="16dp"
                         android:fontFamily="@font/app_font"
+                        android:textColor="@color/white"
                         android:text="@string/home_continue_course_title"
                         android:textSize="14sp"
                         android:textStyle="bold"
+                        android:shadowColor="@color/black"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="8"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/iv_continue_course" />
+                        app:layout_constraintStart_toStartOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 

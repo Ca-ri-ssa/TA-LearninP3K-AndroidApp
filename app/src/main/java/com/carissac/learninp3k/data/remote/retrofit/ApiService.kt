@@ -101,7 +101,7 @@ interface ApiService {
         id: Int
     ): Response<DetailNewsResponse>
 
-    @GET("news/date")
+    @GET("news/search")
     suspend fun searchNews(
         @Header("Authorization") token: String,
         @Query("news_title")

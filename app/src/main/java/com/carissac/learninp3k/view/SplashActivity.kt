@@ -12,11 +12,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.lifecycleScope
+import com.carissac.learninp3k.MainActivity
 import com.carissac.learninp3k.data.di.Injection
 import com.carissac.learninp3k.databinding.ActivitySplashBinding
 import com.carissac.learninp3k.view.auth.AuthViewModel
 import com.carissac.learninp3k.view.auth.AuthViewModelFactory
 import com.carissac.learninp3k.view.welcome.WelcomeActivity
+import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -46,22 +49,22 @@ class SplashActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this@SplashActivity, WelcomeActivity::class.java))
-            finish()
-        }, 2000)
-
 //        Handler(Looper.getMainLooper()).postDelayed({
-//            lifecycleScope.launch {
-//                authViewModel.sessionToken.observe(this@SplashActivity) { token ->
-//                    if(!token.isNullOrEmpty()) {
-//                        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-//                    } else {
-//                        startActivity(Intent(this@SplashActivity, WelcomeActivity::class.java))
-//                    }
-//                    finish()
-//                }
-//            }
+//            startActivity(Intent(this@SplashActivity, WelcomeActivity::class.java))
+//            finish()
 //        }, 2000)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            lifecycleScope.launch {
+                authViewModel.sessionToken.observe(this@SplashActivity) { token ->
+                    if(!token.isNullOrEmpty()) {
+                        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                    } else {
+                        startActivity(Intent(this@SplashActivity, WelcomeActivity::class.java))
+                    }
+                    finish()
+                }
+            }
+        }, 2000)
     }
 }

@@ -9,7 +9,8 @@ import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun formatDate(timestamp: String): String {
-    val inputFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.getDefault())
+    val localeID = Locale("id", "ID")
+    val inputFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy", localeID)
     val date = ZonedDateTime.parse(timestamp)
     return date.format(inputFormat)
 }

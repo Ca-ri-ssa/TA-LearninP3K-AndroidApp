@@ -10,6 +10,7 @@
         <item name="colorOnError">@color/darkRed</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorSecondaryContainer">@color/blue</item>
+        <item name="android:fontFamily">@font/app_font</item>
     </style>
 
     <style name="ColorSuccessStyle">

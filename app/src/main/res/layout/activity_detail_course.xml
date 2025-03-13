@@ -16,7 +16,8 @@
         app:navigationIcon="@drawable/arrow_back_icon_24dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/option_menu_course_detail">
         <TextView
             android:id="@+id/toolbarTitle"
             android:layout_width="wrap_content"
@@ -55,6 +56,17 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/tv_vid_source_creator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="24dp"
+                android:fontFamily="@font/app_font"
+                android:text="Sumber: Nama kreator"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cd_vid_detail_course"/>
+
+            <TextView
                 android:id="@+id/tv_title_course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,7 +76,7 @@
                 android:text="@string/item_home_course_title"
                 app:layout_constraintTop_toBottomOf="@id/cd_vid_detail_course"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="48dp"
                 android:layout_marginStart="24dp"/>
 
             <TextView

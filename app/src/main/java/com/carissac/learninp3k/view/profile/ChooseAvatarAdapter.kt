@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -40,7 +41,8 @@ class ChooseAvatarAdapter: ListAdapter<AvatarResponseItem, ChooseAvatarAdapter.A
                 val intent = Intent(context, EditProfileActivity::class.java)
                 intent.putExtra("avatar_id", avatar.avatarId)
                 intent.putExtra("avatar_img", avatar.avatarImg)
-                context.startActivity(intent)
+                (context as? ChooseAvatarActivity)?.setResult(AppCompatActivity.RESULT_OK, intent)
+                (context as? ChooseAvatarActivity)?.finish()
             }
         }
     }

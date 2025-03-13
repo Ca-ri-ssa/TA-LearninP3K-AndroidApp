@@ -161,4 +161,6 @@
     </string>
     <string name="title_quiz_weekly_challenge">Nilai Weekly Challenge</string>
     <string name="nama_penulis">Nama Penulis</string>
+    <string name="no_course_inprogress_title">Tidak ada kelas yang sedang dipelajari\nAyo daftar kelas baru!</string>
+    <string name="quiz_btn">Kuis</string>
 </resources>
