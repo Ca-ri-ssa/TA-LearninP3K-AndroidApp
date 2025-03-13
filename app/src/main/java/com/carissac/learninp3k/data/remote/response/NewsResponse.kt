@@ -26,3 +26,23 @@ data class NewsResponseItem(
     @field:SerializedName("published_at")
     val publishedAt: String? = null
 )
+
+data class DetailNewsResponse(
+    @field:SerializedName("news_id")
+    val newsId: Int? = null,
+
+    @field:SerializedName("news_title")
+    val newsTitle: String? = null,
+
+    @field:SerializedName("news_content")
+    val newsContent: String? = null,
+
+    @field:SerializedName("news_img")
+    val newsImg: String? = null,
+
+    @field:SerializedName("news_writer")
+    val newsWriter: String? = null,
+
+    @field:SerializedName("published_at")
+    val publishedAt: String? = null
+)

@@ -3,6 +3,7 @@ package com.carissac.learninp3k.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.carissac.learninp3k.data.local.UserPreference
+import com.carissac.learninp3k.data.remote.response.DetailNewsResponse
 import com.carissac.learninp3k.data.remote.response.NewsResponseItem
 import com.carissac.learninp3k.data.remote.response.SearchNewsResponse
 import com.carissac.learninp3k.data.remote.retrofit.ApiService
@@ -20,8 +21,8 @@ class NewsRepository private constructor(
     private val _listNewsResult = MutableLiveData<Result<List<NewsResponseItem>>>()
     val listNewsResult: LiveData<Result<List<NewsResponseItem>>> = _listNewsResult
 
-    private val _newsResult = MutableLiveData<Result<NewsResponseItem>>()
-    val newsResult: LiveData<Result<NewsResponseItem>> = _newsResult
+    private val _newsResult = MutableLiveData<Result<DetailNewsResponse>>()
+    val newsResult: LiveData<Result<DetailNewsResponse>> = _newsResult
 
     private val _searchNewsResult = MutableLiveData<Result<SearchNewsResponse>>()
     val searchNewsResult: LiveData<Result<SearchNewsResponse>> = _searchNewsResult
@@ -33,7 +34,18 @@ class NewsRepository private constructor(
     suspend fun getAllNews(token: String) {
         _isLoading.postValue(true)
         try {
-
+            val response = apiService.getAllNews("Bearer $token")
+            if(response.isSuccessful) {
+                val allNewsResponse = response.body()
+                if(allNewsResponse != null) {
+                    _listNewsResult.postValue(Result.success(allNewsResponse))
+                } else {
+                    _listNewsResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil semua berita"
+                _listNewsResult.postValue(Result.failure(Exception(errorMessage)))
+            }
         } catch (e: IOException) {
             _listNewsResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
         } catch (e: HttpException) {
@@ -46,7 +58,18 @@ class NewsRepository private constructor(
     suspend fun getDetailNews(token: String, id: Int) {
         _isLoading.postValue(true)
         try {
-
+            val response = apiService.getNewsDetail("Bearer $token", id)
+            if(response.isSuccessful) {
+                val detailNewsResponse = response.body()
+                if(detailNewsResponse != null) {
+                    _newsResult.postValue(Result.success(detailNewsResponse))
+                } else {
+                    _newsResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data berita"
+                _newsResult.postValue(Result.failure(Exception(errorMessage)))
+            }
         } catch (e: IOException) {
             _newsResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
         } catch (e: HttpException) {

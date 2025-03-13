@@ -23,7 +23,7 @@ class ProfileViewModel(private val repository: UserRepository): ViewModel() {
     fun getUserLeaderboard() {
         viewModelScope.launch {
             val token = repository.getUserSession().first() ?: ""
-            if (token.isNotEmpty()) {
+            if(token.isNotEmpty()) {
                 repository.getUserLeaderboard(token)
             }
         }
@@ -32,7 +32,7 @@ class ProfileViewModel(private val repository: UserRepository): ViewModel() {
     fun getProfile() {
         viewModelScope.launch {
             val token = repository.getUserSession().first() ?: ""
-            if (token.isNotEmpty()) {
+            if(token.isNotEmpty()) {
                 repository.getProfile(token)
             }
         }

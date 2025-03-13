@@ -10,6 +10,7 @@ import com.carissac.learninp3k.data.remote.response.CourseIntroResponse
 import com.carissac.learninp3k.data.remote.response.CourseNearestResponse
 import com.carissac.learninp3k.data.remote.response.CourseResponse
 import com.carissac.learninp3k.data.remote.response.CourseStatusResponse
+import com.carissac.learninp3k.data.remote.response.DetailNewsResponse
 import com.carissac.learninp3k.data.remote.response.LeaderboardResponse
 import com.carissac.learninp3k.data.remote.response.LoginResponse
 import com.carissac.learninp3k.data.remote.response.NewsResponseItem
@@ -98,7 +99,7 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id")
         id: Int
-    ): Response<NewsResponseItem>
+    ): Response<DetailNewsResponse>
 
     @GET("news/date")
     suspend fun searchNews(
