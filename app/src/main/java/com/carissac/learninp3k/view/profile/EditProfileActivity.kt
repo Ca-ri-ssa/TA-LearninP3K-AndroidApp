@@ -77,7 +77,6 @@ class EditProfileActivity : AppCompatActivity() {
                 binding.edtEmail.setText(profile.email)
 
                 if (selectedAvatarId == null || selectedAvatarId == -1 || selectedAvatarImg.isNullOrEmpty()) {
-                    selectedAvatarId = profile.id
                     selectedAvatarImg = profile.avatarImg
                 }
 
@@ -99,20 +98,21 @@ class EditProfileActivity : AppCompatActivity() {
             val name = binding.edtUsername.text.toString().trim()
             val email = binding.edtEmail.text.toString().trim()
 
-            if(name.isEmpty() || email.isEmpty() || selectedAvatarId == null)
+            if(name.isEmpty() || email.isEmpty())
             {
                 showToast("Semua harus terisi dan avatar terpilih")
                 return@setOnClickListener
             }
 
-            profileViewModel.updateProfile(name, email, selectedAvatarId!!)
+            val isAvatarSelected = if (selectedAvatarId == -1) null else selectedAvatarId
+
+            profileViewModel.updateProfile(name, email, isAvatarSelected)
         }
 
+        // TODO FIX: no make toast twice like appear in setting activity
         profileViewModel.updateProfileResult.observe(this) { result ->
             result.onSuccess { response ->
                 showToast("Profil berhasil diperbarui")
-                setResult(RESULT_OK)
-                finish()
             }.onFailure { response ->
                 showToast("Gagal memperbarui profil, Silahkan coba kembali")
             }

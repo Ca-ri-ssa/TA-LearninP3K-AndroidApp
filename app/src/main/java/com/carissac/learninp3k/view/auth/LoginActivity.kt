@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -21,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     private val authViewModel: AuthViewModel by viewModels {
-        AuthViewModelFactory(Injection.provideUserRepository(this))
+        AuthViewModelFactory(Injection.provideUserRepository(applicationContext))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,18 +59,6 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.btnLogin.setOnClickListener {
-            val email = binding.edtEmail.text.toString()
-            val password = binding.edtPassword.text.toString()
-
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                authViewModel.userLogin(email, password)
-            }
-        }
-
         authViewModel.loginResult.observe(this) { result ->
             result.onSuccess {
                 showToast("Anda berhasil login")
@@ -84,6 +73,16 @@ class LoginActivity : AppCompatActivity() {
 
         authViewModel.isLoading.observe(this) { isLoading ->
             showLoading(isLoading)
+        }
+
+        binding.btnLogin.setOnClickListener {
+            val email = binding.edtEmail.text.toString()
+            val password = binding.edtPassword.text.toString()
+            Log.e("User Input", "$email and $password")
+
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                authViewModel.userLogin(email, password)
+            }
         }
     }
 

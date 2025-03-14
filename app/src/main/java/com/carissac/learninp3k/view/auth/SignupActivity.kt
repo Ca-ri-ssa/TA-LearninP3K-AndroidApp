@@ -61,9 +61,6 @@ class SignupActivity : AppCompatActivity() {
             val password = binding.edtPassword.text.toString()
             val confirmPassword = binding.edtConfirmPassword.text.toString()
 
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-
             if (username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
                 authViewModel.userRegister(username, email, password)
             }

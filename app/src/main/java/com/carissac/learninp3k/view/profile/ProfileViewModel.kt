@@ -56,7 +56,7 @@ class ProfileViewModel(private val repository: UserRepository): ViewModel() {
         }
     }
 
-    fun updateProfile(name: String, email: String, avatarId: Int) {
+    fun updateProfile(name: String, email: String, avatarId: Int?) {
         viewModelScope.launch {
             val token = repository.getUserSession().first() ?: ""
             if(token.isNotEmpty()) {

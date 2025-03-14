@@ -72,7 +72,7 @@ interface ApiService {
         @Field("user_email")
         email: String,
         @Field("avatar_id")
-        avatarId: Int
+        avatarId: Int?
     ): Response<ProfileResultResponse>
 
     @GET("avatars")

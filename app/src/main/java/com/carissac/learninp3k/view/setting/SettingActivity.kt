@@ -3,6 +3,7 @@ package com.carissac.learninp3k.view.setting
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
@@ -74,6 +75,7 @@ class SettingActivity : AppCompatActivity() {
         setContent()
 
         binding.btnEditProfile.setOnClickListener {
+            Log.d("SettingActivity", "Edit Profile Button Clicked")
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)
         }

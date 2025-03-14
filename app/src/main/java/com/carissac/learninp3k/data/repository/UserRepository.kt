@@ -214,7 +214,7 @@ class UserRepository private constructor(
         }
     }
 
-    suspend fun updateProfile(token: String, name: String, email: String, avatarId: Int) {
+    suspend fun updateProfile(token: String, name: String, email: String, avatarId: Int?) {
         _isLoading.postValue(true)
         try {
             val response: Response<ProfileResultResponse> = apiService.updateProfile("Bearer $token", name, email, avatarId)
