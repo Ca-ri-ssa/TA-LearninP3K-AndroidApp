@@ -3,6 +3,7 @@ package com.carissac.learninp3k.view.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.carissac.learninp3k.data.remote.response.AvatarDetailResponse
 import com.carissac.learninp3k.data.remote.response.AvatarResponseItem
@@ -19,7 +20,8 @@ class ProfileViewModel(private val repository: UserRepository): ViewModel() {
     val profileResult: LiveData<Result<ProfileResponse>> = repository.profileResult
     val listAvatarResult: LiveData<Result<List<AvatarResponseItem>>> = repository.listAvatarResult
     val avatarResult: LiveData<Result<AvatarDetailResponse>> = repository.avatarResult
-//    val updateProfileResult: LiveData<Result<ProfileResultResponse>> = repository.updateProfileResult
+
+    val userName: LiveData<String?> = repository.getUserName().asLiveData()
 
     private val _updateProfileResult = MutableLiveData<Event<Result<ProfileResultResponse>>>()
     val updateProfileResult: LiveData<Event<Result<ProfileResultResponse>>> = _updateProfileResult

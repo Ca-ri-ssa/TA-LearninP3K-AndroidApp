@@ -55,12 +55,11 @@
 
     <TextView
         android:id="@+id/tv_total_point_user_rank"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:text="@string/total_point"
         android:fontFamily="@font/app_font"
         android:textSize="14sp"
-        android:textAlignment="textEnd"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

@@ -65,4 +65,10 @@
     <style name="HelperTextStyle" parent="TextAppearance.MaterialComponents.Caption">
         <item name="fontFamily">@font/app_font</item>
     </style>
+
+    <style name="LeaderboardStyleHighlightedText">
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:fontFamily">@font/app_font</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

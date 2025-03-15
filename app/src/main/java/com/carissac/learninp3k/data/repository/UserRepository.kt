@@ -56,6 +56,10 @@ class UserRepository private constructor(
         return userPreference.getUserToken()
     }
 
+    fun getUserName() : Flow<String?> {
+        return userPreference.getUsername()
+    }
+
     suspend fun register(name: String, email: String, password: String) {
         _isLoading.postValue(true)
         try {
