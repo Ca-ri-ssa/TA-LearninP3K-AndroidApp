@@ -214,28 +214,28 @@ class UserRepository private constructor(
         }
     }
 
-    suspend fun updateProfile(token: String, name: String, email: String, avatarId: Int?) {
+    suspend fun updateProfile(token: String, name: String, email: String, avatarId: Int?): ProfileResultResponse {
         _isLoading.postValue(true)
-        try {
+        return try {
             val response: Response<ProfileResultResponse> = apiService.updateProfile("Bearer $token", name, email, avatarId)
-            if(response.isSuccessful) {
+            if (response.isSuccessful) {
                 val updateResponse = response.body()
-                if(updateResponse != null) {
+                if (updateResponse != null) {
                     withContext(Dispatchers.IO) {
                         userPreference.updateUserProfile(name, email)
                     }
                     _updateProfileResult.postValue(Result.success(updateResponse))
+                    updateResponse
                 } else {
-                    _updateProfileResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+                    throw Exception("Respon kosong dari server")
                 }
             } else {
-                val errorMessage = response.errorBody()?.string() ?: "Gagal memperbarui profil"
-                _updateProfileResult.postValue(Result.failure(Exception(errorMessage)))
+                throw Exception(response.errorBody()?.string() ?: "Gagal memperbarui profil")
             }
         } catch (e: IOException) {
-            _updateProfileResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+            throw Exception("Gagal terhubung ke server", e)
         } catch (e: HttpException) {
-            _updateProfileResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+            throw Exception("Terjadi kesalahan server", e)
         } finally {
             _isLoading.postValue(false)
         }

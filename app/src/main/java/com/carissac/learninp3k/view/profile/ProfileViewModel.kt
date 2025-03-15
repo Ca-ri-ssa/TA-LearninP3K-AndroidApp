@@ -1,6 +1,7 @@
 package com.carissac.learninp3k.view.profile
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.carissac.learninp3k.data.remote.response.AvatarDetailResponse
@@ -18,7 +19,10 @@ class ProfileViewModel(private val repository: UserRepository): ViewModel() {
     val profileResult: LiveData<Result<ProfileResponse>> = repository.profileResult
     val listAvatarResult: LiveData<Result<List<AvatarResponseItem>>> = repository.listAvatarResult
     val avatarResult: LiveData<Result<AvatarDetailResponse>> = repository.avatarResult
-    val updateProfileResult: LiveData<Result<ProfileResultResponse>> = repository.updateProfileResult
+//    val updateProfileResult: LiveData<Result<ProfileResultResponse>> = repository.updateProfileResult
+
+    private val _updateProfileResult = MutableLiveData<Event<Result<ProfileResultResponse>>>()
+    val updateProfileResult: LiveData<Event<Result<ProfileResultResponse>>> = _updateProfileResult
 
     fun getUserLeaderboard() {
         viewModelScope.launch {
@@ -59,9 +63,27 @@ class ProfileViewModel(private val repository: UserRepository): ViewModel() {
     fun updateProfile(name: String, email: String, avatarId: Int?) {
         viewModelScope.launch {
             val token = repository.getUserSession().first() ?: ""
-            if(token.isNotEmpty()) {
-                repository.updateProfile(token, name, email, avatarId)
+            if (token.isNotEmpty()) {
+                try {
+                    val response = repository.updateProfile(token, name, email, avatarId)
+                    _updateProfileResult.postValue(Event(Result.success(response)))
+                } catch (e: Exception) {
+                    _updateProfileResult.postValue(Event(Result.failure(e)))
+                }
             }
+        }
+    }
+}
+
+class Event<out T>(private val content: T) {
+    private var hasBeenHandled = false
+
+    fun getContentIfNotHandled(): T? {
+        return if (hasBeenHandled) {
+            null
+        } else {
+            hasBeenHandled = true
+            content
         }
     }
 }

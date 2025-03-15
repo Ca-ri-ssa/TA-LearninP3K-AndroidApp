@@ -109,11 +109,11 @@ class EditProfileActivity : AppCompatActivity() {
             profileViewModel.updateProfile(name, email, isAvatarSelected)
         }
 
-        // TODO FIX: no make toast twice like appear in setting activity
-        profileViewModel.updateProfileResult.observe(this) { result ->
-            result.onSuccess { response ->
+        profileViewModel.updateProfileResult.observe(this) { event ->
+            event.getContentIfNotHandled()?.onSuccess {
                 showToast("Profil berhasil diperbarui")
-            }.onFailure { response ->
+                finish()
+            }?.onFailure {
                 showToast("Gagal memperbarui profil, Silahkan coba kembali")
             }
         }
