@@ -22,8 +22,8 @@ import com.carissac.learninp3k.data.remote.response.SearchNewsResponse
 import com.carissac.learninp3k.data.remote.response.SubmitAttemptRequest
 import com.carissac.learninp3k.data.remote.response.TakeAttemptResponse
 import com.carissac.learninp3k.data.remote.response.TakeWeeklyChallengeResponse
-import com.carissac.learninp3k.data.remote.response.UserBadgeItemResponse
 import com.carissac.learninp3k.data.remote.response.UserBadgeResponse
+import com.carissac.learninp3k.data.remote.response.UserBadgeResponseItem
 import com.carissac.learninp3k.data.remote.response.UserLeaderboardResponse
 import com.carissac.learninp3k.data.remote.response.WeeklyChallengeResponse
 import retrofit2.Response
@@ -209,7 +209,7 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("category")
         category: String = "all"
-    ): Response<List<UserBadgeItemResponse>>
+    ): Response<List<UserBadgeResponseItem>>
 
     @GET("leaderboards/users/badges/{id}")
     suspend fun getUserBadgeById(

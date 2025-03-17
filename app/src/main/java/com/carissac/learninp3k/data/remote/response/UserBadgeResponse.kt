@@ -22,7 +22,7 @@ data class UserBadgeResponse (
     val createdAt: String? = null
 )
 
-data class UserBadgeItemResponse (
+data class UserBadgeResponseItem (
     @field:SerializedName("badge_id")
     val badgeId: Int? = null,
 

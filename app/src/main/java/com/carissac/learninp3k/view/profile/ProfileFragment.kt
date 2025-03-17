@@ -1,24 +1,41 @@
 package com.carissac.learninp3k.view.profile
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupWindow
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.carissac.learninp3k.data.di.Injection
+import com.carissac.learninp3k.data.remote.response.UserBadgeResponse
 import com.carissac.learninp3k.databinding.FragmentProfileBinding
+import com.carissac.learninp3k.databinding.PopUpBadgeBinding
 import com.carissac.learninp3k.view.leaderboard.LeaderboardActivity
+import com.carissac.learninp3k.view.leaderboard.LeaderboardViewModel
+import com.carissac.learninp3k.view.leaderboard.LeaderboardViewModelFactory
 import com.carissac.learninp3k.view.setting.SettingActivity
+import com.carissac.learninp3k.view.utils.GridSpacingItemDecoration
+import com.carissac.learninp3k.view.utils.formatDate
 
 class ProfileFragment : Fragment() {
     private lateinit var binding : FragmentProfileBinding
+    private lateinit var badgeAdapter: BadgeAdapter
+    private var currentPopupWindow: PopupWindow? = null
 
     private val profileViewModel: ProfileViewModel by viewModels {
         ProfileViewModelFactory(Injection.provideUserRepository(requireContext()))
+    }
+
+    private val leaderboardViewModel: LeaderboardViewModel by viewModels {
+        LeaderboardViewModelFactory(Injection.provideLeaderboardRepository(requireContext()))
     }
 
     override fun onCreateView(
@@ -29,6 +46,7 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -53,6 +71,16 @@ class ProfileFragment : Fragment() {
             showLoading(isLoading)
         }
 
+        setupBadgeList()
+
+        leaderboardViewModel.userBadgeResult.observe(viewLifecycleOwner) { response ->
+            response.onSuccess { badgeDetail ->
+                showBadgePopUp(badgeDetail)
+            }.onFailure {
+                showToast("Gagal mengambil detail badge")
+            }
+        }
+
         binding.ivIcSetting.setOnClickListener {
             val intent = Intent(requireContext(), SettingActivity::class.java)
             startActivity(intent)
@@ -62,6 +90,69 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireContext(), LeaderboardActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setupBadgeList() {
+        badgeAdapter = BadgeAdapter { id ->
+            leaderboardViewModel.getUserBadgeById(id)
+        }
+
+        binding.rvBadge.apply {
+            layoutManager = GridLayoutManager(requireContext(), 3)
+            adapter = badgeAdapter
+            addItemDecoration(GridSpacingItemDecoration(16))
+        }
+
+        leaderboardViewModel.listBadgeResult.observe(viewLifecycleOwner) { response ->
+            response.onSuccess { listBadge ->
+                badgeAdapter.submitList(listBadge)
+            }.onFailure {
+                showToast("Gagal mengambil data badge")
+            }
+        }
+
+        leaderboardViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            showLoading(isLoading)
+        }
+
+        leaderboardViewModel.getAllUserBadge()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun showBadgePopUp(badgeDetail: UserBadgeResponse) {
+        if (currentPopupWindow != null) return
+
+        val bindingPopUp = PopUpBadgeBinding.inflate(layoutInflater)
+        val viewPopUp = bindingPopUp.root
+        val windowPopUp = PopupWindow(
+            viewPopUp,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        ).apply {
+            isOutsideTouchable = true
+            showAtLocation(requireView(), Gravity.CENTER, 0, 0)
+            setOnDismissListener { currentPopupWindow = null }
+        }
+
+        bindingPopUp.tvBadgeName.text = badgeDetail.badgeName
+        val badgeCategory = if(badgeDetail.badgeCategory.equals("Course", ignoreCase = true)) "Kelas" else badgeDetail.badgeCategory
+        bindingPopUp.tvBadgeCategory.text = badgeCategory
+        bindingPopUp.tvBadgeDesc.text = badgeDetail.badgeDesc
+        bindingPopUp.tvBadgeDate.text = formatDate(badgeDetail.createdAt ?: "")
+
+        Glide.with(requireContext())
+            .load(badgeDetail.badgeImg)
+            .centerCrop()
+            .into(bindingPopUp.ivBadge)
+
+        bindingPopUp.btnClose.setOnClickListener {
+            windowPopUp.dismiss()
+            currentPopupWindow = null
+        }
+
+        currentPopupWindow = windowPopUp
     }
 
     private fun showLoading(isLoading: Boolean) {

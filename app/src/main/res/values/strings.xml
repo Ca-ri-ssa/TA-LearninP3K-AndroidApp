@@ -47,36 +47,36 @@
 
     <!--All Course Fragment-->
     <string name="course_availability">kelas tersedia</string>
-    <string name="total_course_availability">30</string>
+    <string name="total_course_availability">Jumlah Kelas</string>
 
     <!--Continue Course Fragment-->
     <string name="course_continue">kelas sedang dipelajari</string>
-    <string name="total_course_continue">10</string>
+    <string name="total_course_continue">Jumlah Kelas</string>
     <string name="no_continue_course">Ayo mulai belajar dengan\nkelas pilihan Anda</string>
     <string name="content_desc_continue_course">Karakter Medica sedang memegang buku</string>
 
     <!--Finished Course Fragment-->
     <string name="course_finished">kelas selesai dipelajari</string>
-    <string name="total_course_finished">0</string>
+    <string name="total_course_finished">Jumlah Kelas</string>
     <string name="no_finished_course">Mari selesaikan kelas Anda\ndan terus eksplorasi kelas baru</string>
     <string name="content_desc_finished_course">Karakter Nouri memberikan dua buku</string>
 
     <!--Profile Fragment-->
     <string name="content_desc_ic_point">Icon Poin</string>
-    <string name="total_point">100</string>
+    <string name="total_point">Nomor Poin</string>
     <string name="content_desc_ic_badge">Icon Badge</string>
-    <string name="total_badge">25</string>
+    <string name="total_badge">Nomor Badge</string>
     <string name="text_btn_leaderboard">Lihat Leaderboard</string>
     <string name="content_desc_ic_setting">Icon Setting</string>
 
     <!--item profile badge-->
-    <string name="title_badge">First 100 Point</string>
-    <string name="date_badge">10 Nov 2024</string>
+    <string name="title_badge">Judul Badge</string>
+    <string name="date_badge">Tanggal Badge</string>
 
     <!--Setting Activity-->
     <string name="title_toolbar_setting">Pengaturan</string>
-    <string name="user_email">rissa.cure@gmail.com</string>
-    <string name="user_date">31 Juli 2024</string>
+    <string name="user_email">Email User</string>
+    <string name="user_date">Tanggal Daftar</string>
     <string name="edit_profile">Sunting Profil</string>
     <string name="log_out">Keluar</string>
     <string name="dark_theme">Tema Gelap</string>
@@ -163,4 +163,7 @@
     <string name="nama_penulis">Nama Penulis</string>
     <string name="no_course_inprogress_title">Tidak ada kelas yang sedang dipelajari\nAyo daftar kelas baru!</string>
     <string name="quiz_btn">Kuis</string>
+    <string name="badge_desc">Deskripsi Badge</string>
+    <string name="badge_category">Kategori Badge</string>
+    <string name="btn_close">Tutup</string>
 </resources>
