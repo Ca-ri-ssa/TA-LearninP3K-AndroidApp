@@ -12,8 +12,8 @@
         android:layout_height="wrap_content" >
         <ImageView
             android:id="@+id/iv_item_course"
-            android:layout_width="108dp"
-            android:layout_height="108dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:src="@drawable/img_placeholder"
             android:scaleType="centerCrop"
             android:contentDescription="@string/item_course_contentdesc"
@@ -29,7 +29,7 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/app_font"
             android:textStyle="bold"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:text="@string/item_home_course_title"
             app:layout_constraintBottom_toTopOf="@id/tv_item_course_desc"
             app:layout_constraintEnd_toEndOf="parent"

@@ -57,8 +57,7 @@
         app:boxCornerRadiusBottomEnd="8dp"
         app:boxStrokeColor="@color/input_text_field_color"
         app:layout_constraintTop_toBottomOf="@id/tv_title_email"
-        app:layout_constraintStart_toStartOf="parent"
-        app:helperTextTextAppearance="@style/HelperTextStyle">
+        app:layout_constraintStart_toStartOf="parent" >
 
         <com.carissac.learninp3k.view.customview.EditTextEmail
             android:id="@+id/edt_email"
@@ -98,8 +97,7 @@
         app:boxCornerRadiusBottomEnd="8dp"
         app:endIconTint="?attr/colorPrimary"
         android:layout_marginHorizontal="24dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_password"
-        app:helperTextTextAppearance="@style/HelperTextStyle">
+        app:layout_constraintTop_toBottomOf="@id/tv_title_password" >
 
         <com.carissac.learninp3k.view.customview.EditTextPasswordLogin
             android:id="@+id/edt_password"

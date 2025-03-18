@@ -129,13 +129,14 @@ class SettingActivity : AppCompatActivity() {
         val switchTheme = binding.toggleDarkMode
 
         settingViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
-            if (isDarkModeActive) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                switchTheme.isChecked = true
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                switchTheme.isChecked = false
+            val currentMode = AppCompatDelegate.getDefaultNightMode()
+            val newMode = if (isDarkModeActive) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+
+            if (currentMode != newMode) {
+                AppCompatDelegate.setDefaultNightMode(newMode)
             }
+
+            switchTheme.isChecked = isDarkModeActive
         }
 
         switchTheme.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->

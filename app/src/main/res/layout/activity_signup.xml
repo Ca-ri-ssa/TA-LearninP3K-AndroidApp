@@ -56,8 +56,7 @@
         app:boxCornerRadiusTopEnd="8dp"
         app:boxCornerRadiusTopStart="8dp"
         app:boxStrokeColor="@color/input_text_field_color"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_username"
-        app:helperTextTextAppearance="@style/HelperTextStyle">
+        app:layout_constraintTop_toBottomOf="@id/tv_title_username" >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_username"
@@ -94,8 +93,7 @@
         app:boxStrokeColor="@color/input_text_field_color"
         app:errorEnabled="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_email"
-        app:helperTextTextAppearance="@style/HelperTextStyle">
+        app:layout_constraintTop_toBottomOf="@id/tv_title_email" >
 
         <com.carissac.learninp3k.view.customview.EditTextEmail
             android:id="@+id/edt_email"
@@ -135,8 +133,7 @@
         app:endIconMode="password_toggle"
         app:endIconTint="?attr/colorPrimary"
         app:errorEnabled="true"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_password"
-        app:helperTextTextAppearance="@style/HelperTextStyle">
+        app:layout_constraintTop_toBottomOf="@id/tv_title_password" >
 
         <com.carissac.learninp3k.view.customview.EditTextPassword
             android:id="@+id/edt_password"
@@ -176,8 +173,7 @@
         app:endIconMode="password_toggle"
         app:endIconTint="?attr/colorPrimary"
         app:errorEnabled="true"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_confirm_password"
-        app:helperTextTextAppearance="@style/HelperTextStyle">
+        app:layout_constraintTop_toBottomOf="@id/tv_title_confirm_password" >
 
         <com.carissac.learninp3k.view.customview.EditTextConfirmPassword
             android:id="@+id/edt_confirm_password"

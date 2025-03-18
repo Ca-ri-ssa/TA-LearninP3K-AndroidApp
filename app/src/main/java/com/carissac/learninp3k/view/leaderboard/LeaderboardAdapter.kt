@@ -40,6 +40,7 @@ class LeaderboardAdapter(private val userId: Int): ListAdapter<LeaderboardRespon
                     tvUsernameRank.text = "Anda"
                     tvUsernameRank.setTextAppearance(R.style.LeaderboardStyleHighlightedText)
                     tvTotalPointUserRank.setTextAppearance(R.style.LeaderboardStyleHighlightedText)
+                    tvNumRank.setTextAppearance(R.style.LeaderboardStyleHighlightedText)
                 }
             }
         }

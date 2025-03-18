@@ -14,7 +14,6 @@
         android:textAlignment="textStart"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="?attr/colorPrimary"
         android:fontFamily="@font/app_font"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

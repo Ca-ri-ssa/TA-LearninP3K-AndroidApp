@@ -40,16 +40,14 @@ class EditTextPasswordLogin @JvmOverloads constructor(
 
     private fun validatePassword(password: String) {
         textInputLayout?.let { layout ->
-            val errorColor = ContextCompat.getColorStateList(context, R.color.red)
-
             when {
                 password.isEmpty() -> {
                     layout.helperText = "Password wajib diisi"
-                    layout.setHelperTextColor(errorColor)
+                    layout.setHelperTextTextAppearance(R.style.HelperTextStyle_Error)
                 }
                 password.length < 8 -> {
                     layout.helperText = "Password harus minimal 8 karakter\nTambahkan lebih banyak karakter"
-                    layout.setHelperTextColor(errorColor)
+                    layout.setHelperTextTextAppearance(R.style.HelperTextStyle_Error)
                 }
                 else -> {
                     layout.helperText = null

@@ -40,30 +40,26 @@ class EditTextPassword @JvmOverloads constructor(
 
     private fun validatePassword(password: String) {
         textInputLayout?.let { layout ->
-            val errorColor = ContextCompat.getColorStateList(context, R.color.red)
-            val successColor = ContextCompat.getColorStateList(context, R.color.green)
-            val warningColor = ContextCompat.getColorStateList(context, R.color.yellow)
-
             when {
                 password.isEmpty() -> {
                     layout.helperText = "Password wajib diisi"
-                    layout.setHelperTextColor(errorColor)
+                    layout.setHelperTextTextAppearance(R.style.HelperTextStyle_Error)
                 }
                 password.length < 8 -> {
                     layout.helperText = "Password harus minimal 8 karakter\nTambahkan lebih banyak karakter"
-                    layout.setHelperTextColor(errorColor)
+                    layout.setHelperTextTextAppearance(R.style.HelperTextStyle_Error)
                 }
                 isStrongPassword(password) -> {
                     layout.helperText = "Password kuat"
-                    layout.setHelperTextColor(successColor)
+                    layout.setHelperTextTextAppearance(R.style.HelperTextStyle_Success)
                 }
                 isMediumPassword(password) -> {
                     layout.helperText = "Password kurang kuat\nTambahkan karakter spesial (!@#\\\$%^&*)"
-                    layout.setHelperTextColor(warningColor)
+                    layout.setHelperTextTextAppearance(R.style.HelperTextStyle_Warning)
                 }
                 else -> {
                     layout.helperText = "Password lemah\nKombinasikan huruf, angka, dan karakter spesial"
-                    layout.setHelperTextColor(errorColor)
+                    layout.setHelperTextTextAppearance(R.style.HelperTextStyle_Error)
                 }
             }
         }

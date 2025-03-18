@@ -89,6 +89,8 @@ class NewsFragment : Fragment() {
     private fun observeSearchResult() {
         newsViewModel.searchNewsResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
+                val query = binding.searchBarNews.text.toString()
+
                 if(!response.news.isNullOrEmpty()) {
                     binding.tvTotalSearch.text = "Total: ${response.totalResult ?: 0}"
                     binding.tvTotalSearch.visibility = View.VISIBLE
@@ -103,6 +105,7 @@ class NewsFragment : Fragment() {
                     binding.rvNewsSearch.visibility = View.GONE
                     binding.ivSearchMotivation.visibility = View.VISIBLE
                     binding.tvSearchMotivation.visibility = View.VISIBLE
+                    binding.tvSearchMotivation.text = "Tidak ada berita \"${query}\", Coba cari berita lainnya"
                 }
             }
         }

@@ -57,23 +57,20 @@ class EditTextConfirmPassword @JvmOverloads constructor(
 
     private fun validateConfirmPassword(confirmPassword: String) {
         textInputLayout?.let { layout ->
-            val errorColor = ContextCompat.getColorStateList(context, R.color.red)
-            val successColor = ContextCompat.getColorStateList(context, R.color.green)
-
             val originalPassword = originalPasswordField?.text?.toString() ?: ""
 
             when {
                 confirmPassword.isEmpty() -> {
                     layout.helperText = "Konfirmasi password wajib diisi"
-                    layout.setHelperTextColor(errorColor)
+                    layout.setHelperTextTextAppearance(R.style.HelperTextStyle_Error)
                 }
                 confirmPassword != originalPassword -> {
                     layout.helperText = "Password tidak cocok"
-                    layout.setHelperTextColor(errorColor)
+                    layout.setHelperTextTextAppearance(R.style.HelperTextStyle_Error)
                 }
                 else -> {
                     layout.helperText = "Password cocok"
-                    layout.setHelperTextColor(successColor)
+                    layout.setHelperTextTextAppearance(R.style.HelperTextStyle_Success)
                 }
             }
         }

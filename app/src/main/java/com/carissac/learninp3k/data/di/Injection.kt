@@ -4,6 +4,7 @@ import android.content.Context
 import com.carissac.learninp3k.data.local.UserPreference
 import com.carissac.learninp3k.data.local.dataStore
 import com.carissac.learninp3k.data.remote.retrofit.ApiConfig
+import com.carissac.learninp3k.data.repository.CourseRepository
 import com.carissac.learninp3k.data.repository.LeaderboardRepository
 import com.carissac.learninp3k.data.repository.NewsRepository
 import com.carissac.learninp3k.data.repository.UserRepository
@@ -25,5 +26,11 @@ object Injection {
         val apiService = ApiConfig.getApiService()
         val userPreference = UserPreference.getInstance(context.dataStore)
         return LeaderboardRepository.getInstance(apiService, userPreference)
+    }
+
+    fun provideCourseRepository(context: Context): CourseRepository {
+        val apiService = ApiConfig.getApiService()
+        val userPreference = UserPreference.getInstance(context.dataStore)
+        return CourseRepository.getInstance(apiService, userPreference)
     }
 }

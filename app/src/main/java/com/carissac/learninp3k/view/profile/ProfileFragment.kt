@@ -3,10 +3,12 @@ package com.carissac.learninp3k.view.profile
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -73,8 +75,8 @@ class ProfileFragment : Fragment() {
 
         setupBadgeList()
 
-        leaderboardViewModel.userBadgeResult.observe(viewLifecycleOwner) { response ->
-            response.onSuccess { badgeDetail ->
+        leaderboardViewModel.userBadgeResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { badgeDetail ->
                 showBadgePopUp(badgeDetail)
             }.onFailure {
                 showToast("Gagal mengambil detail badge")
@@ -104,8 +106,8 @@ class ProfileFragment : Fragment() {
             addItemDecoration(GridSpacingItemDecoration(16))
         }
 
-        leaderboardViewModel.listBadgeResult.observe(viewLifecycleOwner) { response ->
-            response.onSuccess { listBadge ->
+        leaderboardViewModel.listBadgeResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { listBadge ->
                 badgeAdapter.submitList(listBadge)
             }.onFailure {
                 showToast("Gagal mengambil data badge")
@@ -121,7 +123,11 @@ class ProfileFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showBadgePopUp(badgeDetail: UserBadgeResponse) {
-        if (currentPopupWindow != null) return
+        if (!isAdded || activity == null) return // Prevent crash if fragment is detached
+        if (currentPopupWindow != null) {
+            currentPopupWindow?.dismiss()
+            return
+        } // Avoid duplicate popups
 
         val bindingPopUp = PopUpBadgeBinding.inflate(layoutInflater)
         val viewPopUp = bindingPopUp.root
@@ -132,8 +138,18 @@ class ProfileFragment : Fragment() {
             true
         ).apply {
             isOutsideTouchable = true
-            showAtLocation(requireView(), Gravity.CENTER, 0, 0)
-            setOnDismissListener { currentPopupWindow = null }
+            setBackgroundDrawable(null)
+            view?.post { // Ensure popup is shown only when the UI is ready
+                if (isAdded) {
+                    dimBehind()
+                    showAtLocation(view, Gravity.CENTER, 0, 0)
+                }
+            }
+            setOnDismissListener {
+                Log.d("PopupDebug", "Popup dismissed")
+                currentPopupWindow = null
+                clearDim()
+            }
         }
 
         bindingPopUp.tvBadgeName.text = badgeDetail.badgeName
@@ -148,11 +164,26 @@ class ProfileFragment : Fragment() {
             .into(bindingPopUp.ivBadge)
 
         bindingPopUp.btnClose.setOnClickListener {
+            Log.d("PopupDebug", "Popup dismissed btn close")
             windowPopUp.dismiss()
+            clearDim()
             currentPopupWindow = null
         }
 
         currentPopupWindow = windowPopUp
+    }
+
+    private fun dimBehind() {
+        val window = requireActivity().window
+        val layoutParams = window.attributes
+        layoutParams.dimAmount = 0.5f
+        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND) // Correctly add the flag
+        window.attributes = layoutParams
+    }
+
+    private fun clearDim() {
+        val window = requireActivity().window
+        window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND) // Properly clear the flag
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -167,5 +198,12 @@ class ProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         profileViewModel.getUserLeaderboard()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        currentPopupWindow?.dismiss()
+        clearDim()
+        currentPopupWindow = null
     }
 }

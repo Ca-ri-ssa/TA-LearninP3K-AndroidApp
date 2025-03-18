@@ -41,17 +41,15 @@ class EditTextEmail @JvmOverloads constructor(
 
     private fun validateEmail(email: String) {
         textInputLayout?.let { layout ->
-            val errorColor = ContextCompat.getColorStateList(context, R.color.red)
-
             when {
                 email.isEmpty() -> {
                     layout.helperText = "Email wajib diisi"
-                    layout.setHelperTextColor(errorColor)
+                    layout.setHelperTextTextAppearance(R.style.HelperTextStyle_Error)
                 }
 
                 !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
                     layout.helperText = "Format email tidak valid"
-                    layout.setHelperTextColor(errorColor)
+                    layout.setHelperTextTextAppearance(R.style.HelperTextStyle_Error)
                 }
 
                 else -> {

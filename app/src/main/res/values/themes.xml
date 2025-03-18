@@ -73,15 +73,25 @@
         <item name="strokeWidth">2dp</item>
     </style>
 
-    <style name="HelperTextStyle" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="fontFamily">@font/app_font</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
     <style name="LeaderboardStyleHighlightedText">
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:fontFamily">@font/app_font</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="HelperTextStyle.Success" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/app_font</item>
+        <item name="android:textColor">@color/green</item>
+    </style>
+
+    <style name="HelperTextStyle.Warning" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/app_font</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+
+    <style name="HelperTextStyle.Error" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/app_font</item>
+        <item name="android:textColor">?attr/colorError</item>
     </style>
 
     <style name="Theme.LearninP3K" parent="Base.Theme.LearninP3K" />
