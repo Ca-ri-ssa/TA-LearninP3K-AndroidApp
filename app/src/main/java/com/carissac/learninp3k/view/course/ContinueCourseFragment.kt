@@ -39,10 +39,11 @@ class ContinueCourseFragment : Fragment() {
 
         courseViewModel.continueCourseResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
+                binding.tvContinueCourse.text = response.totalCourses?.toString() ?: "0"
+
                 if(!response.courses.isNullOrEmpty()) {
                     binding.ivNoContinueCourse.visibility = View.GONE
                     binding.tvNoContinueCourse.visibility = View.GONE
-                    binding.tvContinueCourse.text = response.totalCourses?.toString() ?: "0"
                     binding.rvContinueCourse.visibility = View.VISIBLE
                     courseAdapter.submitList(response.courses)
                 } else {
@@ -51,7 +52,7 @@ class ContinueCourseFragment : Fragment() {
                     binding.rvContinueCourse.visibility = View.GONE
                 }
             }.onFailure {
-                showToast("Gagal memuat data kelas")
+                showToast("Gagal memuat data kelas \"Sedang Belajar\"")
             }
         }
 

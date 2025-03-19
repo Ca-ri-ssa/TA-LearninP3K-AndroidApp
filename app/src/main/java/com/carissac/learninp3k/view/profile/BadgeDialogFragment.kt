@@ -1,7 +1,5 @@
 package com.carissac.learninp3k.view.profile
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -41,10 +39,7 @@ class BadgeDialogFragment : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.carissac.learninp3k.R
 import com.carissac.learninp3k.data.di.Injection
 import com.carissac.learninp3k.databinding.FragmentHomeBinding
 import com.carissac.learninp3k.view.challenge.WeeklyChallengeActivity
@@ -24,7 +25,6 @@ import com.carissac.learninp3k.view.news.NewsViewModelFactory
 import com.carissac.learninp3k.view.profile.ProfileViewModel
 import com.carissac.learninp3k.view.profile.ProfileViewModelFactory
 import retrofit2.HttpException
-import kotlin.getValue
 
 class HomeFragment : Fragment() {
     private lateinit var binding : FragmentHomeBinding
@@ -78,36 +78,39 @@ class HomeFragment : Fragment() {
             adapter = newsAdapter
         }
 
-        observerNearestCourse()
-        observerAllCourse()
-        observerAllNews()
+        observeNearestCourse()
+        observeAllCourse()
+        observeAllNews()
 
         courseViewModel.getNearestCourse()
         courseViewModel.getAllCourse()
         newsViewModel.getAllNews()
     }
 
-    private fun observerNearestCourse() {
+    private fun observeNearestCourse() {
         courseViewModel.nearestCourseResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
-                binding.tvContinueCourseTitle.text = response.courseName
-                Glide.with(requireContext())
+                binding.cdContinueCourse.visibility = View.VISIBLE
+                binding.cdNoCourseInprogress.visibility = View.INVISIBLE
+
+                Glide.with(this@HomeFragment)
                     .load(response.courseThumbnail)
+                    .placeholder(R.drawable.img_placeholder)
                     .centerCrop()
                     .into(binding.ivContinueCourse)
+
+                binding.tvContinueCourseTitle.text = response.courseName
 
                 binding.cdContinueCourse.setOnClickListener {
                     val intent = Intent(requireContext(), CourseIntroActivity::class.java)
                     intent.putExtra("course_id", response.courseId)
                     startActivity(intent)
                 }
-
-                binding.cdContinueCourse.visibility = View.VISIBLE
-                binding.cdNoCourseInprogress.visibility = View.INVISIBLE
             }.onFailure { error ->
                 if(error is HttpException && error.code() == 404) {
                     binding.cdNoCourseInprogress.visibility = View.VISIBLE
                     binding.cdContinueCourse.visibility = View.INVISIBLE
+                    return@onFailure
                 } else {
                     showToast("Gagal memuat kursus status \"Sedang Belajar\"")
                 }
@@ -119,7 +122,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun observerAllCourse() {
+    private fun observeAllCourse() {
         courseViewModel.allCourseResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 response.courses?.let { courses ->
@@ -135,7 +138,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun observerAllNews() {
+    private fun observeAllNews() {
         newsViewModel.listNewsResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 response?.let {
@@ -158,5 +161,10 @@ class HomeFragment : Fragment() {
     @Suppress("SameParameterValue")
     private fun showToast(msg: String?) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        courseViewModel.getNearestCourse()
     }
 }

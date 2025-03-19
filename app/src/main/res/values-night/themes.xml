@@ -13,9 +13,24 @@
         <item name="android:fontFamily">@font/app_font</item>
     </style>
 
-    <style name="ColorSuccessStyle">
-        <item name="android:backgroundTint">@color/lime</item>
+    <style name="ScoreColorType">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="ScoreColorType.GoodPass">
+        <item name="android:background">@color/lime</item>
         <item name="android:textColor">@color/darkGreen</item>
+    </style>
+
+    <style name="ScoreColorType.Pass">
+        <item name="android:background">?attr/colorSecondary</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+    </style>
+
+    <style name="ScoreColorType.NotPass">
+        <item name="android:background">?attr/colorError</item>
+        <item name="android:textColor">?attr/colorOnError</item>
     </style>
 
     <style name="ButtonStyle">

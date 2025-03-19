@@ -40,10 +40,11 @@ class FinishedCourseFragment : Fragment() {
 
         courseViewModel.completedCourseResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
+                binding.tvFinishedCourse.text = response.totalCourses?.toString() ?: "0"
+
                 if(!response.courses.isNullOrEmpty()) {
                     binding.ivNoFinishedCourse.visibility = View.GONE
                     binding.tvNoFinishedCourse.visibility = View.GONE
-                    binding.tvFinishedCourse.text = response.totalCourses?.toString() ?: "0"
                     binding.rvFinishedCourse.visibility = View.VISIBLE
                     courseAdapter.submitList(response.courses)
                 } else {
@@ -52,7 +53,7 @@ class FinishedCourseFragment : Fragment() {
                     binding.rvFinishedCourse.visibility = View.GONE
                 }
             }.onFailure {
-                showToast("Gagal memuat data kelas")
+                showToast("Gagal memuat data kelas \"Selesai Belajar\"")
             }
         }
 

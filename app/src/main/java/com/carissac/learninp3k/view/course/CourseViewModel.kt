@@ -3,6 +3,9 @@ package com.carissac.learninp3k.view.course
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.carissac.learninp3k.data.remote.response.CourseDetailResponse
+import com.carissac.learninp3k.data.remote.response.CourseEnrollmentResponse
+import com.carissac.learninp3k.data.remote.response.CourseIntroResponse
 import com.carissac.learninp3k.data.remote.response.CourseNearestResponse
 import com.carissac.learninp3k.data.remote.response.CourseResponse
 import com.carissac.learninp3k.data.remote.response.CourseStatusResponse
@@ -16,6 +19,9 @@ class CourseViewModel(private val repository: CourseRepository): ViewModel() {
     val completedCourseResult: LiveData<Result<CourseStatusResponse>> = repository.completedCourseStatusResult
     val allCourseResult: LiveData<Result<CourseResponse>> = repository.allCourseResult
     val nearestCourseResult: LiveData<Result<CourseNearestResponse>> = repository.nearestCourseResult
+    val introCourseResult: LiveData<Result<CourseIntroResponse>> = repository.introCourseResult
+    val detailCourseResult: LiveData<Result<CourseDetailResponse>> = repository.detailCourseResult
+    val enrollCourseResult: LiveData<Result<CourseEnrollmentResponse>> = repository.enrollCourseResult
 
     fun getAllCourse() {
         viewModelScope.launch {
@@ -49,6 +55,33 @@ class CourseViewModel(private val repository: CourseRepository): ViewModel() {
             val token = repository.getUserSession().first() ?: ""
             if(token.isNotEmpty()) {
                 repository.getNearestCourse(token)
+            }
+        }
+    }
+
+    fun getIntroCourse(id: Int) {
+        viewModelScope.launch {
+            val token = repository.getUserSession().first() ?: ""
+            if(token.isNotEmpty()) {
+                repository.getCourseIntro(token, id)
+            }
+        }
+    }
+
+    fun getDetailCourse(id: Int) {
+        viewModelScope.launch {
+            val token = repository.getUserSession().first() ?: ""
+            if(token.isNotEmpty()) {
+                repository.getCourseDetail(token, id)
+            }
+        }
+    }
+
+    fun enrollCourse(courseId: Int) {
+        viewModelScope.launch {
+            val token = repository.getUserSession().first() ?: ""
+            if(token.isNotEmpty()) {
+                repository.enrollCourse(token, courseId)
             }
         }
     }
