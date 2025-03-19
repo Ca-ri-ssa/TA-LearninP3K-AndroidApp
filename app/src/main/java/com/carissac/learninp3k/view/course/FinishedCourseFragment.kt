@@ -38,7 +38,7 @@ class FinishedCourseFragment : Fragment() {
             adapter = courseAdapter
         }
 
-        courseViewModel.listCourseStatusResult.observe(viewLifecycleOwner) { result ->
+        courseViewModel.completedCourseResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 if(!response.courses.isNullOrEmpty()) {
                     binding.ivNoFinishedCourse.visibility = View.GONE
@@ -60,7 +60,7 @@ class FinishedCourseFragment : Fragment() {
             showLoading(isLoading)
         }
 
-        courseViewModel.getCourseByStatus("completed")
+        courseViewModel.getCourseByCompletedStatus()
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -74,6 +74,6 @@ class FinishedCourseFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        courseViewModel.getCourseByStatus("completed") // Refresh data when switching tabs
+//        courseViewModel.getCourseByCompletedStatus()
     }
 }

@@ -37,7 +37,7 @@ class ContinueCourseFragment : Fragment() {
             adapter = courseAdapter
         }
 
-        courseViewModel.listCourseStatusResult.observe(viewLifecycleOwner) { result ->
+        courseViewModel.continueCourseResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 if(!response.courses.isNullOrEmpty()) {
                     binding.ivNoContinueCourse.visibility = View.GONE
@@ -59,7 +59,7 @@ class ContinueCourseFragment : Fragment() {
             showLoading(isLoading)
         }
 
-        courseViewModel.getCourseByStatus("in-progress")
+        courseViewModel.getCourseByContinueStatus()
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -73,6 +73,6 @@ class ContinueCourseFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        courseViewModel.getCourseByStatus("in-progress")
+//        courseViewModel.getCourseByContinueStatus()
     }
 }

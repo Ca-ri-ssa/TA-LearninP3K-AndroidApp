@@ -12,7 +12,8 @@ import kotlinx.coroutines.launch
 
 class CourseViewModel(private val repository: CourseRepository): ViewModel() {
     val isLoading: LiveData<Boolean> = repository.isLoading
-    val listCourseStatusResult: LiveData<Result<CourseStatusResponse>> = repository.listCourseStatusResult
+    val continueCourseResult: LiveData<Result<CourseStatusResponse>> = repository.continueCourseStatusResult
+    val completedCourseResult: LiveData<Result<CourseStatusResponse>> = repository.completedCourseStatusResult
     val allCourseResult: LiveData<Result<CourseResponse>> = repository.allCourseResult
     val nearestCourseResult: LiveData<Result<CourseNearestResponse>> = repository.nearestCourseResult
 
@@ -25,11 +26,20 @@ class CourseViewModel(private val repository: CourseRepository): ViewModel() {
         }
     }
 
-    fun getCourseByStatus(status: String) {
+    fun getCourseByContinueStatus() {
         viewModelScope.launch {
             val token = repository.getUserSession().first() ?: ""
             if(token.isNotEmpty()) {
-                repository.getCourseByStatus(token, status)
+                repository.getStatusCourseByContinue(token)
+            }
+        }
+    }
+
+    fun getCourseByCompletedStatus() {
+        viewModelScope.launch {
+            val token = repository.getUserSession().first() ?: ""
+            if(token.isNotEmpty()) {
+                repository.getStatusCourseByCompleted(token)
             }
         }
     }

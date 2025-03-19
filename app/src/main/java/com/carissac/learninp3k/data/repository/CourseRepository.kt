@@ -29,8 +29,11 @@ class CourseRepository private constructor(
     private val _enrollCourseResult = MutableLiveData<Result<CourseEnrollmentResponse>>()
     val enrollCourseResult: LiveData<Result<CourseEnrollmentResponse>> = _enrollCourseResult
 
-    private val _listCourseStatusResult = MutableLiveData<Result<CourseStatusResponse>>()
-    val listCourseStatusResult: LiveData<Result<CourseStatusResponse>> = _listCourseStatusResult
+    private val _continueCourseStatusResult = MutableLiveData<Result<CourseStatusResponse>>()
+    val continueCourseStatusResult: LiveData<Result<CourseStatusResponse>> = _continueCourseStatusResult
+
+    private val _completedCourseStatusResult = MutableLiveData<Result<CourseStatusResponse>>()
+    val completedCourseStatusResult: LiveData<Result<CourseStatusResponse>> = _completedCourseStatusResult
 
     private val _nearestCourseResult = MutableLiveData<Result<CourseNearestResponse>>()
     val nearestCourseResult: LiveData<Result<CourseNearestResponse>> = _nearestCourseResult
@@ -144,25 +147,49 @@ class CourseRepository private constructor(
         }
     }
 
-    suspend fun getCourseByStatus(token: String, status: String) {
+    suspend fun getStatusCourseByContinue(token: String) {
         _isLoading.postValue(true)
         try {
-            val response = apiService.getCourseByStatus("Bearer $token", status)
+            val response = apiService.getCourseByStatus("Bearer $token", "in-progress")
             if(response.isSuccessful) {
-                val courseStatusResponse = response.body()
-                if(courseStatusResponse != null) {
-                    _listCourseStatusResult.postValue(Result.success(courseStatusResponse))
+                val continueCourseStatusResponse = response.body()
+                if(continueCourseStatusResponse != null) {
+                    _continueCourseStatusResult.postValue(Result.success(continueCourseStatusResponse))
                 } else {
-                    _listCourseStatusResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+                    _continueCourseStatusResult.postValue(Result.failure(Exception("Respon kosong dari server")))
                 }
             } else {
                 val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data leaderboard"
-                _listCourseStatusResult.postValue(Result.failure(Exception(errorMessage)))
+                _continueCourseStatusResult.postValue(Result.failure(Exception(errorMessage)))
             }
         } catch (e: IOException) {
-            _listCourseStatusResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+            _continueCourseStatusResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
         } catch (e: HttpException) {
-            _listCourseStatusResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+            _continueCourseStatusResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+        } finally {
+            _isLoading.postValue(false)
+        }
+    }
+
+    suspend fun getStatusCourseByCompleted(token: String) {
+        _isLoading.postValue(true)
+        try {
+            val response = apiService.getCourseByStatus("Bearer $token", "completed")
+            if(response.isSuccessful) {
+                val completedCourseStatusResponse = response.body()
+                if(completedCourseStatusResponse != null) {
+                    _completedCourseStatusResult.postValue(Result.success(completedCourseStatusResponse))
+                } else {
+                    _completedCourseStatusResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data leaderboard"
+                _completedCourseStatusResult.postValue(Result.failure(Exception(errorMessage)))
+            }
+        } catch (e: IOException) {
+            _completedCourseStatusResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+        } catch (e: HttpException) {
+            _completedCourseStatusResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
         } finally {
             _isLoading.postValue(false)
         }
