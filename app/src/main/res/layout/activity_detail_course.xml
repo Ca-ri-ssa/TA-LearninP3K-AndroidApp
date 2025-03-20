@@ -34,7 +34,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:paddingBottom="24dp"
+        android:nestedScrollingEnabled="false" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -74,9 +76,9 @@
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:text="@string/item_home_course_title"
-                app:layout_constraintTop_toBottomOf="@id/cd_vid_detail_course"
+                app:layout_constraintTop_toBottomOf="@id/tv_vid_source_creator"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginStart="24dp"/>
 
             <TextView
@@ -90,24 +92,45 @@
                 android:text="@string/lorem_ipsum"
                 app:layout_constraintTop_toBottomOf="@id/tv_title_course"/>
 
-            <Button
-                android:id="@+id/btn_quiz"
-                style="@style/ButtonStyle"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_img_course_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="64dp"
-                android:text="@string/btn_quiz"
-                android:layout_marginHorizontal="24dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_course_content"/>
+                app:layout_constraintStart_toStartOf="@id/tv_course_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_course_content"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:text="Image Course Heading" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_img_course"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_img_course_title"
+                android:clipToPadding="false"
+                android:layout_marginTop="8dp"
+                android:paddingStart="24dp"/>
+
+<!--            <Button-->
+<!--                android:id="@+id/btn_quiz"-->
+<!--                style="@style/ButtonStyle"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="64dp"-->
+<!--                android:text="@string/btn_quiz"-->
+<!--                android:layout_marginHorizontal="24dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/rv_img_course"/>-->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
+    <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

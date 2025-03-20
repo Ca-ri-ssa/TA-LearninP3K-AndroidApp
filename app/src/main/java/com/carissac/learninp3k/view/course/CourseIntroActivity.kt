@@ -76,6 +76,7 @@ class CourseIntroActivity : AppCompatActivity() {
             result.onSuccess { response ->
                 Glide.with(this@CourseIntroActivity)
                     .load(response.courseImg)
+                    .placeholder(R.drawable.img_placeholder)
                     .centerCrop()
                     .into(binding.ivCourse)
 

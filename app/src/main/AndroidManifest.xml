@@ -21,10 +21,10 @@
             android:name=".view.challenge.WeeklyChallengeActivity"
             android:exported="false" />
         <activity
-            android:name=".view.quiz.QuizResultActivity"
+            android:name=".view.quiz.QuizActivity"
             android:exported="false" />
         <activity
-            android:name=".view.quiz.QuizActivity"
+            android:name=".view.quiz.QuizIntroActivity"
             android:exported="false" />
         <activity
             android:name=".view.course.DetailCourseActivity"

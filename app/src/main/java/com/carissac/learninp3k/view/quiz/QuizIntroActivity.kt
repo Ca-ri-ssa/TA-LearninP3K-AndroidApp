@@ -7,18 +7,27 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import com.carissac.learninp3k.databinding.ActivityQuizResultBinding
+import com.carissac.learninp3k.R
+import com.carissac.learninp3k.databinding.ActivityQuizBinding
+import com.carissac.learninp3k.databinding.ActivityQuizIntroBinding
 
-class QuizResultActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityQuizResultBinding
+class QuizIntroActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityQuizIntroBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        binding = ActivityQuizResultBinding.inflate(layoutInflater)
+        binding = ActivityQuizIntroBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.quizResult) { v, insets ->
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.apply{
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowTitleEnabled(false)
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.quizIntro) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
@@ -30,5 +39,10 @@ class QuizResultActivity : AppCompatActivity() {
 
             WindowInsetsCompat.CONSUMED
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 }

@@ -13,6 +13,11 @@
         <item name="android:fontFamily">@font/app_font</item>
     </style>
 
+    <style name="FeedbackStyle">
+        <item name="android:backgroundTint">@color/lime</item>
+        <item name="android:textColor">@color/darkGreen</item>
+    </style>
+
     <style name="ScoreColorType">
         <item name="android:background">?attr/colorPrimary</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>

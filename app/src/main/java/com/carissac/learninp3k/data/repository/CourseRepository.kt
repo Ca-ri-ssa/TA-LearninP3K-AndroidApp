@@ -11,6 +11,7 @@ import com.carissac.learninp3k.data.remote.response.CourseResponse
 import com.carissac.learninp3k.data.remote.response.CourseStatusResponse
 import com.carissac.learninp3k.data.remote.response.QuizResponse
 import com.carissac.learninp3k.data.remote.response.SubmitAttemptRequest
+import com.carissac.learninp3k.data.remote.response.TakeAttemptResponse
 import com.carissac.learninp3k.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
@@ -47,6 +48,9 @@ class CourseRepository private constructor(
     private val _listCourseQuizResult = MutableLiveData<Result<List<QuizResponse>>>()
     val listCourseQuizResult: LiveData<Result<List<QuizResponse>>> = _listCourseQuizResult
 
+    private val _submitQuizResult = MutableLiveData<Result<TakeAttemptResponse>>()
+    val submitQuizResult: LiveData<Result<TakeAttemptResponse>> = _submitQuizResult
+
     fun getUserSession(): Flow<String?> {
         return userPreference.getUserToken()
     }
@@ -63,7 +67,7 @@ class CourseRepository private constructor(
                     _allCourseResult.postValue(Result.failure(Exception("Respon kosong dari server")))
                 }
             } else {
-                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data leaderboard"
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil semua data kelas"
                 _allCourseResult.postValue(Result.failure(Exception(errorMessage)))
             }
         } catch (e: IOException) {
@@ -87,7 +91,7 @@ class CourseRepository private constructor(
                     _enrollCourseResult.postValue(Result.failure(Exception("Respon kosong dari server")))
                 }
             } else {
-                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data leaderboard"
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mendaftarkan kelas"
                 _enrollCourseResult.postValue(Result.failure(Exception(errorMessage)))
             }
         } catch (e: IOException) {
@@ -111,7 +115,7 @@ class CourseRepository private constructor(
                     _introCourseResult.postValue(Result.failure(Exception("Respon kosong dari server")))
                 }
             } else {
-                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data leaderboard"
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data intro kelas"
                 _introCourseResult.postValue(Result.failure(Exception(errorMessage)))
             }
         } catch (e: IOException) {
@@ -135,7 +139,7 @@ class CourseRepository private constructor(
                     _detailCourseResult.postValue(Result.failure(Exception("Respon kosong dari server")))
                 }
             } else {
-                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data leaderboard"
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data detail kelas"
                 _detailCourseResult.postValue(Result.failure(Exception(errorMessage)))
             }
         } catch (e: IOException) {
@@ -159,7 +163,7 @@ class CourseRepository private constructor(
                     _continueCourseStatusResult.postValue(Result.failure(Exception("Respon kosong dari server")))
                 }
             } else {
-                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data leaderboard"
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data kelas status \"Sedang Belajar\""
                 _continueCourseStatusResult.postValue(Result.failure(Exception(errorMessage)))
             }
         } catch (e: IOException) {
@@ -183,7 +187,7 @@ class CourseRepository private constructor(
                     _completedCourseStatusResult.postValue(Result.failure(Exception("Respon kosong dari server")))
                 }
             } else {
-                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data leaderboard"
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data kelas status \"Selesai Belajar\""
                 _completedCourseStatusResult.postValue(Result.failure(Exception(errorMessage)))
             }
         } catch (e: IOException) {
@@ -207,7 +211,7 @@ class CourseRepository private constructor(
                     _listCourseQuizResult.postValue(Result.failure(Exception("Respon kosong dari server")))
                 }
             } else {
-                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data leaderboard"
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data kuis"
                 _listCourseQuizResult.postValue(Result.failure(Exception(errorMessage)))
             }
         } catch (e: IOException) {
@@ -231,7 +235,7 @@ class CourseRepository private constructor(
                     _nearestCourseResult.postValue(Result.failure(Exception("Respon kosong dari server")))
                 }
             } else {
-                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data leaderboard"
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data kelas status \"Sedang Belajar\""
                 _nearestCourseResult.postValue(Result.failure(Exception(errorMessage)))
             }
         } catch (e: IOException) {
@@ -243,8 +247,28 @@ class CourseRepository private constructor(
         }
     }
 
-    suspend fun takeAttempt(token: String, submitAttemptRequest: SubmitAttemptRequest) {
-
+    suspend fun takeAttempt(token: String, id: Int, submitAttemptRequest: SubmitAttemptRequest) {
+        _isLoading.postValue(true)
+        try {
+            val response = apiService.takeAttempt("Bearer $token", id, submitAttemptRequest)
+            if(response.isSuccessful) {
+                val submitCourseResponse = response.body()
+                if(submitCourseResponse != null) {
+                    _submitQuizResult.postValue(Result.success(submitCourseResponse))
+                } else {
+                    _submitQuizResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data leaderboard"
+                _submitQuizResult.postValue(Result.failure(Exception(errorMessage)))
+            }
+        } catch (e: IOException) {
+            _submitQuizResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+        } catch (e: HttpException) {
+            _submitQuizResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+        } finally {
+            _isLoading.postValue(false)
+        }
     }
 
     suspend fun getAllAttemptSession(token: String, id: Int) {
