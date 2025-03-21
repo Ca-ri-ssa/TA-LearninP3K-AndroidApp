@@ -1,5 +1,3 @@
-@file:Suppress("DEPRECATION")
-
 package com.carissac.learninp3k.view.course
 
 import android.content.Intent
@@ -14,12 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.carissac.learninp3k.R
 import com.carissac.learninp3k.data.di.Injection
-import com.carissac.learninp3k.data.remote.response.ImgCourseResponseItem
 import com.carissac.learninp3k.databinding.ActivityDetailCourseBinding
-import com.carissac.learninp3k.view.home.HomeCourseAdapter
 import com.carissac.learninp3k.view.quiz.QuizActivity
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
@@ -46,6 +41,12 @@ class DetailCourseActivity : AppCompatActivity() {
         binding = ActivityDetailCourseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.apply{
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowTitleEnabled(false)
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.detailCourse) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
@@ -60,10 +61,15 @@ class DetailCourseActivity : AppCompatActivity() {
         }
 
         imgCourseAdapter = ImageCourseAdapter()
+
         binding.rvImgCourse.apply {
-            layoutManager = LinearLayoutManager(this@DetailCourseActivity, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = CarouselLayoutManager(HeroCarouselStrategy())
             adapter = imgCourseAdapter
+            setHasFixedSize(true)
         }
+
+        val snapHelper = CarouselSnapHelper()
+        snapHelper.attachToRecyclerView(binding.rvImgCourse)
 
         courseId = intent.getIntExtra(CourseIntroActivity.Companion.COURSE_ID, -1)
         if(courseId != -1) {
@@ -92,7 +98,6 @@ class DetailCourseActivity : AppCompatActivity() {
                     showToast("Image Course is not null")
                     binding.tvImgCourseTitle.text = response.imgCourseHeading
                     imgCourseAdapter.submitList(response.imgCourse)
-//                    setUpCarousel(response.imgCourse)
                 } else {
                     showToast("Image course is null")
                     binding.tvImgCourseTitle.visibility = View.GONE
@@ -107,19 +112,6 @@ class DetailCourseActivity : AppCompatActivity() {
             showLoading(isLoading)
         }
     }
-
-//    private fun setUpCarousel(imageList: List<ImgCourseResponseItem>) {
-//        binding.rvImgCourse.apply {
-//            layoutManager = CarouselLayoutManager(HeroCarouselStrategy())
-//            adapter = imgCourseAdapter
-//            setHasFixedSize(true)
-//        }
-//
-//        imgCourseAdapter.submitList(imageList)
-//
-//        val snapHelper = CarouselSnapHelper()
-//        snapHelper.attachToRecyclerView(binding.rvImgCourse)
-//    }
 
     private fun setUpCourseVid(courseVid: String) {
         youtubePlayerView = binding.vidDetailCourse
@@ -157,6 +149,11 @@ class DetailCourseActivity : AppCompatActivity() {
             }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
     override fun onDestroy() {
