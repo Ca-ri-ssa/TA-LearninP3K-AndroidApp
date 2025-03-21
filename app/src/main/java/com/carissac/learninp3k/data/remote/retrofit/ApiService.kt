@@ -1,6 +1,7 @@
 package com.carissac.learninp3k.data.remote.retrofit
 
 import com.carissac.learninp3k.data.remote.response.AllAttemptResponse
+import com.carissac.learninp3k.data.remote.response.AllAttemptResponseItem
 import com.carissac.learninp3k.data.remote.response.AttemptResponse
 import com.carissac.learninp3k.data.remote.response.AvatarDetailResponse
 import com.carissac.learninp3k.data.remote.response.AvatarResponseItem
@@ -168,7 +169,7 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id")
         id: Int
-    ): Response<AllAttemptResponse>
+    ): Response<List<AllAttemptResponseItem>>
 
     @GET("courses/{id}/quiz/attempts/{sessionId}")
     suspend fun getDetailAttempt(

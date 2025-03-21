@@ -1,6 +1,8 @@
 package com.carissac.learninp3k.data.remote.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class Answer (
     @field:SerializedName("question_id")
@@ -15,6 +17,7 @@ data class SubmitAttemptRequest (
     val answers: List<Answer>? = null
 )
 
+@Parcelize
 data class TakeAttemptResponse (
     @field:SerializedName("msg")
     val msg: String? = null,
@@ -36,4 +39,4 @@ data class TakeAttemptResponse (
 
     @field:SerializedName("badge_img")
     val badgeImg: String? = null
-)
+): Parcelable

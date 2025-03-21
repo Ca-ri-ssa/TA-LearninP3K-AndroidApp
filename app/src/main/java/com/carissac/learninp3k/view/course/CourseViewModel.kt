@@ -9,6 +9,7 @@ import com.carissac.learninp3k.data.remote.response.CourseIntroResponse
 import com.carissac.learninp3k.data.remote.response.CourseNearestResponse
 import com.carissac.learninp3k.data.remote.response.CourseResponse
 import com.carissac.learninp3k.data.remote.response.CourseStatusResponse
+import com.carissac.learninp3k.data.remote.response.QuizResponse
 import com.carissac.learninp3k.data.repository.CourseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -23,6 +24,7 @@ class CourseViewModel(private val repository: CourseRepository): ViewModel() {
     val introCourseResult: LiveData<Result<CourseIntroResponse>> = repository.introCourseResult
     val detailCourseResult: LiveData<Result<CourseDetailResponse>> = repository.detailCourseResult
     val enrollCourseResult: LiveData<Result<CourseEnrollmentResponse>> = repository.enrollCourseResult
+    val listCourseQuizResult: LiveData<Result<List<QuizResponse>>> = repository.listCourseQuizResult
 
     fun getAllCourse() {
         viewModelScope.launch {
@@ -83,6 +85,15 @@ class CourseViewModel(private val repository: CourseRepository): ViewModel() {
             val token = repository.getUserSession().first() ?: ""
             if(token.isNotEmpty()) {
                 repository.enrollCourse(token, courseId)
+            }
+        }
+    }
+
+    fun getCourseQuiz(id: Int) {
+        viewModelScope.launch {
+            val token = repository.getUserSession().first() ?: ""
+            if(token.isNotEmpty()) {
+                repository.getCourseQuiz(token, id)
             }
         }
     }

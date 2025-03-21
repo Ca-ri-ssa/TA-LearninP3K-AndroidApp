@@ -18,6 +18,18 @@
         <item name="android:textColor">@color/darkGreen</item>
     </style>
 
+    <style name="TextColorSuccess">
+        <item name="android:textColor">@color/lime</item>
+    </style>
+
+    <style name="TextColorError">
+        <item name="android:textColor">?attr/colorError</item>
+    </style>
+
+    <style name="TextColorSecondary">
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+
     <style name="ScoreColorType">
         <item name="android:background">?attr/colorPrimary</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>

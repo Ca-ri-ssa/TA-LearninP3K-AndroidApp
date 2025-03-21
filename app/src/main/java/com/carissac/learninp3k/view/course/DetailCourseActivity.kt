@@ -71,7 +71,7 @@ class DetailCourseActivity : AppCompatActivity() {
         val snapHelper = CarouselSnapHelper()
         snapHelper.attachToRecyclerView(binding.rvImgCourse)
 
-        courseId = intent.getIntExtra(CourseIntroActivity.Companion.COURSE_ID, -1)
+        courseId = intent.getIntExtra(COURSE_ID, -1)
         if(courseId != -1) {
             courseViewModel.getDetailCourse(courseId)
         }

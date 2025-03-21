@@ -74,6 +74,7 @@
     </RadioGroup>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cd_feedback"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         style="@style/FeedbackStyle"

@@ -33,14 +33,88 @@
 
     <TextView
         android:id="@+id/tv_quiz_attention"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:layout_marginHorizontal="24dp"
-        android:text="Perhatikan!"
+        android:layout_marginStart="24dp"
+        android:text="@string/quiz_attention"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+
+    <TextView
+        android:id="@+id/tv_quiz_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="24dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_quiz_attention"
+        android:text="@string/quiz_message"/>
+
+    <TextView
+        android:id="@+id/tv_attempt_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:text="@string/quiz_attempt_history"
+        app:layout_constraintTop_toBottomOf="@id/tv_quiz_message"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_attempt_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="24dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_attempt_history"/>
+
+    <RelativeLayout
+        android:id="@+id/timer_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="64dp"
+        app:layout_constraintTop_toBottomOf="@id/rv_attempt_history"
+        app:layout_constraintStart_toStartOf="@id/btn_start_quiz"
+        app:layout_constraintEnd_toEndOf="@id/btn_start_quiz">
+        <TextView
+            android:id="@+id/tv_timer_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quiz_timer_message" />
+
+        <TextView
+            android:id="@+id/tv_timer_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/tv_timer_message"
+            android:textColor="?attr/colorPrimary"
+            android:text="@string/quiz_timer_num"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_start_quiz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginHorizontal="24dp"
+        style="@style/ButtonStyle"
+        app:layout_constraintTop_toBottomOf="@id/timer_message"
+        android:text="@string/btn_start_quiz"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

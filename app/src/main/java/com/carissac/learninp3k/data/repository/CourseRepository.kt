@@ -3,6 +3,7 @@ package com.carissac.learninp3k.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.carissac.learninp3k.data.local.UserPreference
+import com.carissac.learninp3k.data.remote.response.AllAttemptResponseItem
 import com.carissac.learninp3k.data.remote.response.CourseDetailResponse
 import com.carissac.learninp3k.data.remote.response.CourseEnrollmentResponse
 import com.carissac.learninp3k.data.remote.response.CourseIntroResponse
@@ -47,9 +48,6 @@ class CourseRepository private constructor(
 
     private val _listCourseQuizResult = MutableLiveData<Result<List<QuizResponse>>>()
     val listCourseQuizResult: LiveData<Result<List<QuizResponse>>> = _listCourseQuizResult
-
-    private val _submitQuizResult = MutableLiveData<Result<TakeAttemptResponse>>()
-    val submitQuizResult: LiveData<Result<TakeAttemptResponse>> = _submitQuizResult
 
     fun getUserSession(): Flow<String?> {
         return userPreference.getUserToken()
@@ -245,38 +243,6 @@ class CourseRepository private constructor(
         } finally {
             _isLoading.postValue(false)
         }
-    }
-
-    suspend fun takeAttempt(token: String, id: Int, submitAttemptRequest: SubmitAttemptRequest) {
-        _isLoading.postValue(true)
-        try {
-            val response = apiService.takeAttempt("Bearer $token", id, submitAttemptRequest)
-            if(response.isSuccessful) {
-                val submitCourseResponse = response.body()
-                if(submitCourseResponse != null) {
-                    _submitQuizResult.postValue(Result.success(submitCourseResponse))
-                } else {
-                    _submitQuizResult.postValue(Result.failure(Exception("Respon kosong dari server")))
-                }
-            } else {
-                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data leaderboard"
-                _submitQuizResult.postValue(Result.failure(Exception(errorMessage)))
-            }
-        } catch (e: IOException) {
-            _submitQuizResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
-        } catch (e: HttpException) {
-            _submitQuizResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
-        } finally {
-            _isLoading.postValue(false)
-        }
-    }
-
-    suspend fun getAllAttemptSession(token: String, id: Int) {
-
-    }
-
-    suspend fun getDetailAttempt(token: String, id: Int, sessionId: Int) {
-
     }
 
     companion object {
