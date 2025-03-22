@@ -11,7 +11,7 @@ import com.carissac.learninp3k.data.remote.response.CourseResponse
 import com.carissac.learninp3k.data.remote.response.CourseStatusResponse
 import com.carissac.learninp3k.data.remote.response.QuizResponse
 import com.carissac.learninp3k.data.repository.CourseRepository
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -21,9 +21,11 @@ class CourseViewModel(private val repository: CourseRepository): ViewModel() {
     val completedCourseResult: LiveData<Result<CourseStatusResponse>> = repository.completedCourseStatusResult
     val allCourseResult: LiveData<Result<CourseResponse>> = repository.allCourseResult
     val nearestCourseResult: LiveData<Result<CourseNearestResponse>> = repository.nearestCourseResult
-    val introCourseResult: LiveData<Result<CourseIntroResponse>> = repository.introCourseResult
-    val detailCourseResult: LiveData<Result<CourseDetailResponse>> = repository.detailCourseResult
-    val enrollCourseResult: LiveData<Result<CourseEnrollmentResponse>> = repository.enrollCourseResult
+    val introCourseResult: StateFlow<Result<CourseIntroResponse>?> = repository.introCourseFlow
+//    val detailCourseResult: LiveData<Result<CourseDetailResponse>> = repository.detailCourseResult
+    val detailCourseResult: StateFlow<Result<CourseDetailResponse>?> = repository.detailCourseFlow
+
+    val enrollCourseResult: StateFlow<Result<CourseEnrollmentResponse>?> = repository.enrollCourseFlow
     val listCourseQuizResult: LiveData<Result<List<QuizResponse>>> = repository.listCourseQuizResult
 
     fun getAllCourse() {
@@ -85,8 +87,13 @@ class CourseViewModel(private val repository: CourseRepository): ViewModel() {
             val token = repository.getUserSession().first() ?: ""
             if(token.isNotEmpty()) {
                 repository.enrollCourse(token, courseId)
+                getIntroCourse(courseId)
             }
         }
+    }
+
+    fun clearEnrollResult() {
+        repository.clearEnrollResult()
     }
 
     fun getCourseQuiz(id: Int) {

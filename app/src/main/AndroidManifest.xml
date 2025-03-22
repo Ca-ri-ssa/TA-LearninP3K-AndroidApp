@@ -15,6 +15,9 @@
         android:theme="@style/Theme.LearninP3K"
         tools:targetApi="31">
         <activity
+            android:name=".view.quiz.QuizResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.quiz.DetailAttemptActivity"
             android:exported="false" />
         <activity

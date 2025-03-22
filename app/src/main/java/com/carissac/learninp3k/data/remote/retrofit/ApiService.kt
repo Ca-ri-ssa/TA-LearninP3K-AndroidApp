@@ -169,7 +169,7 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id")
         id: Int
-    ): Response<List<AllAttemptResponseItem>>
+    ): Response<AllAttemptResponse>
 
     @GET("courses/{id}/quiz/attempts/{sessionId}")
     suspend fun getDetailAttempt(

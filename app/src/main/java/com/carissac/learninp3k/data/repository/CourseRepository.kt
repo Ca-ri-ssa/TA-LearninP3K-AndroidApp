@@ -3,7 +3,6 @@ package com.carissac.learninp3k.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.carissac.learninp3k.data.local.UserPreference
-import com.carissac.learninp3k.data.remote.response.AllAttemptResponseItem
 import com.carissac.learninp3k.data.remote.response.CourseDetailResponse
 import com.carissac.learninp3k.data.remote.response.CourseEnrollmentResponse
 import com.carissac.learninp3k.data.remote.response.CourseIntroResponse
@@ -11,10 +10,11 @@ import com.carissac.learninp3k.data.remote.response.CourseNearestResponse
 import com.carissac.learninp3k.data.remote.response.CourseResponse
 import com.carissac.learninp3k.data.remote.response.CourseStatusResponse
 import com.carissac.learninp3k.data.remote.response.QuizResponse
-import com.carissac.learninp3k.data.remote.response.SubmitAttemptRequest
-import com.carissac.learninp3k.data.remote.response.TakeAttemptResponse
 import com.carissac.learninp3k.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -28,9 +28,6 @@ class CourseRepository private constructor(
     private val _allCourseResult = MutableLiveData<Result<CourseResponse>>()
     val allCourseResult: LiveData<Result<CourseResponse>> = _allCourseResult
 
-    private val _enrollCourseResult = MutableLiveData<Result<CourseEnrollmentResponse>>()
-    val enrollCourseResult: LiveData<Result<CourseEnrollmentResponse>> = _enrollCourseResult
-
     private val _continueCourseStatusResult = MutableLiveData<Result<CourseStatusResponse>>()
     val continueCourseStatusResult: LiveData<Result<CourseStatusResponse>> = _continueCourseStatusResult
 
@@ -40,11 +37,17 @@ class CourseRepository private constructor(
     private val _nearestCourseResult = MutableLiveData<Result<CourseNearestResponse>>()
     val nearestCourseResult: LiveData<Result<CourseNearestResponse>> = _nearestCourseResult
 
-    private val _introCourseResult = MutableLiveData<Result<CourseIntroResponse>>()
-    val introCourseResult: LiveData<Result<CourseIntroResponse>> = _introCourseResult
+    private val _introCourseFlow = MutableStateFlow<Result<CourseIntroResponse>?>(null)
+    val introCourseFlow: StateFlow<Result<CourseIntroResponse>?> = _introCourseFlow.asStateFlow()
 
-    private val _detailCourseResult = MutableLiveData<Result<CourseDetailResponse>>()
-    val detailCourseResult: LiveData<Result<CourseDetailResponse>> = _detailCourseResult
+    private val _enrollCourseFlow = MutableStateFlow<Result<CourseEnrollmentResponse>?>(null)
+    val enrollCourseFlow: StateFlow<Result<CourseEnrollmentResponse>?> = _enrollCourseFlow.asStateFlow()
+
+//    private val _detailCourseResult = MutableLiveData<Result<CourseDetailResponse>>()
+//    val detailCourseResult: LiveData<Result<CourseDetailResponse>> = _detailCourseResult
+
+    private val _detailCourseFlow = MutableStateFlow<Result<CourseDetailResponse>?>(null)
+    val detailCourseFlow: StateFlow<Result<CourseDetailResponse>?> = _detailCourseFlow
 
     private val _listCourseQuizResult = MutableLiveData<Result<List<QuizResponse>>>()
     val listCourseQuizResult: LiveData<Result<List<QuizResponse>>> = _listCourseQuizResult
@@ -80,46 +83,53 @@ class CourseRepository private constructor(
     suspend fun enrollCourse(token: String, courseId: Int) {
         _isLoading.postValue(true)
         try {
+            _enrollCourseFlow.value = null
             val response = apiService.enrollCourse("Bearer $token", courseId)
-            if(response.isSuccessful) {
+            if (response.isSuccessful) {
                 val enrollCourseResponse = response.body()
-                if(enrollCourseResponse != null) {
-                    _enrollCourseResult.postValue(Result.success(enrollCourseResponse))
+                if (enrollCourseResponse != null) {
+                    _enrollCourseFlow.value = Result.success(enrollCourseResponse)
+                    _introCourseFlow.value = null
                 } else {
-                    _enrollCourseResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+                    _enrollCourseFlow.value = Result.failure(Exception("Respon kosong dari server"))
                 }
             } else {
                 val errorMessage = response.errorBody()?.string() ?: "Gagal mendaftarkan kelas"
-                _enrollCourseResult.postValue(Result.failure(Exception(errorMessage)))
+                _enrollCourseFlow.value = Result.failure(Exception(errorMessage))
             }
         } catch (e: IOException) {
-            _enrollCourseResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+            _enrollCourseFlow.value = Result.failure(Exception("Gagal terhubung ke server"))
         } catch (e: HttpException) {
-            _enrollCourseResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+            _enrollCourseFlow.value = Result.failure(Exception("Terjadi kesalahan server"))
         } finally {
             _isLoading.postValue(false)
         }
     }
 
+    fun clearEnrollResult() {
+        _enrollCourseFlow.value = null
+    }
+
     suspend fun getCourseIntro(token: String, id: Int) {
         _isLoading.postValue(true)
         try {
+            _introCourseFlow.value = null
             val response = apiService.getIntroCourse("Bearer $token", id)
             if(response.isSuccessful) {
                 val introCourseResponse = response.body()
                 if(introCourseResponse != null) {
-                    _introCourseResult.postValue(Result.success(introCourseResponse))
+                    _introCourseFlow.value = Result.success(introCourseResponse)
                 } else {
-                    _introCourseResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+                    _introCourseFlow.value = Result.failure(Exception("Respon kosong dari server"))
                 }
             } else {
                 val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data intro kelas"
-                _introCourseResult.postValue(Result.failure(Exception(errorMessage)))
+                _introCourseFlow.value = Result.failure(Exception(errorMessage))
             }
         } catch (e: IOException) {
-            _introCourseResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+            _introCourseFlow.value = Result.failure(Exception("Gagal terhubung ke server"))
         } catch (e: HttpException) {
-            _introCourseResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+            _introCourseFlow.value = Result.failure(Exception("Terjadi kesalahan server"))
         } finally {
             _isLoading.postValue(false)
         }
@@ -128,26 +138,51 @@ class CourseRepository private constructor(
     suspend fun getCourseDetail(token: String, id: Int) {
         _isLoading.postValue(true)
         try {
+            _detailCourseFlow.value = null
             val response = apiService.getCourseDetail("Bearer $token", id)
-            if(response.isSuccessful) {
+            if (response.isSuccessful) {
                 val detailCourseResponse = response.body()
-                if(detailCourseResponse != null) {
-                    _detailCourseResult.postValue(Result.success(detailCourseResponse))
+                if (detailCourseResponse != null) {
+                    _detailCourseFlow.value = Result.success(detailCourseResponse) // Gunakan StateFlow
                 } else {
-                    _detailCourseResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+                    _detailCourseFlow.value = Result.failure(Exception("Respon kosong dari server"))
                 }
             } else {
                 val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data detail kelas"
-                _detailCourseResult.postValue(Result.failure(Exception(errorMessage)))
+                _detailCourseFlow.value = Result.failure(Exception(errorMessage))
             }
         } catch (e: IOException) {
-            _detailCourseResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+            _detailCourseFlow.value = Result.failure(Exception("Gagal terhubung ke server"))
         } catch (e: HttpException) {
-            _detailCourseResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+            _detailCourseFlow.value = Result.failure(Exception("Terjadi kesalahan server"))
         } finally {
             _isLoading.postValue(false)
         }
     }
+
+//    suspend fun getCourseDetail(token: String, id: Int) {
+//        _isLoading.postValue(true)
+//        try {
+//            val response = apiService.getCourseDetail("Bearer $token", id)
+//            if(response.isSuccessful) {
+//                val detailCourseResponse = response.body()
+//                if(detailCourseResponse != null) {
+//                    _detailCourseResult.postValue(Result.success(detailCourseResponse))
+//                } else {
+//                    _detailCourseResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+//                }
+//            } else {
+//                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data detail kelas"
+//                _detailCourseResult.postValue(Result.failure(Exception(errorMessage)))
+//            }
+//        } catch (e: IOException) {
+//            _detailCourseResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+//        } catch (e: HttpException) {
+//            _detailCourseResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+//        } finally {
+//            _isLoading.postValue(false)
+//        }
+//    }
 
     suspend fun getStatusCourseByContinue(token: String) {
         _isLoading.postValue(true)

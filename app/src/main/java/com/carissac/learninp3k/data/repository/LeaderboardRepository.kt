@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.carissac.learninp3k.data.local.UserPreference
 import com.carissac.learninp3k.data.remote.response.LeaderboardResponse
+import com.carissac.learninp3k.data.remote.response.TakeWeeklyChallengeResponse
 import com.carissac.learninp3k.data.remote.response.UserBadgeResponse
 import com.carissac.learninp3k.data.remote.response.UserBadgeResponseItem
+import com.carissac.learninp3k.data.remote.response.WeeklyChallengeResponse
 import com.carissac.learninp3k.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
@@ -29,6 +31,12 @@ class LeaderboardRepository private constructor(
 
     private val _userBadgeResult = MutableLiveData<Result<UserBadgeResponse>>()
     val userBadgeResult: LiveData<Result<UserBadgeResponse>> = _userBadgeResult
+
+    private val _weeklyChallengeResult = MutableLiveData<Result<WeeklyChallengeResponse>>()
+    val weeklyChallengeResult: LiveData<Result<WeeklyChallengeResponse>> = _weeklyChallengeResult
+
+    private val _takeWeeklyChallengeResult = MutableLiveData<Result<TakeWeeklyChallengeResponse>>()
+    val takeWeeklyChallengeResult: LiveData<Result<TakeWeeklyChallengeResponse>> = _takeWeeklyChallengeResult
 
     fun getUserSession(): Flow<String?> {
         return userPreference.getUserToken()
@@ -113,6 +121,54 @@ class LeaderboardRepository private constructor(
             _userBadgeResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
         } catch (e: HttpException) {
             _userBadgeResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+        } finally {
+            _isLoading.postValue(false)
+        }
+    }
+
+    suspend fun getWeeklyChallenge(token: String) {
+        _isLoading.postValue(true)
+        try {
+            val response = apiService.getWeeklyChallenge("Bearer $token")
+            if(response.isSuccessful) {
+                val weeklyChallengeResponse = response.body()
+                if(weeklyChallengeResponse != null) {
+                    _weeklyChallengeResult.postValue(Result.success(weeklyChallengeResponse))
+                } else {
+                    _weeklyChallengeResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data weekly challenge minggu ini"
+                _weeklyChallengeResult.postValue(Result.failure(Exception(errorMessage)))
+            }
+        } catch (e: IOException) {
+            _weeklyChallengeResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+        } catch (e: HttpException) {
+            _weeklyChallengeResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+        } finally {
+            _isLoading.postValue(false)
+        }
+    }
+
+    suspend fun takeWeeklyChallenge(token: String, challengeId: Int, userAnswer: String) {
+        _isLoading.postValue(true)
+        try {
+            val response = apiService.takeWeeklyChallenge("Bearer $token", challengeId, userAnswer)
+            if(response.isSuccessful) {
+                val takeWeeklyChallengeResponse = response.body()
+                if(takeWeeklyChallengeResponse != null) {
+                    _takeWeeklyChallengeResult.postValue(Result.success(takeWeeklyChallengeResponse))
+                } else {
+                    _takeWeeklyChallengeResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengirimkan data jawaban user di weekly challenge minggu ini"
+                _takeWeeklyChallengeResult.postValue(Result.failure(Exception(errorMessage)))
+            }
+        } catch (e: IOException) {
+            _takeWeeklyChallengeResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+        } catch (e: HttpException) {
+            _takeWeeklyChallengeResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
         } finally {
             _isLoading.postValue(false)
         }

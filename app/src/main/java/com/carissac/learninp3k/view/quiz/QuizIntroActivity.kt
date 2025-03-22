@@ -59,7 +59,6 @@ class QuizIntroActivity : AppCompatActivity() {
         courseId = intent.getIntExtra(COURSE_ID, -1)
         if(courseId != -1) {
             quizViewModel.getAllAttemptHistory(courseId)
-            observeCooldown()
         }
 
         attemptHistoryAdapter = AttemptHistoryAdapter(courseId)
@@ -69,6 +68,8 @@ class QuizIntroActivity : AppCompatActivity() {
         }
 
         binding.btnStartQuiz.setOnClickListener {
+            quizViewModel.resetSubmitQuizState()
+
             val currentItem = System.currentTimeMillis()
             val intent = Intent(this, QuizActivity::class.java)
             intent.putExtra("start_time", currentItem)
@@ -76,18 +77,35 @@ class QuizIntroActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        observeSubmitQuizState()
         observeAllAttemptHistory()
+    }
+
+    private fun observeSubmitQuizState() {
+        quizViewModel.isQuizSubmitted.observe(this) { isSubmitted ->
+            if(isSubmitted) {
+                binding.btnStartQuiz.isEnabled = false
+            } else {
+                binding.btnStartQuiz.isEnabled = true
+            }
+        }
     }
 
     private fun observeAllAttemptHistory() {
         quizViewModel.allAttemptResult.observe(this) { result ->
             result.onSuccess { response ->
-                val sortedAttempts = response
-                    .filter { it.createdAt?.isNotBlank() == true }
-                    .sortedByDescending { it.createdAt }
-                    .take(3)
+                val sortedAttempts = response.attempts
+                if(!sortedAttempts.isNullOrEmpty()) {
+                    val newestAttempt = sortedAttempts
+                        .filter { it.createdAt?.isNotBlank() == true }
+                        .sortedByDescending { it.createdAt }
+                        .take(3)
 
-                attemptHistoryAdapter.submitList(sortedAttempts)
+                    attemptHistoryAdapter.submitList(newestAttempt)
+                } else {
+                    binding.tvAttemptHistory.visibility = View.GONE
+                    binding.rvAttemptHistory.visibility = View.GONE
+                }
             }.onFailure {
                 showToast("Gagal memuat data riwayat percobaan")
             }
@@ -98,31 +116,13 @@ class QuizIntroActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeCooldown() {
-        lifecycleScope.launch {
-            quizViewModel.isCooldownActive(courseId).collect { isActive ->
-                if (isActive) {
-                    binding.btnStartQuiz.isEnabled = false
-                    binding.timerMessage.visibility = View.VISIBLE
-
-                    quizViewModel.getCooldownTime(courseId)
-
-                    quizViewModel.cooldownTime.collect { remainingTime ->
-                        if (remainingTime > 0) {
-                            binding.tvTimerNum.text = formatTimer(remainingTime)
-                        } else {
-                            binding.btnStartQuiz.isEnabled = true
-                            binding.timerMessage.visibility = View.GONE
-                        }
-                    }
-                } else {
-                    binding.btnStartQuiz.isEnabled = true
-                    binding.timerMessage.visibility = View.GONE
-                }
-            }
+    override fun onResume() {
+        super.onResume()
+        if(courseId != -1) {
+            quizViewModel.getAllAttemptHistory(courseId)
         }
+        quizViewModel.resetSubmitQuizState()
     }
-
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE

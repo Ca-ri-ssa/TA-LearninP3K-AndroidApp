@@ -9,14 +9,15 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.carissac.learninp3k.R
 import com.carissac.learninp3k.data.di.Injection
 import com.carissac.learninp3k.databinding.ActivityCourseIntroBinding
+import kotlinx.coroutines.launch
 
 class CourseIntroActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCourseIntroBinding
@@ -72,50 +73,55 @@ class CourseIntroActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
     private fun observeCourseIntro() {
-        courseViewModel.introCourseResult.observe(this) { result ->
-            result.onSuccess { response ->
-                Glide.with(this@CourseIntroActivity)
-                    .load(response.courseImg)
-                    .placeholder(R.drawable.img_placeholder)
-                    .centerCrop()
-                    .into(binding.ivCourse)
+        lifecycleScope.launch {
+            courseViewModel.introCourseResult.collect { result ->
+                result?.onSuccess { response ->
+                    Glide.with(this@CourseIntroActivity)
+                        .load(response.courseImg)
+                        .placeholder(R.drawable.img_placeholder)
+                        .centerCrop()
+                        .into(binding.ivCourse)
 
-                binding.tvTitleCourse.text = response.courseName
-                binding.tvCourseIntroDesc.text = response.courseIntro
-                binding.tvCourseGoalDesc.text = response.courseGoal
+                    binding.tvTitleCourse.text = response.courseName
+                    binding.tvCourseIntroDesc.text = response.courseIntro
+                    binding.tvCourseGoalDesc.text = response.courseGoal
 
-                if(response.isEnrolled == true) {
-                    binding.btnLearnCourse.visibility = View.VISIBLE
-                    binding.btnCourseEnroll.visibility = View.INVISIBLE
-                    binding.cdCourseScore.visibility = View.VISIBLE
+                    if (response.isEnrolled == true) {
+                        binding.btnLearnCourse.visibility = View.VISIBLE
+                        binding.btnCourseEnroll.visibility = View.INVISIBLE
+                        binding.cdCourseScore.visibility = View.VISIBLE
 
-                    val score = response.courseScore ?: 0
-                    val styleScore = when {
-                        score > 65 -> R.style.ScoreColorType_GoodPass
-                        score >= 50 -> R.style.ScoreColorType_Pass
-                        else -> R.style.ScoreColorType_NotPass
+                        val score = response.courseScore ?: 0
+                        val styleScore = when {
+                            score > 65 -> R.style.ScoreColorType_GoodPass
+                            score >= 50 -> R.style.ScoreColorType_Pass
+                            else -> R.style.ScoreColorType_NotPass
+                        }
+
+                        val typedArray = obtainStyledAttributes(
+                            styleScore, intArrayOf(
+                                android.R.attr.background,
+                                android.R.attr.textColor
+                            )
+                        )
+                        val backgroundColor =
+                            typedArray.getColor(0, android.graphics.Color.TRANSPARENT)
+                        typedArray.recycle()
+
+                        binding.tvCourseScoreNum.text = score.toString()
+                        binding.tvCourseScore.setTextAppearance(styleScore)
+                        binding.tvCourseScoreNum.setTextAppearance(styleScore)
+                        binding.tvCourseScore.setBackgroundColor(backgroundColor)
+                        binding.tvCourseScoreNum.setBackgroundColor(backgroundColor)
+                        binding.cdCourseScore.setCardBackgroundColor(backgroundColor)
+                    } else {
+                        binding.btnLearnCourse.visibility = View.INVISIBLE
+                        binding.btnCourseEnroll.visibility = View.VISIBLE
+                        binding.cdCourseScore.visibility = View.GONE
                     }
-
-                    val typedArray = obtainStyledAttributes(styleScore, intArrayOf(
-                        android.R.attr.background,
-                        android.R.attr.textColor
-                    ))
-                    val backgroundColor = typedArray.getColor(0, android.graphics.Color.TRANSPARENT)
-                    typedArray.recycle()
-
-                    binding.tvCourseScoreNum.text = score.toString()
-                    binding.tvCourseScore.setTextAppearance(styleScore)
-                    binding.tvCourseScoreNum.setTextAppearance(styleScore)
-                    binding.tvCourseScore.setBackgroundColor(backgroundColor)
-                    binding.tvCourseScoreNum.setBackgroundColor(backgroundColor)
-                    binding.cdCourseScore.setCardBackgroundColor(backgroundColor)
-                } else {
-                    binding.btnLearnCourse.visibility = View.INVISIBLE
-                    binding.btnCourseEnroll.visibility = View.VISIBLE
-                    binding.cdCourseScore.visibility = View.GONE
+                }?.onFailure {
+                    showToast("Gagal memuat intro kelas")
                 }
-            }.onFailure {
-                showToast("Gagal memuat intro kelas")
             }
         }
 
@@ -125,14 +131,15 @@ class CourseIntroActivity : AppCompatActivity() {
     }
 
     private fun observeEnrollCourse() {
-        courseViewModel.enrollCourseResult.observe(this) { result ->
-            result.onSuccess { response ->
-                showToast("Kelas berhasil terdaftar")
-                response.data?.courseId?.let { courseId->
-                    courseViewModel.getIntroCourse(courseId)
+        lifecycleScope.launch {
+            courseViewModel.enrollCourseResult.collect { result ->
+                result?.onSuccess { response ->
+                    showToast("Kelas berhasil terdaftar")
+                    courseViewModel.clearEnrollResult()
+                }?.onFailure {
+                    showToast("Kelas gagal didaftar, silahkan coba kembali")
+                    courseViewModel.clearEnrollResult()
                 }
-            }.onFailure {
-                showToast("Kelas gagal didaftar, silahkan coba kembali")
             }
         }
 

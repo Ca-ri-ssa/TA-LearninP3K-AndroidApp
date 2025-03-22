@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.carissac.learninp3k.data.remote.response.AllAttemptResponseItem
+import com.carissac.learninp3k.data.remote.response.AllAttemptResponse
 import com.carissac.learninp3k.data.remote.response.SubmitAttemptRequest
 import com.carissac.learninp3k.data.remote.response.TakeAttemptResponse
 import com.carissac.learninp3k.data.repository.AttemptRepository
@@ -20,13 +20,16 @@ import kotlinx.coroutines.launch
 class QuizViewModel(private val repository: AttemptRepository): ViewModel() {
     val isLoading: LiveData<Boolean> = repository.isLoading
 
-    val allAttemptResult: LiveData<Result<List<AllAttemptResponseItem>>> = repository.allAttemptResult
+    val allAttemptResult: LiveData<Result<AllAttemptResponse>> = repository.allAttemptResult
+
     val submitQuizResult: LiveData<Result<TakeAttemptResponse>> = repository.submitQuizResult
+
+    private val _isQuizSubmitted = MutableLiveData(false)
+    val isQuizSubmitted: LiveData<Boolean> = _isQuizSubmitted
 
     companion object {
         private const val QUIZ_DURATION = 5 * 60 * 1000L
         private const val INTERVAL = 1000L
-        private const val COOLDOWN_PERIOD = 5 * 60 * 1000L
     }
 
     private var countDownTimer: CountDownTimer? = null
@@ -36,9 +39,6 @@ class QuizViewModel(private val repository: AttemptRepository): ViewModel() {
 
     private val _isTimerFinished = MutableLiveData(false)
     val isTimerFinished: LiveData<Boolean> = _isTimerFinished
-
-    private val _cooldownTime = MutableStateFlow(0L)
-    val cooldownTime: StateFlow<Long> = _cooldownTime.asStateFlow()
 
     fun startTimer(startTime: Long) {
         val elapsedTime = System.currentTimeMillis() - startTime
@@ -65,59 +65,22 @@ class QuizViewModel(private val repository: AttemptRepository): ViewModel() {
     fun getAllAttemptHistory(id: Int) {
         viewModelScope.launch {
             val token = repository.getUserSession().first() ?: ""
-            if(token.isNotEmpty()) {
+            if (token.isNotEmpty()) {
                 repository.getAllAttemptSession(token, id)
             }
         }
     }
 
-    fun takeAttempt(id:Int, submitAttemptRequest: SubmitAttemptRequest) {
+    fun takeAttempt(id: Int, submitAttemptRequest: SubmitAttemptRequest) {
         viewModelScope.launch {
             val token = repository.getUserSession().first() ?: ""
-            if(token.isNotEmpty()) {
+            if (token.isNotEmpty()) {
                 repository.takeAttempt(token, id, submitAttemptRequest)
             }
         }
     }
 
-    fun saveCooldown(courseId: Int, cooldownTime: Long) {
-        viewModelScope.launch {
-            repository.saveCooldown(courseId, cooldownTime)
-        }
+    fun resetSubmitQuizState() {
+        repository.resetSubmitQuizResult()
     }
-
-    fun getCooldownTime(courseId: Int) {
-        viewModelScope.launch {
-            repository.getCooldownTime(courseId).collect { cooldownEndTime ->
-                val cooldown = cooldownEndTime ?: 0L
-                val currentTime = System.currentTimeMillis()
-                if (cooldown > currentTime) {
-                    _cooldownTime.value = (cooldown - currentTime) / 1000
-                    startCooldownTimer()
-                } else {
-                    _cooldownTime.value = 0
-                }
-            }
-        }
-    }
-
-    private fun startCooldownTimer() {
-        viewModelScope.launch {
-            while (_cooldownTime.value > 0) {
-                delay(1000)
-                _cooldownTime.value -= 1
-            }
-        }
-    }
-
-    fun isCooldownActive(courseId: Int): Flow<Boolean> {
-        return repository.isCooldownActive(courseId)
-    }
-
-    fun clearCooldown(courseId: Int) {
-        viewModelScope.launch {
-            repository.clearCooldown(courseId)
-        }
-    }
-
 }

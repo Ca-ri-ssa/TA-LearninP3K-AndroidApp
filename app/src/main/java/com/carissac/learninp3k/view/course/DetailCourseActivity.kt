@@ -2,6 +2,7 @@ package com.carissac.learninp3k.view.course
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +13,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.lifecycleScope
 import com.carissac.learninp3k.R
 import com.carissac.learninp3k.data.di.Injection
 import com.carissac.learninp3k.databinding.ActivityDetailCourseBinding
-import com.carissac.learninp3k.view.quiz.QuizActivity
+import com.carissac.learninp3k.view.quiz.QuizIntroActivity
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.HeroCarouselStrategy
@@ -23,12 +25,14 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import kotlinx.coroutines.launch
 
 class DetailCourseActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailCourseBinding
     private lateinit var imgCourseAdapter: ImageCourseAdapter
     private lateinit var youtubePlayerView: YouTubePlayerView
-    private var courseId: Int = -1
+    private var intentCourseId: Int = -1
+    private var detailCourseId: Int = -1
 
     private val courseViewModel: CourseViewModel by viewModels {
         CourseViewModelFactory(Injection.provideCourseRepository(this))
@@ -71,40 +75,42 @@ class DetailCourseActivity : AppCompatActivity() {
         val snapHelper = CarouselSnapHelper()
         snapHelper.attachToRecyclerView(binding.rvImgCourse)
 
-        courseId = intent.getIntExtra(COURSE_ID, -1)
-        if(courseId != -1) {
-            courseViewModel.getDetailCourse(courseId)
+        intentCourseId = intent.getIntExtra(COURSE_ID, -1)
+        if(intentCourseId != -1) {
+            courseViewModel.getDetailCourse(intentCourseId)
         }
 
         observeDetailCourse()
     }
 
     private fun observeDetailCourse() {
-        courseViewModel.detailCourseResult.observe(this) { result ->
-            result.onSuccess { response ->
-                binding.tvTitleCourse.text = response.courseName
-                binding.tvCourseContent.text = response.courseContent
+        lifecycleScope.launch {
+            courseViewModel.detailCourseResult.collect { result ->
+                result?.onSuccess { response ->
+                    binding.tvTitleCourse.text = response.courseName
+                    binding.tvCourseContent.text = response.courseContent
 
-                setUpCourseVid(response.courseVid ?: "")
+                    detailCourseId = response.courseId ?: -1
+                    setUpCourseVid(response.courseVid ?: "")
 
-                if(response.vidSource == "Smart Emergency") {
-                    binding.tvVidSourceCreator.visibility = View.VISIBLE
-                    binding.tvVidSourceCreator.text = "Sumber: ${response.vidSource}"
-                } else {
-                    binding.tvVidSourceCreator.visibility = View.GONE
+                    if (response.vidSource == "Smart Emergency") {
+                        binding.tvVidSourceCreator.visibility = View.VISIBLE
+                        binding.tvVidSourceCreator.text = "Sumber: ${response.vidSource}"
+                    } else {
+                        binding.tvVidSourceCreator.visibility = View.GONE
+                    }
+
+                    if (!response.imgCourseHeading.isNullOrEmpty()) {
+                        binding.tvImgCourseTitle.text = response.imgCourseHeading
+                        imgCourseAdapter.submitList(response.imgCourse)
+                    } else {
+                        binding.tvImgCourseTitle.visibility = View.GONE
+                        binding.rvImgCourse.visibility = View.GONE
+                        imgCourseAdapter.submitList(emptyList())
+                    }
+                }?.onFailure {
+                    showToast("Gagal memuat data detail kelas")
                 }
-
-                if (!response.imgCourseHeading.isNullOrEmpty() && !response.imgCourse.isNullOrEmpty()) {
-                    showToast("Image Course is not null")
-                    binding.tvImgCourseTitle.text = response.imgCourseHeading
-                    imgCourseAdapter.submitList(response.imgCourse)
-                } else {
-                    showToast("Image course is null")
-                    binding.tvImgCourseTitle.visibility = View.GONE
-                    binding.rvImgCourse.visibility = View.GONE
-                }
-            }.onFailure {
-                showToast("Gagal memuat data detail kelas")
             }
         }
 
@@ -139,11 +145,16 @@ class DetailCourseActivity : AppCompatActivity() {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.option_menu_course_detail, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.menu_quiz -> {
-                val intent = Intent(this, QuizActivity::class.java)
-                intent.putExtra(COURSE_ID, courseId)
+                val intent = Intent(this, QuizIntroActivity::class.java)
+                intent.putExtra(COURSE_ID, detailCourseId)
                 startActivity(intent)
                 return true
             }

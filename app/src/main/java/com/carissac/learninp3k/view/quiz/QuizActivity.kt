@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,16 +17,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.carissac.learninp3k.R
 import com.carissac.learninp3k.data.di.Injection
 import com.carissac.learninp3k.data.remote.response.Answer
 import com.carissac.learninp3k.data.remote.response.SubmitAttemptRequest
-import com.carissac.learninp3k.data.remote.response.TakeAttemptResponse
 import com.carissac.learninp3k.databinding.ActivityQuizBinding
 import com.carissac.learninp3k.view.course.CourseViewModel
 import com.carissac.learninp3k.view.course.CourseViewModelFactory
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 
+@Suppress("DEPRECATION")
 class QuizActivity : AppCompatActivity() {
     private lateinit var binding: ActivityQuizBinding
     private lateinit var quizAdapter: QuizAdapter
@@ -128,11 +129,6 @@ class QuizActivity : AppCompatActivity() {
             if (isFinished) {
                 showToast("Waktu habis! Anda gagal menyelesaikan kuis.")
 
-                lifecycleScope.launch {
-                    val cooldownTime = System.currentTimeMillis() + 5 * 60 * 1000
-                    quizViewModel.saveCooldown(courseId, cooldownTime)
-                }
-
                 val intent = Intent(this, QuizIntroActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -145,23 +141,28 @@ class QuizActivity : AppCompatActivity() {
             Answer(questionId = questionId, userAnswer = userAnswer)
         }
 
-        val request = SubmitAttemptRequest(answers)
-
-        quizViewModel.takeAttempt(courseId, request)
-
-        lifecycleScope.launch {
-            val cooldownTime = System.currentTimeMillis() + 5 * 60 * 1000
-            quizViewModel.saveCooldown(courseId, cooldownTime)
+        if (selectedAnswers.size < quizAdapter.itemCount) {
+            showToast("Harap jawab semua pertanyaan sebelum menyelesaikan kuis.")
+            binding.btnQuizFinish.isEnabled = false
+            return
+        } else {
+            binding.btnQuizFinish.isEnabled = true
         }
 
-        Toast.makeText(this, "Quiz submitted!", Toast.LENGTH_SHORT).show()
+        val request = SubmitAttemptRequest(answers)
+        quizViewModel.takeAttempt(courseId, request)
     }
 
     private fun observeQuizResult() {
         quizViewModel.submitQuizResult.observe(this) { result ->
-            result.onSuccess { response ->
-                showQuizResultFragment(response)
-            }.onFailure {
+            result?.onSuccess { response ->
+                showToast("Kuis telah dikirim")
+
+                val intent = Intent(this, QuizResultActivity::class.java)
+                intent.putExtra(QUIZ_RESULT, response)
+                startActivity(intent)
+                finish()
+            }?.onFailure {
                 showToast("Gagal mengirimkan hasil kuis")
             }
         }
@@ -169,18 +170,6 @@ class QuizActivity : AppCompatActivity() {
         quizViewModel.isLoading.observe(this) { isLoading ->
             showLoading(isLoading)
         }
-    }
-
-    @SuppressLint("CommitTransaction")
-    private fun showQuizResultFragment(result: TakeAttemptResponse) {
-        val fragment = QuizResultFragment.newInstance(result)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.quiz_result_fragment, fragment)
-            .addToBackStack(null)
-            .commit()
-
-        binding.quiz.visibility = View.GONE
-        binding.quizResultFragment.visibility = View.VISIBLE
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -200,5 +189,6 @@ class QuizActivity : AppCompatActivity() {
     companion object {
         const val COURSE_ID = "course_id"
         const val START_TIMER = "start_time"
+        const val QUIZ_RESULT = "quiz_result"
     }
 }
