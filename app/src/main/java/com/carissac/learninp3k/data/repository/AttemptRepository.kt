@@ -1,9 +1,11 @@
 package com.carissac.learninp3k.data.repository
 
+import android.widget.MultiAutoCompleteTextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.carissac.learninp3k.data.local.UserPreference
 import com.carissac.learninp3k.data.remote.response.AllAttemptResponse
+import com.carissac.learninp3k.data.remote.response.AttemptResponse
 import com.carissac.learninp3k.data.remote.response.SubmitAttemptRequest
 import com.carissac.learninp3k.data.remote.response.TakeAttemptResponse
 import com.carissac.learninp3k.data.remote.retrofit.ApiService
@@ -23,6 +25,9 @@ class AttemptRepository (
 
     private val _allAttemptResult = MutableLiveData<Result<AllAttemptResponse>>()
     val allAttemptResult: LiveData<Result<AllAttemptResponse>> = _allAttemptResult
+
+    private val _detailAttemptResult = MutableLiveData<Result<AttemptResponse>>()
+    val detailAttemptResult: LiveData<Result<AttemptResponse>> = _detailAttemptResult
 
     fun getUserSession(): Flow<String?> {
         return userPreference.getUserToken()
@@ -81,7 +86,27 @@ class AttemptRepository (
     }
 
     suspend fun getDetailAttempt(token: String, id: Int, sessionId: Int) {
-
+        _isLoading.postValue(true)
+        try {
+            val response = apiService.getDetailAttempt("Bearer $token", id, sessionId)
+            if(response.isSuccessful) {
+                val detailAttemptResponse = response.body()
+                if(detailAttemptResponse != null) {
+                    _detailAttemptResult.postValue(Result.success(detailAttemptResponse))
+                } else {
+                    _detailAttemptResult.postValue(Result.failure(Exception("Respon kosong dari server")))
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data detail attempt"
+                _detailAttemptResult.postValue(Result.failure(Exception(errorMessage)))
+            }
+        } catch (e: IOException) {
+            _detailAttemptResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+        } catch (e: HttpException) {
+            _detailAttemptResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+        } finally {
+            _isLoading.postValue(false)
+        }
     }
 
     companion object {

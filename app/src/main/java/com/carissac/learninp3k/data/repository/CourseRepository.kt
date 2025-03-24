@@ -43,9 +43,6 @@ class CourseRepository private constructor(
     private val _enrollCourseFlow = MutableStateFlow<Result<CourseEnrollmentResponse>?>(null)
     val enrollCourseFlow: StateFlow<Result<CourseEnrollmentResponse>?> = _enrollCourseFlow.asStateFlow()
 
-//    private val _detailCourseResult = MutableLiveData<Result<CourseDetailResponse>>()
-//    val detailCourseResult: LiveData<Result<CourseDetailResponse>> = _detailCourseResult
-
     private val _detailCourseFlow = MutableStateFlow<Result<CourseDetailResponse>?>(null)
     val detailCourseFlow: StateFlow<Result<CourseDetailResponse>?> = _detailCourseFlow
 
@@ -159,30 +156,6 @@ class CourseRepository private constructor(
             _isLoading.postValue(false)
         }
     }
-
-//    suspend fun getCourseDetail(token: String, id: Int) {
-//        _isLoading.postValue(true)
-//        try {
-//            val response = apiService.getCourseDetail("Bearer $token", id)
-//            if(response.isSuccessful) {
-//                val detailCourseResponse = response.body()
-//                if(detailCourseResponse != null) {
-//                    _detailCourseResult.postValue(Result.success(detailCourseResponse))
-//                } else {
-//                    _detailCourseResult.postValue(Result.failure(Exception("Respon kosong dari server")))
-//                }
-//            } else {
-//                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data detail kelas"
-//                _detailCourseResult.postValue(Result.failure(Exception(errorMessage)))
-//            }
-//        } catch (e: IOException) {
-//            _detailCourseResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
-//        } catch (e: HttpException) {
-//            _detailCourseResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
-//        } finally {
-//            _isLoading.postValue(false)
-//        }
-//    }
 
     suspend fun getStatusCourseByContinue(token: String) {
         _isLoading.postValue(true)

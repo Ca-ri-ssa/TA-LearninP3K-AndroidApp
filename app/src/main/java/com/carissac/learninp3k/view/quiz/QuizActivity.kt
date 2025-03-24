@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +22,6 @@ import com.carissac.learninp3k.data.remote.response.SubmitAttemptRequest
 import com.carissac.learninp3k.databinding.ActivityQuizBinding
 import com.carissac.learninp3k.view.course.CourseViewModel
 import com.carissac.learninp3k.view.course.CourseViewModelFactory
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")

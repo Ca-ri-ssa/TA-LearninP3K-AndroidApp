@@ -6,11 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.carissac.learninp3k.data.remote.response.AllAttemptResponse
+import com.carissac.learninp3k.data.remote.response.AttemptResponse
 import com.carissac.learninp3k.data.remote.response.SubmitAttemptRequest
 import com.carissac.learninp3k.data.remote.response.TakeAttemptResponse
 import com.carissac.learninp3k.data.repository.AttemptRepository
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,6 +22,8 @@ class QuizViewModel(private val repository: AttemptRepository): ViewModel() {
     val allAttemptResult: LiveData<Result<AllAttemptResponse>> = repository.allAttemptResult
 
     val submitQuizResult: LiveData<Result<TakeAttemptResponse>> = repository.submitQuizResult
+
+    val detailAttemptResult: LiveData<Result<AttemptResponse>> = repository.detailAttemptResult
 
     private val _isQuizSubmitted = MutableLiveData(false)
     val isQuizSubmitted: LiveData<Boolean> = _isQuizSubmitted
@@ -82,5 +83,14 @@ class QuizViewModel(private val repository: AttemptRepository): ViewModel() {
 
     fun resetSubmitQuizState() {
         repository.resetSubmitQuizResult()
+    }
+
+    fun getDetailAttempt(id: Int, sessionId: Int) {
+        viewModelScope.launch {
+            val token = repository.getUserSession().first() ?: ""
+            if (token.isNotEmpty()) {
+                repository.getDetailAttempt(token, id, sessionId)
+            }
+        }
     }
 }

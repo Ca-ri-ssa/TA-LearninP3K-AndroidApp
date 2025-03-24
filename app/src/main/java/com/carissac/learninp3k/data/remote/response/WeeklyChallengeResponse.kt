@@ -1,6 +1,8 @@
 package com.carissac.learninp3k.data.remote.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class WeeklyChallengeResponse (
     @field:SerializedName("success")
@@ -63,6 +65,7 @@ data class WeeklyChallengeDetailResponse (
     val updatedAt: String? = null
 )
 
+@Parcelize
 data class TakeWeeklyChallengeResponse (
     @field:SerializedName("msg")
     val msg: String? = null,
@@ -71,7 +74,7 @@ data class TakeWeeklyChallengeResponse (
     val challengeName: String? = null,
 
     @field:SerializedName("score")
-    val score: Int? = null,
+    val score: String? = null,
 
     @field:SerializedName("earned_point")
     val earnedPoint: Int? = null,
@@ -81,4 +84,4 @@ data class TakeWeeklyChallengeResponse (
 
     @field:SerializedName("badge_img")
     val badgeImg: String? = null,
-)
+): Parcelable

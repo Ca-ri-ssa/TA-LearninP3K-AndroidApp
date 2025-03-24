@@ -1,26 +1,25 @@
 package com.carissac.learninp3k.view.challenge
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import com.bumptech.glide.Glide
+import com.carissac.learninp3k.R
 import com.carissac.learninp3k.data.di.Injection
 import com.carissac.learninp3k.databinding.ActivityWeeklyChallengeBinding
-import com.carissac.learninp3k.view.leaderboard.LeaderboardViewModel
-import com.carissac.learninp3k.view.leaderboard.LeaderboardViewModelFactory
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.FullscreenListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-import kotlin.getValue
 
 class WeeklyChallengeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeeklyChallengeBinding
+    private var challengeId: Int = -1
+    private var correctAnswer: String = ""
 
     private val weeklyChallengeViewModel: WeeklyChallengeViewModel by viewModels {
         WeeklyChallengeViewModelFactory(Injection.provideLeaderboardRepository(this))
@@ -53,14 +52,110 @@ class WeeklyChallengeActivity : AppCompatActivity() {
         }
 
         weeklyChallengeViewModel.getWeeklyChallenge()
+        observeWeeklyChallenge()
+
+        binding.btnFinishChallenge.setOnClickListener {
+            if(challengeId == -1) {
+                showToast("Challenge tidak ditemukan")
+                return@setOnClickListener
+            }
+
+            val selectedOptionId = binding.radioGroupAnswer.checkedRadioButtonId
+
+            if(selectedOptionId == -1) {
+                showToast("Anda belum memilih jawaban")
+                return@setOnClickListener
+            }
+
+            val userAnswer = when(selectedOptionId) {
+                R.id.radio_btn_1 -> binding.radioBtn1.text.toString()
+                R.id.radio_btn_2 -> binding.radioBtn2.text.toString()
+                R.id.radio_btn_3 -> binding.radioBtn3.text.toString()
+                R.id.radio_btn_4 -> binding.radioBtn4.text.toString()
+                else -> ""
+            }
+
+            weeklyChallengeViewModel.takeWeeklyChallenge(challengeId, userAnswer)
+        }
+        observeTakeWeeklyChallenge()
     }
 
     private fun observeWeeklyChallenge() {
+        weeklyChallengeViewModel.weeklyChallengeResult.observe(this) { result ->
+            result.onSuccess { response ->
+                val challenge = response.challenge
+                correctAnswer = challenge?.challengeAnswer.toString()
 
+                if(challenge != null) {
+                    challengeId = challenge.challengeId!!
+
+                    binding.apply {
+                        tvErrorMsg.visibility = View.GONE
+
+                        Glide.with(this@WeeklyChallengeActivity)
+                            .load(challenge.challengeImg)
+                            .placeholder(R.drawable.img_placeholder)
+                            .centerCrop()
+                            .into(ivChallenge)
+
+                        tvTitleWeeklyChallenge.text = challenge.challengeName
+                        tvScenarioDesc.text = challenge.challengeQuestion
+                        radioBtn1.text = challenge.option1
+                        radioBtn2.text = challenge.option2
+                        radioBtn3.text = challenge.option3
+                        radioBtn4.text = challenge.option4
+                    }
+                } else {
+                    binding.apply {
+                        tvErrorMsg.visibility = View.VISIBLE
+                        tvErrorMsg.text = response.msg
+
+                        ivChallenge.visibility = View.GONE
+                        tvTitleWeeklyChallenge.visibility = View.GONE
+                        tvScenarioDesc.visibility = View.GONE
+                        radioGroupAnswer.visibility = View.GONE
+                    }
+                }
+            }.onFailure {
+                showToast("Gagal mengambil data Weekly Challenge minggu ini")
+            }
+        }
+
+        weeklyChallengeViewModel.isLoading.observe(this) { isLoadng ->
+            showLoading(isLoadng)
+        }
     }
+
+    private fun observeTakeWeeklyChallenge() {
+        weeklyChallengeViewModel.takeWeeklyChallengeResult.observe(this) { result ->
+            result.onSuccess { response ->
+                val intent = Intent(this, WeeklyChallengeResultActivity::class.java)
+                intent.putExtra(CHALLENGE_RESULT_INCORRECT, correctAnswer)
+                intent.putExtra(CHALLENGE_RESULT_CORRECT, response)
+                startActivity(intent)
+            }.onFailure {
+                showToast("Gagal mengambil data hasil Weekly Challenge minggu ini")
+            }
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    @Suppress("SameParameterValue")
+    private fun showToast(msg: String?) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
         return true
+    }
+
+    companion object {
+        const val CHALLENGE_RESULT_CORRECT = "challenge_result_correct"
+        const val CHALLENGE_RESULT_INCORRECT = "challenge_result_incorrect"
     }
 }

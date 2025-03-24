@@ -13,12 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.carissac.learninp3k.data.di.Injection
 import com.carissac.learninp3k.databinding.ActivityQuizIntroBinding
-import com.carissac.learninp3k.view.utils.formatTimer
-import kotlinx.coroutines.launch
 
 class QuizIntroActivity : AppCompatActivity() {
     private lateinit var binding: ActivityQuizIntroBinding
