@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +17,8 @@ import com.carissac.learninp3k.R
 import com.carissac.learninp3k.data.di.Injection
 import com.carissac.learninp3k.databinding.FragmentHomeBinding
 import com.carissac.learninp3k.view.challenge.WeeklyChallengeActivity
+import com.carissac.learninp3k.view.challenge.WeeklyChallengeViewModel
+import com.carissac.learninp3k.view.challenge.WeeklyChallengeViewModelFactory
 import com.carissac.learninp3k.view.course.CourseIntroActivity
 import com.carissac.learninp3k.view.course.CourseViewModel
 import com.carissac.learninp3k.view.course.CourseViewModelFactory
@@ -106,14 +109,9 @@ class HomeFragment : Fragment() {
                     intent.putExtra("course_id", response.courseId)
                     startActivity(intent)
                 }
-            }.onFailure { error ->
-                if(error is HttpException && error.code() == 404) {
-                    binding.cdNoCourseInprogress.visibility = View.VISIBLE
-                    binding.cdContinueCourse.visibility = View.INVISIBLE
-                    return@onFailure
-                } else {
-                    showToast("Gagal memuat kursus status \"Sedang Belajar\"")
-                }
+            }.onFailure {
+                binding.cdNoCourseInprogress.visibility = View.VISIBLE
+                binding.cdContinueCourse.visibility = View.INVISIBLE
             }
         }
 

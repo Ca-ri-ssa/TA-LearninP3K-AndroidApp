@@ -32,4 +32,8 @@ class WeeklyChallengeViewModel(private val repository: LeaderboardRepository): V
             }
         }
     }
+
+    fun resetTakeWeeklyChallengeState() {
+        repository.resetTakeWeeklyChallengeResult()
+    }
 }

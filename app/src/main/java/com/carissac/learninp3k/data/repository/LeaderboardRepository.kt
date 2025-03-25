@@ -1,5 +1,6 @@
 package com.carissac.learninp3k.data.repository
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.carissac.learninp3k.data.local.UserPreference
@@ -10,6 +11,7 @@ import com.carissac.learninp3k.data.remote.response.UserBadgeResponseItem
 import com.carissac.learninp3k.data.remote.response.WeeklyChallengeResponse
 import com.carissac.learninp3k.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
+import org.json.JSONObject
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -37,6 +39,11 @@ class LeaderboardRepository private constructor(
 
     private val _takeWeeklyChallengeResult = MutableLiveData<Result<TakeWeeklyChallengeResponse>>()
     val takeWeeklyChallengeResult: LiveData<Result<TakeWeeklyChallengeResponse>> = _takeWeeklyChallengeResult
+
+    @SuppressLint("NullSafeMutableLiveData")
+    fun resetTakeWeeklyChallengeResult() {
+        _takeWeeklyChallengeResult.value = null
+    }
 
     fun getUserSession(): Flow<String?> {
         return userPreference.getUserToken()
@@ -138,7 +145,12 @@ class LeaderboardRepository private constructor(
                     _weeklyChallengeResult.postValue(Result.failure(Exception("Respon kosong dari server")))
                 }
             } else {
-                val errorMessage = response.errorBody()?.string() ?: "Gagal mengambil data weekly challenge minggu ini"
+                val errorBody = response.errorBody()?.string()
+                val errorMessage = try {
+                    JSONObject(errorBody ?: "").getString("msg") // Ambil nilai "msg" dari JSON
+                } catch (e: Exception) {
+                    "Gagal mengambil data weekly challenge minggu ini"
+                }
                 _weeklyChallengeResult.postValue(Result.failure(Exception(errorMessage)))
             }
         } catch (e: IOException) {

@@ -170,7 +170,7 @@ class DetailCourseActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         youtubePlayerView.release()
-        showToast("detail course id: $detailCourseId")
+
         courseViewModel.getDetailCourse(detailCourseId)
     }
 

@@ -1,5 +1,6 @@
 package com.carissac.learninp3k.data.repository
 
+import android.annotation.SuppressLint
 import android.widget.MultiAutoCompleteTextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,6 +34,7 @@ class AttemptRepository (
         return userPreference.getUserToken()
     }
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun resetSubmitQuizResult() {
         _submitQuizResult.value = null
     }

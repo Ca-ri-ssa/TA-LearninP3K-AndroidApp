@@ -2,6 +2,7 @@ package com.carissac.learninp3k.view.challenge
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -15,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.carissac.learninp3k.R
 import com.carissac.learninp3k.data.di.Injection
 import com.carissac.learninp3k.databinding.ActivityWeeklyChallengeBinding
+import retrofit2.HttpException
 
 class WeeklyChallengeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeeklyChallengeBinding
@@ -105,34 +107,40 @@ class WeeklyChallengeActivity : AppCompatActivity() {
                         radioBtn3.text = challenge.option3
                         radioBtn4.text = challenge.option4
                     }
-                } else {
-                    binding.apply {
-                        tvErrorMsg.visibility = View.VISIBLE
-                        tvErrorMsg.text = response.msg
-
-                        ivChallenge.visibility = View.GONE
-                        tvTitleWeeklyChallenge.visibility = View.GONE
-                        tvScenarioDesc.visibility = View.GONE
-                        radioGroupAnswer.visibility = View.GONE
-                    }
                 }
-            }.onFailure {
-                showToast("Gagal mengambil data Weekly Challenge minggu ini")
+            }.onFailure { error ->
+                binding.tvErrorMsg.text = error.message
+                binding.tvErrorMsg.visibility = View.VISIBLE
+                binding.tvTitleWeeklyChallenge.visibility = View.GONE
+                binding.ivChallenge.visibility = View.GONE
+                binding.tvScenarioDesc.visibility = View.GONE
+                binding.radioGroupAnswer.visibility = View.GONE
+                binding.btnFinishChallenge.visibility = View.GONE
             }
         }
 
-        weeklyChallengeViewModel.isLoading.observe(this) { isLoadng ->
-            showLoading(isLoadng)
+        weeklyChallengeViewModel.isLoading.observe(this) { isLoading ->
+            showLoading(isLoading)
         }
     }
 
     private fun observeTakeWeeklyChallenge() {
         weeklyChallengeViewModel.takeWeeklyChallengeResult.observe(this) { result ->
             result.onSuccess { response ->
+
+                if(challengeId == -1) {
+                    showToast("State lama")
+                    return@onSuccess
+                }
+
                 val intent = Intent(this, WeeklyChallengeResultActivity::class.java)
                 intent.putExtra(CHALLENGE_RESULT_INCORRECT, correctAnswer)
                 intent.putExtra(CHALLENGE_RESULT_CORRECT, response)
                 startActivity(intent)
+
+                challengeId = -1
+                weeklyChallengeViewModel.resetTakeWeeklyChallengeState()
+                finish()
             }.onFailure {
                 showToast("Gagal mengambil data hasil Weekly Challenge minggu ini")
             }
