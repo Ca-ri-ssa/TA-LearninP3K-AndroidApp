@@ -1,10 +1,8 @@
 package com.carissac.learninp3k.view.quiz
 
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.CompoundButtonCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -35,8 +33,10 @@ class DetailAttemptAdapter: ListAdapter<AttemptDetailResponse, DetailAttemptAdap
                 val options = listOf(attempt.option1, attempt.option2, attempt.option3, attempt.option4)
 
                 radioButtons.forEach { rb ->
+                    rb.setOnCheckedChangeListener(null)
                     rb.isChecked = false
                     rb.isEnabled = false
+                    rb.setTextAppearance(android.R.style.TextAppearance_Material_Body1)
                 }
 
                 options.forEachIndexed { index, option ->
@@ -51,17 +51,17 @@ class DetailAttemptAdapter: ListAdapter<AttemptDetailResponse, DetailAttemptAdap
                 if(selectedIndex != -1) {
                     radioButtons[selectedIndex].isChecked = true
                     if(attempt.isCorrect == true) {
-                        radioButtons[selectedIndex].setTextAppearance(R.style.TextColorSuccess)
-                        radioButtons[selectedIndex].setTypeface(null, Typeface.BOLD)
+                        radioButtons[selectedIndex].setTextAppearance(R.style.TextColorSuccess_bold)
                     } else {
-                        radioButtons[selectedIndex].setTextAppearance(R.style.TextColorError)
-                        radioButtons[selectedIndex].setTypeface(null, Typeface.BOLD)
+                        radioButtons[selectedIndex].setTextAppearance(R.style.TextColorError_bold)
                     }
                 }
 
-                if (attempt.isCorrect == false && correctIndex != -1) {
-                    radioButtons[correctIndex].setTextAppearance(R.style.TextColorSuccess)
-                    radioButtons[selectedIndex].setTypeface(null, Typeface.BOLD)
+                if (correctIndex != -1 && attempt.isCorrect == false) {
+                    radioButtons[correctIndex].setTextAppearance(R.style.TextColorSuccess_bold)
+                }
+
+                if (attempt.isCorrect == false) {
                     cdFeedback.visibility = View.VISIBLE
                     tvFeedback.text = attempt.feedback
                 } else {

@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 
 class CourseIntroActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCourseIntroBinding
+    private var courseId: Int = -1
 
     private val courseViewModel: CourseViewModel by viewModels {
         CourseViewModelFactory(Injection.provideCourseRepository(this))
@@ -52,7 +53,7 @@ class CourseIntroActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
 
-        val courseId = intent.getIntExtra(COURSE_ID, -1)
+        courseId = intent.getIntExtra(COURSE_ID, -1)
         if(courseId != -1) {
             courseViewModel.getIntroCourse(courseId)
         }
@@ -160,6 +161,13 @@ class CourseIntroActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
         return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (courseId != -1) {
+            courseViewModel.getIntroCourse(courseId)
+        }
     }
 
     companion object {

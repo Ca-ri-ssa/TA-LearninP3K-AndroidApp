@@ -15,6 +15,10 @@ class WeeklyChallengeViewModel(private val repository: LeaderboardRepository): V
     val weeklyChallengeResult: LiveData<Result<WeeklyChallengeResponse>> = repository.weeklyChallengeResult
     val takeWeeklyChallengeResult: LiveData<Result<TakeWeeklyChallengeResponse>> = repository.takeWeeklyChallengeResult
 
+    init {
+        getWeeklyChallenge()
+    }
+
     fun getWeeklyChallenge() {
         viewModelScope.launch {
             val token = repository.getUserSession().first() ?: ""

@@ -18,6 +18,21 @@
         <item name="android:textColor">@color/darkGreen</item>
     </style>
 
+    <style name="TextColorSuccess.bold">
+        <item name="android:textColor">@color/lime</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextColorError.bold">
+        <item name="android:textColor">?attr/colorError</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextColorSecondary.bold">
+        <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextColorSuccess">
         <item name="android:textColor">@color/lime</item>
     </style>

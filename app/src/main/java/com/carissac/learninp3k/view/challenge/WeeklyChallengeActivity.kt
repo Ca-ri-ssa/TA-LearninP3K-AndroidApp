@@ -2,7 +2,6 @@ package com.carissac.learninp3k.view.challenge
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -16,7 +15,6 @@ import com.bumptech.glide.Glide
 import com.carissac.learninp3k.R
 import com.carissac.learninp3k.data.di.Injection
 import com.carissac.learninp3k.databinding.ActivityWeeklyChallengeBinding
-import retrofit2.HttpException
 
 class WeeklyChallengeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeeklyChallengeBinding
@@ -92,7 +90,7 @@ class WeeklyChallengeActivity : AppCompatActivity() {
                     challengeId = challenge.challengeId!!
 
                     binding.apply {
-                        tvErrorMsg.visibility = View.GONE
+                        errorMsg.visibility = View.GONE
 
                         Glide.with(this@WeeklyChallengeActivity)
                             .load(challenge.challengeImg)
@@ -110,9 +108,9 @@ class WeeklyChallengeActivity : AppCompatActivity() {
                 }
             }.onFailure { error ->
                 binding.tvErrorMsg.text = error.message
-                binding.tvErrorMsg.visibility = View.VISIBLE
+                binding.errorMsg.visibility = View.VISIBLE
                 binding.tvTitleWeeklyChallenge.visibility = View.GONE
-                binding.ivChallenge.visibility = View.GONE
+                binding.cdIvChallenge.visibility = View.GONE
                 binding.tvScenarioDesc.visibility = View.GONE
                 binding.radioGroupAnswer.visibility = View.GONE
                 binding.btnFinishChallenge.visibility = View.GONE
@@ -155,7 +153,6 @@ class WeeklyChallengeActivity : AppCompatActivity() {
     private fun showToast(msg: String?) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
-
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()

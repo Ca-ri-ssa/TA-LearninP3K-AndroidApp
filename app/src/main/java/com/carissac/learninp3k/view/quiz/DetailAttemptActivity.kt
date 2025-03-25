@@ -21,6 +21,8 @@ import kotlin.getValue
 class DetailAttemptActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailAttemptBinding
     private lateinit var detailAttemptAdapter: DetailAttemptAdapter
+    private var courseId: Int = -1
+    private var sessionId: Int = -1
 
     private val quizViewModel: QuizViewModel by viewModels {
         QuizViewModelFactory(Injection.provideAttemptRepository(this))
@@ -58,8 +60,8 @@ class DetailAttemptActivity : AppCompatActivity() {
             adapter = detailAttemptAdapter
         }
 
-        val courseId = intent.getIntExtra(COURSE_ID, -1)
-        val sessionId = intent.getIntExtra(SESSION_ID, -1)
+        courseId = intent.getIntExtra(COURSE_ID, -1)
+        sessionId = intent.getIntExtra(SESSION_ID, -1)
         if(courseId != -1 && sessionId != -1) {
             quizViewModel.getDetailAttempt(courseId, sessionId)
         }

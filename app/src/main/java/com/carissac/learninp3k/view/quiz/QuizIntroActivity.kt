@@ -99,6 +99,7 @@ class QuizIntroActivity : AppCompatActivity() {
                         .take(3)
 
                     attemptHistoryAdapter.submitList(newestAttempt)
+                    binding.tvAttemptHistory.visibility = View.VISIBLE
                 } else {
                     binding.tvAttemptHistory.visibility = View.GONE
                     binding.rvAttemptHistory.visibility = View.GONE

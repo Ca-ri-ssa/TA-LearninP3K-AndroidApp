@@ -96,7 +96,7 @@
                 style="@style/FeedbackStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Feedback:"
+                android:text="Perbaikan:"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

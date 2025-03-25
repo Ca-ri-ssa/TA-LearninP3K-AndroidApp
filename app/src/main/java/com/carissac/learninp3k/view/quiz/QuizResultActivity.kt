@@ -50,7 +50,7 @@ class QuizResultActivity : AppCompatActivity() {
             }
 
             binding.tvQuizScoreNum.text = score.toString()
-            binding.tvQuizPoint.setTextAppearance(styleColor)
+            binding.tvQuizScoreNum.setTextAppearance(styleColor)
             binding.tvQuizMsg.text = message
             binding.tvQuizPoint.text = "+${quizResult.pointsEarned ?: 0}pts"
 
