@@ -174,4 +174,6 @@
     <string name="btn_start_quiz">Mulai Kuis</string>
     <string name="quiz_timer_message">Kuis dapat dimulai kembali dalam</string>
     <string name="toolbar_detail_attempt">Detail Percobaan</string>
+
+    <string name="total">Total:</string>
 </resources>

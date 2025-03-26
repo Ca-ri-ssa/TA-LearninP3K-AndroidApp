@@ -11,14 +11,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/app_font"
-        android:textStyle="bold"
         android:textSize="14sp"
         android:textAlignment="textEnd"
         android:layout_marginEnd="4dp"
         app:layout_constraintTop_toTopOf="@id/tv_finished_course"
         app:layout_constraintEnd_toStartOf="@id/tv_finished_course"
         app:layout_constraintBottom_toBottomOf="@id/tv_finished_course"
-        android:text="@string/total_course_finished"/>
+        android:text="@string/total"/>
 
     <TextView
         android:id="@+id/tv_finished_course"
@@ -26,12 +25,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
+        android:textStyle="bold"
         android:fontFamily="@font/app_font"
         android:textSize="14sp"
+        android:textColor="?attr/colorPrimary"
         android:textAlignment="textEnd"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/course_finished" />
+        android:text="10" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_finished_course"

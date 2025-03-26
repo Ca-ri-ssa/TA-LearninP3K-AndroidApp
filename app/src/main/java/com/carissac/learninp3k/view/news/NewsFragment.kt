@@ -105,7 +105,7 @@ class NewsFragment : Fragment() {
                     binding.rvNewsSearch.visibility = View.GONE
                     binding.ivSearchMotivation.visibility = View.VISIBLE
                     binding.tvSearchMotivation.visibility = View.VISIBLE
-                    binding.tvSearchMotivation.text = "Tidak ada berita \"${query}\", Coba cari berita lainnya"
+                    binding.tvSearchMotivation.text = "Tidak ada berita \"${query}\"\nCoba cari berita lainnya"
                 }
             }
         }
