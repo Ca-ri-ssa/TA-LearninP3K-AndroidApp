@@ -81,7 +81,7 @@ class SettingActivity : AppCompatActivity() {
         }
 
         binding.btnEmergency.setOnClickListener {
-            val phoneNum = "119"
+            val phoneNum = "112"
             MaterialAlertDialogBuilder(this)
                 .setTitle("Panggilan Darurat")
                 .setMessage("Apakah Anda ingin melakukan panggilan darurat ($phoneNum)?")

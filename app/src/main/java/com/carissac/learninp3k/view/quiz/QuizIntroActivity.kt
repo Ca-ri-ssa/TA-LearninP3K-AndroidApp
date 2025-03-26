@@ -80,11 +80,7 @@ class QuizIntroActivity : AppCompatActivity() {
 
     private fun observeSubmitQuizState() {
         quizViewModel.isQuizSubmitted.observe(this) { isSubmitted ->
-            if(isSubmitted) {
-                binding.btnStartQuiz.isEnabled = false
-            } else {
-                binding.btnStartQuiz.isEnabled = true
-            }
+            binding.btnStartQuiz.isEnabled = !isSubmitted
         }
     }
 
@@ -98,7 +94,9 @@ class QuizIntroActivity : AppCompatActivity() {
                         .sortedByDescending { it.createdAt }
                         .take(3)
 
+                    attemptHistoryAdapter.submitList(emptyList())
                     attemptHistoryAdapter.submitList(newestAttempt)
+                    binding.rvAttemptHistory.visibility = View.VISIBLE
                     binding.tvAttemptHistory.visibility = View.VISIBLE
                 } else {
                     binding.tvAttemptHistory.visibility = View.GONE
