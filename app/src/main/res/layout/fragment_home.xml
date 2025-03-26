@@ -33,9 +33,10 @@
 
             <TextView
                 android:id="@+id/tv_home_username"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
+                android:layout_marginEnd="24dp"
                 android:fontFamily="@font/app_font"
                 android:text="@string/home_username"
                 android:textColor="?attr/colorPrimary"
@@ -43,6 +44,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/tv_home_greeting"
                 app:layout_constraintStart_toEndOf="@id/tv_home_greeting"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_home_greeting" />
 
             <TextView
