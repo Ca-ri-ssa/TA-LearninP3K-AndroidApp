@@ -75,6 +75,6 @@ class FinishedCourseFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-//        courseViewModel.getCourseByCompletedStatus()
+        courseViewModel.getCourseByCompletedStatus()
     }
 }

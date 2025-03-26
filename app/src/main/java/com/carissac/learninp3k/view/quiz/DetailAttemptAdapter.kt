@@ -36,7 +36,7 @@ class DetailAttemptAdapter: ListAdapter<AttemptDetailResponse, DetailAttemptAdap
                     rb.setOnCheckedChangeListener(null)
                     rb.isChecked = false
                     rb.isEnabled = false
-                    rb.setTextAppearance(android.R.style.TextAppearance_Material_Body1)
+                    rb.setTextAppearance(R.style.NormalTextStyle)
                 }
 
                 options.forEachIndexed { index, option ->

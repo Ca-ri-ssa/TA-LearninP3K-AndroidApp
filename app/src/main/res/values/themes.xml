@@ -13,6 +13,10 @@
         <item name="android:fontFamily">@font/app_font</item>
     </style>
 
+    <style name="NormalTextStyle">
+        <item name="android:fontFamily">@font/app_font</item>
+    </style>
+
     <style name="CustomRadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
         <item name="buttonTint">?attr/colorPrimary</item>
     </style>

@@ -74,6 +74,6 @@ class ContinueCourseFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-//        courseViewModel.getCourseByContinueStatus()
+        courseViewModel.getCourseByContinueStatus()
     }
 }
