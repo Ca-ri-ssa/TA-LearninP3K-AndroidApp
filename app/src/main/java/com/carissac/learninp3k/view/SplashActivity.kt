@@ -49,11 +49,6 @@ class SplashActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
 
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            startActivity(Intent(this@SplashActivity, WelcomeActivity::class.java))
-//            finish()
-//        }, 2000)
-
         Handler(Looper.getMainLooper()).postDelayed({
             lifecycleScope.launch {
                 authViewModel.sessionToken.observe(this@SplashActivity) { token ->
