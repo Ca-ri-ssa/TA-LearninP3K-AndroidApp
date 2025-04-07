@@ -144,7 +144,7 @@
     <string name="quiz_score">100</string>
     <string name="result_msg">Selamat!</string>
     <string name="result_point">+100pts</string>
-    <string name="got_badge">Anda Mendapatkan badge</string>
+    <string name="got_badge">Anda Mendapatkan Badge</string>
     <string name="btn_finish">Selesai</string>
 
     <!--Weekly Challenge-->
@@ -168,7 +168,7 @@
     <string name="btn_close">Tutup</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="quiz_message">Kuis berlangsung selama 5 menit.\nSemangat mengerjakan!</string>
+    <string name="quiz_message">Kuis berlangsung selama 5 menit.\nSelamat mengerjakan!</string>
     <string name="quiz_attention">Perhatikan!</string>
     <string name="quiz_attempt_history">Riwayat Percobaan</string>
     <string name="btn_start_quiz">Mulai Kuis</string>

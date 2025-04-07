@@ -100,9 +100,13 @@ class DetailCourseActivity : AppCompatActivity() {
                         binding.tvVidSourceCreator.visibility = View.GONE
                     }
 
-                    if (!response.imgCourseHeading.isNullOrEmpty()) {
+                    if (!response.imgCourseHeading.isNullOrEmpty() && !response.imgCourse.isNullOrEmpty()) {
                         binding.tvImgCourseTitle.text = response.imgCourseHeading
-                        imgCourseAdapter.submitList(response.imgCourse)
+                        binding.tvImgCourseTitle.visibility = View.VISIBLE
+                        binding.rvImgCourse.visibility = View.VISIBLE
+                        binding.rvImgCourse.post {
+                            imgCourseAdapter.submitList(response.imgCourse)
+                        }
                     } else {
                         binding.tvImgCourseTitle.visibility = View.GONE
                         binding.rvImgCourse.visibility = View.GONE

@@ -17,7 +17,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "BASE_URL", "\"https://ta-learninp3k-backend-u4qxijpyma-et.a.run.app/\"")
+        buildConfigField("String", "BASE_URL", "\"https://backend-learninp3k-b6grezet5a-et.a.run.app/\"")
     }
 
     buildTypes {

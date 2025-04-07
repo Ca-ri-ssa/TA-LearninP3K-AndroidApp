@@ -43,6 +43,8 @@ class WeeklyChallengeResultActivity : AppCompatActivity() {
         binding.tvResultPoint.text = "+${challengeResult?.earnedPoint}pts"
 
         val score = challengeResult?.score
+        binding.tvQuizScore.text = score
+
         if(score == "Benar") {
             binding.tvQuizScore.setTextAppearance(R.style.TextColorSuccess)
             binding.tvResultMsg.text = "Selamat!"

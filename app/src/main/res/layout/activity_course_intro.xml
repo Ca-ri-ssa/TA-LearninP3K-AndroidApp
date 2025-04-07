@@ -89,7 +89,6 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/app_font"
                 android:textSize="14sp"
-                android:textStyle="bold"
                 android:text="@string/course_score" />
 
             <TextView
@@ -99,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/app_font"
                 android:textSize="14sp"
+                android:textStyle="bold"
                 android:layout_marginStart="4dp"
                 android:text="@string/course_score_result"/>
         </LinearLayout>

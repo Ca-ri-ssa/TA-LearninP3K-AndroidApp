@@ -1,12 +1,14 @@
 package com.carissac.learninp3k.view.challenge
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,7 +17,9 @@ import com.bumptech.glide.Glide
 import com.carissac.learninp3k.R
 import com.carissac.learninp3k.data.di.Injection
 import com.carissac.learninp3k.databinding.ActivityWeeklyChallengeBinding
+import com.carissac.learninp3k.view.utils.formatDate
 
+@RequiresApi(Build.VERSION_CODES.O)
 class WeeklyChallengeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeeklyChallengeBinding
     private var challengeId: Int = -1
@@ -25,6 +29,7 @@ class WeeklyChallengeActivity : AppCompatActivity() {
         WeeklyChallengeViewModelFactory(Injection.provideLeaderboardRepository(this))
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -92,12 +97,23 @@ class WeeklyChallengeActivity : AppCompatActivity() {
                     binding.apply {
                         errorMsg.visibility = View.GONE
 
+                        cdChallengePeriod.visibility = View.VISIBLE
+                        tvTitleWeeklyChallenge.visibility = View.VISIBLE
+                        cdIvChallenge.visibility = View.VISIBLE
+                        tvScenarioDesc.visibility = View.VISIBLE
+                        radioGroupAnswer.visibility = View.VISIBLE
+                        btnFinishChallenge.visibility = View.VISIBLE
+
                         Glide.with(this@WeeklyChallengeActivity)
                             .load(challenge.challengeImg)
                             .placeholder(R.drawable.img_placeholder)
                             .centerCrop()
                             .into(ivChallenge)
 
+                        val startChallengeDate = formatDate(challenge.startDate ?: "")
+                        val endChallengeDate = formatDate(challenge.endDate ?: "")
+
+                        tvChallengePeriod.text = "$startChallengeDate - $endChallengeDate"
                         tvTitleWeeklyChallenge.text = challenge.challengeName
                         tvScenarioDesc.text = challenge.challengeQuestion
                         radioBtn1.text = challenge.option1
@@ -109,6 +125,7 @@ class WeeklyChallengeActivity : AppCompatActivity() {
             }.onFailure { error ->
                 binding.tvErrorMsg.text = error.message
                 binding.errorMsg.visibility = View.VISIBLE
+                binding.cdChallengePeriod.visibility = View.GONE
                 binding.tvTitleWeeklyChallenge.visibility = View.GONE
                 binding.cdIvChallenge.visibility = View.GONE
                 binding.tvScenarioDesc.visibility = View.GONE
