@@ -59,15 +59,17 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        authViewModel.loginResult.observe(this) { result ->
-            result.onSuccess {
-                showToast("Anda berhasil login")
-                val intent = Intent(this, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
-                finish()
-            }.onFailure {
-                showToast("Login gagal, silahkan coba kembali")
+        authViewModel.loginResult.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { result ->
+                result.onSuccess {
+                    showToast("Anda berhasil login")
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    finish()
+                }.onFailure {
+                    showToast("Login gagal, silahkan coba kembali")
+                }
             }
         }
 

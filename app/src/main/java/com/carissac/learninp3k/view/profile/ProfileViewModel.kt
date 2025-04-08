@@ -11,6 +11,7 @@ import com.carissac.learninp3k.data.remote.response.ProfileResponse
 import com.carissac.learninp3k.data.remote.response.ProfileResultResponse
 import com.carissac.learninp3k.data.remote.response.UserLeaderboardResponse
 import com.carissac.learninp3k.data.repository.UserRepository
+import com.carissac.learninp3k.view.utils.Event
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -73,19 +74,6 @@ class ProfileViewModel(private val repository: UserRepository): ViewModel() {
                     _updateProfileResult.postValue(Event(Result.failure(e)))
                 }
             }
-        }
-    }
-}
-
-class Event<out T>(private val content: T) {
-    private var hasBeenHandled = false
-
-    fun getContentIfNotHandled(): T? {
-        return if (hasBeenHandled) {
-            null
-        } else {
-            hasBeenHandled = true
-            content
         }
     }
 }

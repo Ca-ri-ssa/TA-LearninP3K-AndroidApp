@@ -7,13 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.carissac.learninp3k.data.remote.response.LoginResponse
 import com.carissac.learninp3k.data.remote.response.RegisterResponse
 import com.carissac.learninp3k.data.repository.UserRepository
+import com.carissac.learninp3k.view.utils.Event
 import kotlinx.coroutines.launch
 
 class AuthViewModel(private val repository: UserRepository): ViewModel() {
 
     val isLoading: LiveData<Boolean> = repository.isLoading
     val registerResult: LiveData<Result<RegisterResponse>> = repository.registerResult
-    val loginResult: LiveData<Result<LoginResponse>> = repository.loginResult
+    val loginResult: LiveData<Event<Result<LoginResponse>>> = repository.loginResult
 
     val sessionToken = repository.getUserSession().asLiveData()
 

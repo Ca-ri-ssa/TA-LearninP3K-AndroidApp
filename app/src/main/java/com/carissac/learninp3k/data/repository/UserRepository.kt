@@ -13,6 +13,7 @@ import com.carissac.learninp3k.data.remote.response.ProfileResultResponse
 import com.carissac.learninp3k.data.remote.response.RegisterResponse
 import com.carissac.learninp3k.data.remote.response.UserLeaderboardResponse
 import com.carissac.learninp3k.data.remote.retrofit.ApiService
+import com.carissac.learninp3k.view.utils.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -30,8 +31,8 @@ class UserRepository private constructor(
     private val _registerResult = MutableLiveData<Result<RegisterResponse>>()
     val registerResult: LiveData<Result<RegisterResponse>> = _registerResult
 
-    private val _loginResult = MutableLiveData<Result<LoginResponse>>()
-    val loginResult:LiveData<Result<LoginResponse>> = _loginResult
+    private val _loginResult = MutableLiveData<Event<Result<LoginResponse>>>()
+    val loginResult: LiveData<Event<Result<LoginResponse>>> = _loginResult
 
     private val _userLeaderboardResult = MutableLiveData<Result<UserLeaderboardResponse>>()
     val userLeaderboardResult: LiveData<Result<UserLeaderboardResponse>> = _userLeaderboardResult
@@ -105,18 +106,18 @@ class UserRepository private constructor(
                         userPreference.saveUserSession(userSession)
                     }
 
-                    _loginResult.postValue(Result.success(loginResponse))
+                    _loginResult.postValue(Event(Result.success(loginResponse)))
                 } else {
-                    _loginResult.postValue(Result.failure(Exception("Response kosong dari server")))
+                    _loginResult.postValue(Event(Result.failure(Exception("Response kosong dari server"))))
                 }
             } else {
                 val errorMessage = response.errorBody()?.string() ?: "Login gagal"
-                _loginResult.postValue(Result.failure(Exception(errorMessage)))
+                _loginResult.postValue(Event(Result.failure(Exception(errorMessage))))
             }
         } catch (e: IOException) {
-            _loginResult.postValue(Result.failure(Exception("Gagal terhubung ke server")))
+            _loginResult.postValue(Event(Result.failure(Exception("Gagal terhubung ke server"))))
         } catch (e: HttpException) {
-            _loginResult.postValue(Result.failure(Exception("Terjadi kesalahan server")))
+            _loginResult.postValue(Event(Result.failure(Exception("Terjadi kesalahan server"))))
         } finally {
             _isLoading.postValue(false)
         }
