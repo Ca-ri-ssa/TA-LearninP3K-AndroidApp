@@ -32,6 +32,7 @@ class DetailAttemptAdapter: ListAdapter<AttemptDetailResponse, DetailAttemptAdap
                 val radioButtons = listOf(rbOption1, rbOption2, rbOption3, rbOption4)
                 val options = listOf(attempt.option1, attempt.option2, attempt.option3, attempt.option4)
 
+                radioGroupAnswer.clearCheck()
                 radioButtons.forEach { rb ->
                     rb.setOnCheckedChangeListener(null)
                     rb.isChecked = false

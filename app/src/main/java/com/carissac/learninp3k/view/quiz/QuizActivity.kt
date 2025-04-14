@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,7 @@ import com.carissac.learninp3k.data.remote.response.SubmitAttemptRequest
 import com.carissac.learninp3k.databinding.ActivityQuizBinding
 import com.carissac.learninp3k.view.course.CourseViewModel
 import com.carissac.learninp3k.view.course.CourseViewModelFactory
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
@@ -48,9 +50,22 @@ class QuizActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.apply{
-            setDisplayHomeAsUpEnabled(true)
+            setDisplayHomeAsUpEnabled(false)
             setDisplayShowTitleEnabled(false)
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                MaterialAlertDialogBuilder(this@QuizActivity)
+                    .setTitle("Kuis Sedang Berlangsung")
+                    .setMessage("Anda tidak dapat kembali saat kuis sedang berlangsung")
+                    .setCancelable(false)
+                    .setPositiveButton("Ok") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
+            }
+        })
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.quiz) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -89,6 +104,7 @@ class QuizActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         quizAdapter = QuizAdapter { questionId, answer ->
             selectedAnswers[questionId] = answer
+            checkAllAnswersSelected()
         }
 
         binding.rvQuiz.apply {
@@ -125,11 +141,15 @@ class QuizActivity : AppCompatActivity() {
 
         quizViewModel.isTimerFinished.observe(this) { isFinished ->
             if (isFinished) {
-                showToast("Waktu habis! Anda gagal menyelesaikan kuis.")
-
-                val intent = Intent(this, QuizIntroActivity::class.java)
-                startActivity(intent)
-                finish()
+                MaterialAlertDialogBuilder(this)
+                    .setTitle("Waktu Habis!")
+                    .setMessage("Anda gagal menyelesaikan kuis")
+                    .setCancelable(false)
+                    .setPositiveButton("Ok") { dialog, _ ->
+                        dialog.dismiss()
+                        finish()
+                    }
+                    .show()
             }
         }
     }
@@ -139,16 +159,12 @@ class QuizActivity : AppCompatActivity() {
             Answer(questionId = questionId, userAnswer = userAnswer)
         }
 
-        if (selectedAnswers.size < quizAdapter.itemCount) {
-            showToast("Harap jawab semua pertanyaan sebelum menyelesaikan kuis.")
-            binding.btnQuizFinish.isEnabled = false
-            return
-        } else {
-            binding.btnQuizFinish.isEnabled = true
-        }
-
         val request = SubmitAttemptRequest(answers)
         quizViewModel.takeAttempt(courseId, request)
+    }
+
+    private fun checkAllAnswersSelected() {
+        binding.btnQuizFinish.isEnabled = selectedAnswers.size == quizAdapter.itemCount
     }
 
     private fun observeQuizResult() {
@@ -177,11 +193,6 @@ class QuizActivity : AppCompatActivity() {
     @Suppress("SameParameterValue")
     private fun showToast(msg: String?) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressedDispatcher.onBackPressed()
-        return true
     }
 
     companion object {
