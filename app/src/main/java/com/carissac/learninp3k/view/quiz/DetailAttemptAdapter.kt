@@ -1,5 +1,6 @@
 package com.carissac.learninp3k.view.quiz
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,9 +25,10 @@ class DetailAttemptAdapter: ListAdapter<AttemptDetailResponse, DetailAttemptAdap
 
     class DetailAttemptViewHolder(private val binding: ItemQuizQuestionBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind(attempt: AttemptDetailResponse, position: Int) {
             binding.apply {
-                tvNumQuestion.text = (position + 1).toString()
+                tvNumQuestion.text = "${position + 1}."
                 tvQuestion.text = attempt.questionContent
 
                 val radioButtons = listOf(rbOption1, rbOption2, rbOption3, rbOption4)

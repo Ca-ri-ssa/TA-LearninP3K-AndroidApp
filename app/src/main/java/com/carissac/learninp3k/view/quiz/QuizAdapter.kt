@@ -32,7 +32,7 @@ class QuizAdapter(
     inner class QuizViewHolder(private val binding: ItemQuizQuestionBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(quiz: QuizResponse, position: Int, selectedAnswer: String) {
             binding.apply {
-                tvNumQuestion.text = (position + 1).toString()
+                tvNumQuestion.text = "${position + 1}."
                 tvQuestion.text = quiz.questionContent
                 rbOption1.text = quiz.option1
                 rbOption2.text = quiz.option2
