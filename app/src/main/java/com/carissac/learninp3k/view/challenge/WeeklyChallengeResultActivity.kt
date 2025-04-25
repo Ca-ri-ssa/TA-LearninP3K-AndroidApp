@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -12,14 +14,24 @@ import com.bumptech.glide.Glide
 import com.carissac.learninp3k.R
 import com.carissac.learninp3k.data.remote.response.TakeWeeklyChallengeResponse
 import com.carissac.learninp3k.databinding.ActivityWeeklyChallengeResultBinding
+import com.carissac.learninp3k.view.setting.SettingViewModel
+import com.carissac.learninp3k.view.setting.SettingViewModelFactory
+import com.carissac.learninp3k.view.setting.ThemePreference
+import com.carissac.learninp3k.view.setting.dataStore
+import kotlin.getValue
 
 @Suppress("DEPRECATION")
 class WeeklyChallengeResultActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeeklyChallengeResultBinding
 
+    private val settingViewModel: SettingViewModel by viewModels {
+        SettingViewModelFactory(ThemePreference.getInstance(application.dataStore))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        checkTheme()
         enableEdgeToEdge()
+        super.onCreate(savedInstanceState)
 
         binding = ActivityWeeklyChallengeResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -69,6 +81,17 @@ class WeeklyChallengeResultActivity : AppCompatActivity() {
 
         binding.btnFinishQuizResult.setOnClickListener {
             finish()
+        }
+    }
+
+    private fun checkTheme() {
+        settingViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
+            val currentMode = AppCompatDelegate.getDefaultNightMode()
+            val newMode = if (isDarkModeActive) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+
+            if (currentMode != newMode) {
+                AppCompatDelegate.setDefaultNightMode(newMode)
+            }
         }
     }
 

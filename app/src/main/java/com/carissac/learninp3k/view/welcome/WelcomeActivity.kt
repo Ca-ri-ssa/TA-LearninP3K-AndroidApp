@@ -26,8 +26,9 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        checkTheme()
+        super.onCreate(savedInstanceState)
 
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -44,8 +45,6 @@ class WelcomeActivity : AppCompatActivity() {
 
             WindowInsetsCompat.CONSUMED
         }
-
-        checkTheme()
 
         binding.btnLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)

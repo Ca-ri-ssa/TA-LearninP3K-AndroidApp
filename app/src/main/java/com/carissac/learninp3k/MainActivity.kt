@@ -28,8 +28,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        checkTheme()
+        super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -61,8 +62,6 @@ class MainActivity : AppCompatActivity() {
             )
         )
         navView.setupWithNavController(navController)
-
-        checkTheme()
     }
 
     private fun checkTheme() {
