@@ -22,9 +22,7 @@ class CourseViewModel(private val repository: CourseRepository): ViewModel() {
     val allCourseResult: LiveData<Result<CourseResponse>> = repository.allCourseResult
     val nearestCourseResult: LiveData<Result<CourseNearestResponse>> = repository.nearestCourseResult
     val introCourseResult: StateFlow<Result<CourseIntroResponse>?> = repository.introCourseFlow
-//    val detailCourseResult: LiveData<Result<CourseDetailResponse>> = repository.detailCourseResult
     val detailCourseResult: StateFlow<Result<CourseDetailResponse>?> = repository.detailCourseFlow
-
     val enrollCourseResult: StateFlow<Result<CourseEnrollmentResponse>?> = repository.enrollCourseFlow
     val listCourseQuizResult: LiveData<Result<List<QuizResponse>>> = repository.listCourseQuizResult
 
